@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.android.percent.support.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="vertical">
+
+    <ImageButton android:id="@+id/imb_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/tranpant_bg_selector"
+        android:scaleType="centerCrop"
+        android:src="@drawable/btn_close"
+        app:layout_heightPercent="25%h"
+        app:layout_widthPercent="25%h" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="可口可乐/含糖可乐一厅"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_marginLeftPercent="12%h"
+        app:layout_marginTopPercent="24%h"
+        app:layout_textSizePercent="14%h" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tv_name"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="0.02"
+        android:textColor="@color/font2"
+        android:textSize="14sp"
+        app:layout_heightPercent="32%h"
+        app:layout_marginLeftPercent="12%h"
+        app:layout_marginTopPercent="21%h"
+        app:layout_textSizePercent="13%h" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textView2"
+        android:layout_toEndOf="@+id/textView2"
+        android:gravity="center"
+        android:text="元"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        app:layout_heightPercent="32%h"
+        app:layout_textSizePercent="9%h" />
+
+    <com.zhy.android.percent.support.PercentLinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/textView3"
+        android:orientation="horizontal"
+        app:layout_heightPercent="32.4%h"
+        app:layout_marginBottomPercent="12%h"
+        app:layout_marginRightPercent="12%h"
+        app:layout_widthPercent="89.7%h">
+
+        <ImageButton
+            android:id="@+id/imb_reduce"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/tranpant_bg_selector"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:scaleType="fitCenter"
+            android:src="@drawable/btn_reduce" />
+
+        <TextView
+            android:id="@+id/tv_count"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            app:layout_textSizePercent="45%h" />
+
+        <ImageButton
+            android:id="@+id/imb_plus"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/tranpant_bg_selector"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:scaleType="fitCenter"
+            android:src="@drawable/btn_plus" />
+    </com.zhy.android.percent.support.PercentLinearLayout>
+
+
+</com.zhy.android.percent.support.PercentRelativeLayout>

@@ -1,0 +1,56 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="-10dp"
+                android:layout_weight="0.8"
+                android:background="@drawable/edit_bg"
+                android:paddingLeft="10dp" />
+
+            <Button
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/search_selector"
+                android:text="搜索" />
+        </LinearLayout>
+
+        <com.jingchen.pulltorefresh.PullToRefreshLayout
+            android:id="@+id/refresh_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp">
+
+            <com.jingchen.pulltorefresh.PullableGridView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:numColumns="4"
+                android:scrollbars="none" />
+
+        </com.jingchen.pulltorefresh.PullToRefreshLayout>
+
+
+    </LinearLayout>
+
+    <gly.quickgoods.views.DingDanView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp" />
+</LinearLayout>
+

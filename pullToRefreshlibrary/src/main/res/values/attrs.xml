@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="PullToRefreshListView">
+        <attr name="android:dividerHeight" />
+        <attr name="android:divider" />
+    </declare-styleable>
+
+    <!-- 定义属性 -->
+    <attr name="myText" format="string"></attr>
+    <attr name="myTextSize" format="dimension"></attr>
+    <attr name="myTextColor" format="color"></attr>
+    <attr name="myTextAndImgPadding" format="dimension"></attr>
+    <attr name="myImageSrc" format="reference"></attr>
+    <attr name="myImageWidth" format="dimension"></attr>
+    <attr name="myImageHeight" format="dimension"></attr>
+    <attr name="myImageScaleType">
+        <enum name="FillXY" value="1"></enum>
+        <enum name="center" value="0"></enum>
+    </attr>
+    <!-- 声明属性 -->
+    <declare-styleable name="DrawableLeftText">
+        <attr name="myText"></attr>
+        <attr name="myTextSize"></attr>
+        <attr name="myTextColor"></attr>
+        <attr name="myTextAndImgPadding"></attr>
+        <attr name="myImageSrc"></attr>
+        <attr name="myImageScaleType"></attr>
+        <attr name="myImageWidth"></attr>
+        <attr name="myImageHeight"></attr>
+    </declare-styleable>
+
+
+    <!-- CircularImageView for custom shape -->
+    <declare-styleable name="CircularImageView">
+        <!-- Specifies whether or not to draw a circular border around the image. -->
+        <attr name="border" format="boolean" />
+        <!-- Specifies the color of the border draw around the image. (if enabled) -->
+        <attr name="border_color" format="color" />
+        <!-- Makes the border this pixels wide. (if enabled) -->
+        <attr name="border_width" format="dimension" />
+        <!-- Specifies whether or not to draw a selector on this view upon touch events. -->
+        <attr name="selector" format="boolean" />
+        <!-- Specifies the color of the selector draw on top of the image upon touch events. (if enabled) -->
+        <attr name="selector_color" format="color" />
+        <!-- Specifies the color of the selector stroke drawn around the image upon touch events. Be sure to provide some opacity. (if enabled) -->
+        <attr name="selector_stroke_color" format="color" />
+        <!-- Makes the selector stroke drawn around the image upon touch events this pixels wide. (if enabled) -->
+        <attr name="selector_stroke_width" format="dimension" />
+        <!-- Specifies whether or not to draw a shadow around your circular image. -->
+        <attr name="shadow" format="boolean" />
+
+    </declare-styleable>
+
+    <declare-styleable name="CustomCircularImageViewTheme">
+        <attr name="circularImageViewStyle" format="reference" />
+    </declare-styleable>
+
+</resources>

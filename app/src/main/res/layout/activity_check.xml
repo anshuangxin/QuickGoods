@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RadioGroup
+        android:id="@+id/radiogroup"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/black"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_tiaomashouyin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/rb_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="条码收银"
+            android:textColor="@color/black" />
+
+        <RadioButton
+            android:id="@+id/rb_diandanshouyin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/rb_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="点单收银"
+            android:textColor="@color/black" />
+
+        <RadioButton
+            android:id="@+id/rb_xianjinshouyin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/rb_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="现金收银"
+            android:textColor="@color/black" />
+
+        <RadioButton
+            android:id="@+id/rb_weixinshouyin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/rb_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="微信收银"
+            android:textColor="@color/black" />
+
+        <RadioButton
+            android:id="@+id/rb_zhifubaoshouyin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/rb_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="支付宝收银"
+            android:textColor="@color/black" />
+
+        <RadioButton
+            android:id="@+id/rb_dengdanheyan"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/rb_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="订单核验"
+            android:textColor="@color/black" />
+
+        <RadioButton
+            android:id="@+id/rb_shouguanma"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/rb_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="收款码"
+            android:textColor="@color/black" />
+
+        <RadioButton
+            android:id="@+id/rb_dingdanliu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/rb_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="订单流"
+            android:textColor="@color/black" />
+    </RadioGroup>
+
+    <LinearLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" />
+
+</LinearLayout>
