@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <corners android:radius="4dp" />
-    <solid android:color="@color/tranpant" />
-    <stroke
-        android:width="0.5dp"
-        android:color="@color/smallline" />
-
-</shape>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="true">
+        <shape>
+            <corners android:radius="4dp" />
+            <solid android:color="@color/tranpant" />
+            <stroke android:width="0.5dp" android:color="@color/btn_bg_normal" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <corners android:radius="4dp" />
+            <solid android:color="@color/tranpant" />
+            <stroke android:width="0.5dp" android:color="@color/smallline" />
+        </shape>
+    </item>
+</selector>

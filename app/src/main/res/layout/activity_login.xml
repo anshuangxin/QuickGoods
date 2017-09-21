@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context="gly.quickgoods.com.gly.quickgoods.activity.LoginActivity">
+    tools:context="com.gly.quickgoods.activity.LoginActivity">
 
     <ImageView
         android:id="@+id/imageview1"
@@ -24,8 +24,8 @@
         android:layout_toEndOf="@+id/textView"
         android:orientation="vertical"
         app:layout_heightPercent="40%h"
-        app:layout_marginLeftPercent="4.7%w"
-        app:layout_marginRightPercent="4.7%w"
+        app:layout_marginLeftPercent="6.7%w"
+        app:layout_marginRightPercent="6.7%w"
         app:layout_marginTopPercent="6%h">
 
 
@@ -43,7 +43,10 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:hint="请输入手机号或者企业名"
+                android:imeOptions="flagNoExtractUi"
+                android:lines="1"
                 android:paddingLeft="10dp"
+                android:singleLine="true"
                 android:textSize="16sp" />
 
             <View
@@ -71,8 +74,11 @@
                     android:layout_weight="1"
                     android:background="@null"
                     android:hint="请输入验证码"
+                    android:imeOptions="flagNoExtractUi"
                     android:inputType="number"
+                    android:lines="1"
                     android:paddingLeft="10dp"
+                    android:singleLine="true"
                     android:textSize="16sp" />
 
                 <TextView
@@ -106,8 +112,11 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:hint="请输入密码(不少于6位)"
+                android:imeOptions="flagNoExtractUi"
                 android:inputType="textPassword"
+                android:lines="1"
                 android:paddingLeft="10dp"
+                android:singleLine="true"
                 android:textSize="16sp" />
         </LinearLayout>
 

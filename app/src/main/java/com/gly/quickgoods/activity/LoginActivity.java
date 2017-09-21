@@ -7,6 +7,7 @@ import android.os.Message;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,11 +17,6 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import gly.quickgoods.R;
 import com.gly.quickgoods.application.MyApplication;
 import com.gly.quickgoods.basees.BaseActivity;
 import com.gly.quickgoods.request.ConnectDao;
@@ -28,6 +24,11 @@ import com.gly.quickgoods.utils.Logger;
 import com.gly.quickgoods.utils.MyTextUtils;
 import com.gly.quickgoods.utils.ToastUtil;
 import com.gly.quickgoods.utils.okhttp.listener.DisposeDataListener;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import gly.quickgoods.R;
 
 public class LoginActivity extends BaseActivity {
 
@@ -59,7 +60,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         initView();
     }
@@ -83,6 +84,13 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void afterTextChanged(Editable editable) {
 
+            }
+        });
+        edPwd.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                login();
+                return false;
             }
         });
 //        passkeyboard.setOnKeyClickLinstener(new PassKeyBoard.onKeyClickLinstener() {
@@ -151,7 +159,7 @@ public class LoginActivity extends BaseActivity {
 //            ToastUtil.showToast(mContext, "验证码错误!", 2000).show();
 //            return;
 //        }
-        ConnectDao.Login("13823579661", "9566", "987654321", new DisposeDataListener<JSONObject>() {
+        ConnectDao.Login("13823579661", "9566", "123456789", new DisposeDataListener<JSONObject>() {
             @Override
             public void onSuccess(JSONObject jsonObject) {
                 Logger.log("responseObj: " + jsonObject.toString());
@@ -160,6 +168,7 @@ public class LoginActivity extends BaseActivity {
                 if (err.equals("200")) {
                     MyApplication.getInstance().is_one = jsonObject.getString("is_one");
                     startActivity(new Intent(mContext, MainActivity.class));
+                    LoginActivity.this.finish();
                 } else if ("false".equals(err)) {
                     ToastUtil.showToast(mContext, message, 2000).show();
                 }

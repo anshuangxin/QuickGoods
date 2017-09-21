@@ -9,11 +9,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.gly.quickgoods.basees.BaseFragment;
+import com.gly.quickgoods.views.PassKeyBoard;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import gly.quickgoods.R;
-import com.gly.quickgoods.basees.BaseFragment;
 
 /**
  * Created by gly on 2017/9/13.
@@ -32,6 +34,8 @@ public class XianjinFragment extends BaseFragment {
     @BindView(R.id.btn_sure)
     Button btnSure;
     Unbinder unbinder;
+    @BindView(R.id.passkeyboard)
+    PassKeyBoard passkeyboard;
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -42,6 +46,26 @@ public class XianjinFragment extends BaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        edKefu.setInputType(0);
+        edPhonenum.setInputType(0);
+        edYingshou.setInputType(0);
+        passkeyboard.setOnKeyClickLinstener(new PassKeyBoard.onKeyClickLinstener() {
+            @Override
+            public void onKeyClock(int i) {
+                View currentFocus = getActivity().getCurrentFocus();
+                if (currentFocus instanceof EditText) {
+                    EditText e = (EditText) currentFocus;
+                    if (i == -1) {
+                        int index = e.getSelectionStart();
+                        if (index > 0) {
+                            e.getEditableText().delete(index - 1, index);
+                        }
+                    } else {
+                        e.getEditableText().append(i + "");
+                    }
+                }
+            }
+        });
     }
 
     @OnClick(R.id.btn_sure)

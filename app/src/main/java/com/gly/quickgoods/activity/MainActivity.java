@@ -6,20 +6,20 @@ import android.support.annotation.Nullable;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.gly.quickgoods.fragment.ShouKuanFragment;
-import com.gly.quickgoods.fragment.ZhiFuBaoFragment;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import gly.quickgoods.R;
 import com.gly.quickgoods.basees.BaseActivity;
 import com.gly.quickgoods.fragment.DianDanFragment;
 import com.gly.quickgoods.fragment.DingDanHeYanFragment;
 import com.gly.quickgoods.fragment.DingDanLiuFragment;
+import com.gly.quickgoods.fragment.ShouKuanFragment;
 import com.gly.quickgoods.fragment.TiaoMaFragment;
 import com.gly.quickgoods.fragment.WeiXinFragment;
 import com.gly.quickgoods.fragment.XianjinFragment;
+import com.gly.quickgoods.fragment.ZhiFuBaoFragment;
 import com.gly.quickgoods.utils.AnimFragmentUtil;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import gly.quickgoods.R;
 
 /**
  * Created by gly on 2017/9/13.

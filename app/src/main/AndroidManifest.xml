@@ -40,14 +40,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon, android:theme">
-        <activity android:name="com.gly.quickgoods.activity.LoginActivity"  android:screenOrientation="landscape">
+        <activity
+            android:name="com.gly.quickgoods.activity.LoginActivity"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.gly.quickgoods.activity.MainActivity" android:screenOrientation="landscape">
+        <activity
+            android:name="com.gly.quickgoods.activity.MainActivity"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden">
 
         </activity>
         <!-- Required SDK 核心功能-->

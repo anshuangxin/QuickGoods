@@ -631,6 +631,7 @@ public class PullToRefreshLayout extends RelativeLayout {
      * 自动刷新
      */
     public void autoRefresh() {
+        if (onRefreshListener == null) return;
         loadmoreView.setVisibility(View.GONE);
         AutoRefreshAndLoadTask task = new AutoRefreshAndLoadTask();
         task.execute(2);
@@ -640,13 +641,13 @@ public class PullToRefreshLayout extends RelativeLayout {
      * 自动加载
      */
     public void autoLoad() {
+        if (onLoadMoreListener == null) return;
         refreshView.setVisibility(View.GONE);
         pullUpY = -loadmoreDist;
         requestLayout();
         changeState(LOADING);
         // 加载操作
-        if (onLoadMoreListener != null)
-            onLoadMoreListener.onLoadMore(this);
+        onLoadMoreListener.onLoadMore(this);
     }
 
     private void initView() {
