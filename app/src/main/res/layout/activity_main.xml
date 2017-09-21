@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context="gly.quickgoods.activity.LoginActivity">
+    tools:context="gly.quickgoods.com.gly.quickgoods.activity.LoginActivity">
 
     <ImageView
         android:id="@+id/imageview1"

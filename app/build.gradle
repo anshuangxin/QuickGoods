@@ -50,6 +50,7 @@ dependencies {
     compile 'org.jetbrains:annotations-java5:15.0'
     compile 'com.squareup.okhttp3:okhttp:3.3.0'
     compile files('libs/fastjson-1.1.52.android.jar')
+    compile 'com.kyleduo.switchbutton:library:1.4.6'
     compile(name: 'FlycoTabLayout_Lib', ext: 'aar')
     compile project(path: ':pullToRefreshlibrary')
     compile files('libs/jsms_android-1.1.0.jar')

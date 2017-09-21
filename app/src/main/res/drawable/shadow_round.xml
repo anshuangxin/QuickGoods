@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 第一层  上部和左部偏移一定距离-->
+
+    <item
+        android:left="1dp"
+        android:top="0.6dp">
+        <shape android:shape="oval">
+            <corners android:radius="99dp" />
+            <solid android:color="#A8A8A8" />
+            <size
+                android:width="12dp"
+                android:height="12dp" />
+            <!-- 描边 -->
+            <gradient
+                android:endColor="#FFFFFF"
+                android:gradientRadius="15dp"
+                android:startColor="#9B9B9B"
+                android:type="radial" />
+        </shape>
+    </item>
+    <!-- 第二层 下部和有部偏移一定距离-->
+    <item
+        android:bottom="1dp"
+        android:right="1dp">
+        <shape android:shape="oval">
+            <solid android:color="#ffffff" />
+            <stroke
+                android:width="0.33dp"
+                android:color="#dedede" />
+        </shape>
+    </item>
+
+</layer-list>

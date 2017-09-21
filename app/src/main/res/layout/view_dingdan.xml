@@ -12,7 +12,8 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="@color/white"
-        android:listSelector="@drawable/white_bg_selector" />
+        android:listSelector="@drawable/white_bg_selector"
+        android:scrollbars="none" />
 
     <LinearLayout
         android:layout_width="match_parent"

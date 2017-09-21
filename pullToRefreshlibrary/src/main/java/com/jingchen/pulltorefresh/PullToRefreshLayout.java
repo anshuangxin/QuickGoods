@@ -43,7 +43,9 @@ public class PullToRefreshLayout extends RelativeLayout {
     // 当前状态
     private int state = INIT;
     // 刷新回调接口
-    private OnPullListener mListener;
+//    private OnPullListener mListener;
+    private OnRefreshListener onRefreshListener;
+    private OnLoadMoreListener onLoadMoreListener;
     // 刷新成功
     public static final int SUCCEED = 0;
     // 刷新失败
@@ -289,7 +291,7 @@ public class PullToRefreshLayout extends RelativeLayout {
                     hide();
                 }
             }
-        }, 2400);
+        }, 300);
     }
 
     /**
@@ -421,8 +423,8 @@ public class PullToRefreshLayout extends RelativeLayout {
      * 不限制上拉或下拉
      */
     private void releasePull() {
-        mCanPullDown = true;
-        mCanPullUp = true;
+        mCanPullDown = null != onRefreshListener;
+        mCanPullUp = null != onLoadMoreListener;
     }
 
     /**
@@ -566,13 +568,13 @@ public class PullToRefreshLayout extends RelativeLayout {
                 if (state == RELEASE_TO_REFRESH) {
                     changeState(REFRESHING);
                     // 刷新操作
-                    if (mListener != null)
-                        mListener.onRefresh(this);
+                    if (onRefreshListener != null)
+                        onRefreshListener.onRefresh(this);
                 } else if (state == RELEASE_TO_LOAD) {
                     changeState(LOADING);
                     // 加载操作
-                    if (mListener != null)
-                        mListener.onLoadMore(this);
+                    if (onLoadMoreListener != null)
+                        onLoadMoreListener.onLoadMore(this);
                 }
                 hide();
             default:
@@ -607,8 +609,8 @@ public class PullToRefreshLayout extends RelativeLayout {
         protected void onPostExecute(String result) {
             changeState(REFRESHING);
             // 刷新操作
-            if (mListener != null)
-                mListener.onRefresh(PullToRefreshLayout.this);
+            if (onRefreshListener != null)
+                onRefreshListener.onRefresh(PullToRefreshLayout.this);
             if (null != mOnRefreshProcessListener) {
                 mOnRefreshProcessListener.onStart(refreshView,
                         OnPullProcessListener.REFRESH);
@@ -643,15 +645,15 @@ public class PullToRefreshLayout extends RelativeLayout {
         requestLayout();
         changeState(LOADING);
         // 加载操作
-        if (mListener != null)
-            mListener.onLoadMore(this);
+        if (onLoadMoreListener != null)
+            onLoadMoreListener.onLoadMore(this);
     }
 
     private void initView() {
         // 初始化下拉布局
         if (null == customRefreshView) {
             pullDownView = defaultRefreshView.findViewById(R.id.pull_icon);
-            refreshStateTextView = (TextView) defaultRefreshView
+            refreshStateTextView = defaultRefreshView
                     .findViewById(R.id.state_tv);
             refreshingView = defaultRefreshView
                     .findViewById(R.id.refreshing_icon);
@@ -661,7 +663,7 @@ public class PullToRefreshLayout extends RelativeLayout {
         // 初始化上拉布局
         if (null == customLoadmoreView) {
             pullUpView = defaultLoadmoreView.findViewById(R.id.pullup_icon);
-            loadStateTextView = (TextView) defaultLoadmoreView
+            loadStateTextView = defaultLoadmoreView
                     .findViewById(R.id.loadstate_tv);
             loadingView = defaultLoadmoreView.findViewById(R.id.loading_icon);
             loadStateImageView = defaultLoadmoreView
@@ -825,11 +827,18 @@ public class PullToRefreshLayout extends RelativeLayout {
 
     }
 
-    ;
-
-    public void setOnPullListener(OnPullListener listener) {
-        mListener = listener;
+    public void setOnRefreshListener(OnRefreshListener onRefreshListener) {
+        this.onRefreshListener = onRefreshListener;
     }
+
+    public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) {
+        this.onLoadMoreListener = onLoadMoreListener;
+    }
+
+
+//    public void setOnPullListener(OnPullListener listener) {
+//        mListener = listener;
+//    }
 
     /**
      * 设置下拉刷新过程监听器
@@ -856,6 +865,14 @@ public class PullToRefreshLayout extends RelativeLayout {
      *
      * @author chenjing
      */
+    public interface OnRefreshListener {
+        void onRefresh(PullToRefreshLayout pullToRefreshLayout);
+    }
+
+    public interface OnLoadMoreListener {
+        void onLoadMore(PullToRefreshLayout pullToRefreshLayout);
+    }
+
     public interface OnPullListener {
         /**
          * 刷新操作
@@ -961,7 +978,7 @@ public class PullToRefreshLayout extends RelativeLayout {
             // TODO Auto-generated method stub
             // 动画总帧数
             int frames = mGifDrawable.getNumberOfFrames();
-            RelativeLayout headView = (RelativeLayout) v
+            RelativeLayout headView = v
                     .findViewById(R.id.head_view);
             int headViewHeight = headView.getHeight();
             // 算出下拉过程中对应的动画进度

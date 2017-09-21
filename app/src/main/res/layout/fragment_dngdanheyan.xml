@@ -63,7 +63,7 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <gly.quickgoods.views.DrawableLeftText
+        <com.gly.quickgoods.views.DrawableLeftText
             android:id="@+id/tv_pay_man"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -78,7 +78,7 @@
             app:myTextColor="@color/black"
             app:myTextSize="16sp" />
 
-        <gly.quickgoods.views.DrawableLeftText
+        <com.gly.quickgoods.views.DrawableLeftText
             android:id="@+id/tv_date"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -93,7 +93,7 @@
             app:myTextColor="@color/black"
             app:myTextSize="16sp" />
 
-        <gly.quickgoods.views.DrawableLeftText
+        <com.gly.quickgoods.views.DrawableLeftText
             android:id="@+id/tv_form_code"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -107,7 +107,7 @@
             app:myTextColor="@color/black"
             app:myTextSize="16sp" />
 
-        <gly.quickgoods.views.DrawableLeftText
+        <com.gly.quickgoods.views.DrawableLeftText
             android:id="@+id/tv_take_type"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

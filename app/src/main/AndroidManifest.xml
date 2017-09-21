@@ -32,7 +32,7 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
-        android:name=".application.MyApplication"
+        android:name="com.gly.quickgoods.application.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -40,16 +40,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon, android:theme">
-        <activity android:name=".activity.LoginActivity">
+        <activity android:name="com.gly.quickgoods.activity.LoginActivity"  android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activity.MainActivity"
-            android:launchMode="singleTask">
+        <activity android:name="com.gly.quickgoods.activity.MainActivity" android:screenOrientation="landscape">
 
         </activity>
         <!-- Required SDK 核心功能-->
@@ -93,6 +91,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
                 <data android:scheme="package" />
             </intent-filter>
         </receiver>
@@ -105,7 +104,7 @@
         <!-- Required SDK核心功能-->
         <!-- User defined.  For test only  用户自定义的广播接收器-->
         <receiver
-            android:name=".sdk.jpush.MyReceiver"
+            android:name="com.gly.quickgoods.sdk.jpush.MyReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
