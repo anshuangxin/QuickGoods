@@ -104,20 +104,16 @@ public class CommonJsonCallback<T> implements Callback {
             mListener.onSuccess(500);
         } catch (ClassCastException e) {
             String message = e.getMessage();
-            Logger.log("CommonJsonCallback:"+message);
             String a = "cannot be cast to ";
-            String substring = message.substring(message.indexOf(a)+a.length(), message
+            String substring = message.substring(message.indexOf(a) + a.length(), message
                     .length());
-            Logger.log("CommonJsonCallback:"+substring);
             try {
                 T o = null;
                 try {
-                    String json = responseObj.toString().replace("null","\"null\"");
-                    Logger.log("CommonJsonCallback:"+json);
-                    o = (T) JSON.parseObject(json, Class.forName(substring));
+                    o = (T) JSON.parseObject(responseObj.toString(), Class.forName(substring));
                 } catch (Exception e1) {
                     e1.printStackTrace();
-                    Logger.log("CommonJsonCallback:"+e1);
+                    Logger.log("CommonJsonCallback:" + e1);
                 }
                 if (o != null) {
                     mListener.onSuccess(o);
@@ -125,7 +121,7 @@ public class CommonJsonCallback<T> implements Callback {
                     mListener.onFailure(new OkHttpException(JSON_ERROR, EMPTY_MSG));
                 }
             } catch (Exception e1) {
-                Logger.log("CommonJsonCallback:"+e1);
+                Logger.log("CommonJsonCallback:" + e1);
                 mListener.onFailure(new OkHttpException(JSON_ERROR, EMPTY_MSG));
             }
         }
