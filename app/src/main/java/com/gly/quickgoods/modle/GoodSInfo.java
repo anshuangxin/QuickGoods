@@ -8,31 +8,38 @@ import java.util.List;
 
 public class GoodSInfo {
 
-//    public List header;
-//    public List catInfo;
-//    public List oneLevel;
-    public List<SecondLevelBean> secondLevel;
-    public List<Integer> num;
+
+    public List<OneLevelBean> oneLevel;
     public List<GoodsInfoBean> goodsInfo;
-    public List<CatBean> cat;
 
     public GoodSInfo() {
     }
 
-    public static class SecondLevelBean {
-        public SecondLevelBean() {
+    public static class OneLevelBean {
+        public OneLevelBean() {
         }
 
         /**
-         * id : 142
-         * parent : 141
-         * cat_name : 洗发水
+         * id : 141
+         * cat_name : 粤菜轩
+         * uid : 10827
+         * pic :
+         * parent : 0
+         * is_del : 1
+         * creation_time : 1489114795
+         * update_time : 1505304386
          */
 
         public String id;
-        public String parent;
         public String cat_name;
+        public String uid;
+        public String pic;
+        public String parent;
+        public String is_del;
+        public String creation_time;
+        public String update_time;
     }
+
 
     public static class GoodsInfoBean {
         public GoodsInfoBean() {
@@ -70,12 +77,13 @@ public class GoodSInfo {
          * printer : null
          */
 
-        public String id;
+        public int id;
         public String sku_id;
         public String cat_id;
         public String pic;
         public String pic_api;
-        public String price;
+        public double price;
+        public int jianShu;
         public String goods_name;
         public String specification;
         public String unit;
@@ -99,18 +107,12 @@ public class GoodSInfo {
         public String out_price;
         public String is_out;
         public Object printer;
-    }
 
-    public static class CatBean {
-        public CatBean() {
+        @Override
+        public boolean equals(Object obj) {
+            GoodsInfoBean GoodsInfoBean = (GoodSInfo.GoodsInfoBean) obj;
+            return GoodsInfoBean.id == this.id;
         }
-
-        /**
-         * id : 141
-         * cat_name : 粤菜轩
-         */
-
-        public String id;
-        public String cat_name;
     }
+
 }

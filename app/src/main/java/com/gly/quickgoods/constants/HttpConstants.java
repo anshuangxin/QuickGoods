@@ -7,7 +7,8 @@ package com.gly.quickgoods.constants;
  */
 public class HttpConstants {
 
-    private static final String ROOT_URL = "http://www.kh95.com";
+    public static final String ROOT_URL = "http://www.kh95.com";
+
 
     /**
      * 登录
@@ -29,17 +30,37 @@ public class HttpConstants {
     /**
      * 分类
      */
-    public static String FIRST_ALL = ROOT_URL + "/index.php/cashOrder/firstall";
+    public static String FIRST_ALL = ROOT_URL + "/admin.php/android/android/Firstall";
+
+    /**
+     * 条码收银
+     */
+    public static String CALCULATE = ROOT_URL + "/admin.php/android/android/goods";
+    /**
+     * 微信支付宝收银
+     */
+    public static String AJAXPAY = ROOT_URL + "/admin.php/android/android/Ajaxpay";
+    /**
+     * 现金收银
+     */
+    public static String AJAXCASH = ROOT_URL + "/admin.php/android/android/Ajaxcash";
+    /**
+     * 点单收银
+     */
+    public static String POSSESS = ROOT_URL + "/admin.php/android/android/possess";
+    /**
+     * 订单核验
+     */
+    public static String CHECK = ROOT_URL + "/admin.php/android/android/check";
+
+    /**
+     * 确认收款
+     */
+    public static final String COLLECTION = ROOT_URL + "/admin.php/android/android/collection";
     /**
      * 提交订单
      */
-    public static String CALCULATE = ROOT_URL + "/index.php/cashOrder/Calculate";
-    /**
-     * 获取全部数据
-     */
-    public static String POSSESS = ROOT_URL + "/admin.php/android/android/possess";
-
-
+    public static final String COMMITORDER = ROOT_URL + "/admin.php/android/android/Calculate";
 }
 
 

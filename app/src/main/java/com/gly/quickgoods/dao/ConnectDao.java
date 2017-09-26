@@ -1,11 +1,14 @@
-package com.gly.quickgoods.request;
+package com.gly.quickgoods.dao;
 
+import com.gly.quickgoods.modle.CommitOrderInfo;
 import com.gly.quickgoods.utils.okhttp.listener.DisposeDataHandle;
 import com.gly.quickgoods.utils.okhttp.listener.DisposeDataListener;
 import com.gly.quickgoods.constants.HttpConstants;
 import com.gly.quickgoods.utils.okhttp.CommonOkHttpClient;
 import com.gly.quickgoods.utils.okhttp.request.CommonRequest;
 import com.gly.quickgoods.utils.okhttp.request.RequestParams;
+import com.gly.quickgoods.utils.okhttp.response.CommonSimpleCalback;
+
 import okhttp3.Request;
 
 /**
@@ -65,23 +68,62 @@ public class ConnectDao {
                 createPostRequest(HttpConstants.GET_CODE, params), new DisposeDataHandle(disposeDataListener));
     }
 
-    /**
-     * 提交订单
+    /*
+      条码收银
      */
-    public static void Calculate(String id, int num, DisposeDataListener disposeDataListener) {
+    public static void Calculate(String sku_id, String user_id, DisposeDataListener<String> disposeDataListener) {
         RequestParams params = new RequestParams();
-        params.put("name", id);
-        params.put("num", num + "");
+        params.put("sku_id", sku_id);
+        params.put("user_id", user_id);
         CommonOkHttpClient.get(CommonRequest.
-                createPostRequest(HttpConstants.CALCULATE, params), new DisposeDataHandle(disposeDataListener));
+                createGetRequest(HttpConstants.CALCULATE, params), new CommonSimpleCalback(new DisposeDataHandle(disposeDataListener)));
+    }
+
+    /*
+      提交订单
+     */
+    public static void commitOrder(RequestParams params, DisposeDataListener<CommitOrderInfo> disposeDataListener) {
+        CommonOkHttpClient.get(CommonRequest.
+                createGetRequest(HttpConstants.COMMITORDER, params),new DisposeDataHandle(disposeDataListener));
+    }
+
+    /*
+      现金收银
+     */
+    public static void Ajaxcash(String order_price, String phone, String user_id, DisposeDataListener disposeDataListener) {
+        RequestParams params = new RequestParams();
+        params.put("order_price", order_price);
+        params.put("phone", phone);
+        params.put("user_id", user_id);
+        params.put("uid", user_id);
+        CommonOkHttpClient.get(CommonRequest.
+                createGetRequest(HttpConstants.AJAXCASH, params), new DisposeDataHandle(disposeDataListener));
+    }
+
+    /*
+     *支付宝微信收银
+     */
+    public static void Ajaxpay(String pay, String codes_txt, String order_price, String phone, String user_id, DisposeDataListener disposeDataListener) {
+        RequestParams params = new RequestParams();
+        params.put("order_price", order_price);
+        params.put("pay", pay);
+        params.put("codes_txt", codes_txt);
+        params.put("phone", phone);
+        params.put("user_id", user_id);
+        params.put("uid", user_id);
+//        ?pay=5&codes_txt=3654&order_price=321.00&phone=13823579661&user_id=10827
+        CommonOkHttpClient.get(CommonRequest.
+                createGetRequest(HttpConstants.AJAXPAY, params), new DisposeDataHandle(disposeDataListener));
     }
 
     /**
      * 分类
      */
-    public static void firstAll(DisposeDataListener disposeDataListener) {
+    public static void firstAll(String user_id, DisposeDataListener disposeDataListener) {
+        RequestParams params = new RequestParams();
+        params.put("user_id", user_id);
         CommonOkHttpClient.get(CommonRequest.
-                createGetRequest(HttpConstants.FIRST_ALL, null), new DisposeDataHandle(disposeDataListener));
+                createGetRequest(HttpConstants.FIRST_ALL, params), new DisposeDataHandle(disposeDataListener));
     }
 
     /**
@@ -106,12 +148,38 @@ public class ConnectDao {
 
 
     /**
-     * 请求全部数据接口
+     * 点单收银
      */
     public static void getPossess(String u_id, DisposeDataListener disposeDataListener) {
         RequestParams params = new RequestParams();
         params.put("uid", u_id);
+        params.put("user_id", u_id);
         CommonOkHttpClient.get(CommonRequest.
                 createGetRequest(HttpConstants.POSSESS, params), new DisposeDataHandle(disposeDataListener));
+    }
+
+    /**
+     * 订单核验
+     */
+    public static void check(String goods_id, String user_id, DisposeDataListener disposeDataListener) {
+        RequestParams params = new RequestParams();
+        params.put("goods_id", goods_id);
+        params.put("user_id", user_id);
+        CommonOkHttpClient.get(CommonRequest.
+                createGetRequest(HttpConstants.CHECK, params), new DisposeDataHandle(disposeDataListener));
+    }
+
+    /*
+    *确认收款
+    */
+    public static void collection(String order_id, String pay, String price, String order_price, String phone, DisposeDataListener<String> disposeDataListener) {
+        RequestParams params = new RequestParams();
+        params.put("order_id ", order_id);
+        params.put("pay", pay);
+        params.put("price", price);
+        params.put("order_price", order_price);
+        params.put("phone", phone);
+        CommonOkHttpClient.get(CommonRequest.
+                createGetRequest(HttpConstants.COLLECTION, params), new DisposeDataHandle(disposeDataListener));
     }
 }

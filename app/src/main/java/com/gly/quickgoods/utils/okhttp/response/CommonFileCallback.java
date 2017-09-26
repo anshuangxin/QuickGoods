@@ -4,15 +4,15 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
+import com.gly.quickgoods.utils.okhttp.exception.OkHttpException;
 import com.gly.quickgoods.utils.okhttp.listener.DisposeDataHandle;
+import com.gly.quickgoods.utils.okhttp.listener.DisposeDownloadListener;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import com.gly.quickgoods.utils.okhttp.exception.OkHttpException;
-import com.gly.quickgoods.utils.okhttp.listener.DisposeDownloadListener;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;

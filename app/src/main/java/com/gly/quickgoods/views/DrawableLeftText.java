@@ -34,7 +34,7 @@ public class DrawableLeftText extends View {
     private Bitmap myImageSrc;
     private int myTextAndImgPadding;
     private int myTextColor;
-    private String myText;
+    private String myText = "";
     private int myTextSize;
     private int myWidth;
     private int myHeight;
@@ -88,7 +88,6 @@ public class DrawableLeftText extends View {
         myTextBound = new Rect();
         myPaint = new Paint();
         myPaint.setTextSize(myTextSize);
-        myPaint.getTextBounds(myText, 0, myText.length(), myTextBound);
     }
 
     @Override
@@ -103,7 +102,7 @@ public class DrawableLeftText extends View {
         rect.top = getPaddingTop();
         rect.bottom = myHeight - getPaddingBottom();
         myPaint.setColor(myTextColor);
-        myPaint.setTypeface(  Typeface.defaultFromStyle(android.R.style.TextAppearance));
+        myPaint.setTypeface(Typeface.defaultFromStyle(android.R.style.TextAppearance));
         myPaint.setStyle(Paint.Style.FILL);
         int textX = (myWidth - (myImageWidth + myTextAndImgPadding + myTextBound.width())) / 2 + (myImageWidth + myTextAndImgPadding);
         int textY = myTextBound.height() + (myHeight - myTextBound.height()) / 2;
@@ -138,6 +137,7 @@ public class DrawableLeftText extends View {
      */
     public void setMyText(String str) {
         myText = str;
+        myPaint.getTextBounds(myText, 0, myText.length(), myTextBound);
         invalidate();
         requestLayout();
     }
@@ -190,7 +190,7 @@ public class DrawableLeftText extends View {
         }
         //测量宽度
 //        if (widthMode == MeasureSpec.EXACTLY) {
-            myWidth = widthSize;
+        myWidth = widthSize;
 //        } else {
 //            int desired = getPaddingLeft() + myImageSrc.getWidth() + myTextAndImgPadding + myTextBound.width() + getPaddingRight();
 //            if (widthMode == MeasureSpec.AT_MOST) {
@@ -199,7 +199,7 @@ public class DrawableLeftText extends View {
 //        }
         //测量高度
 //        if (heightMode == MeasureSpec.EXACTLY) {
-            myHeight = heightSize;
+        myHeight = heightSize;
 //        } else {
 //            int maxDesiredHeight = Math.max(myTextBound.height(), myImageSrc.getHeight());
 //            System.out.println("myImageSrc.getHeight------>" + myImageSrc.getHeight() + "    maxDesiredHeight----->" + maxDesiredHeight);
@@ -207,7 +207,7 @@ public class DrawableLeftText extends View {
 //            System.out.println("desired------>" + desired);
 //            myHeight = Math.min(desired, heightSize);
 //        }
-        setMeasuredDimension(myWidth, myHeight);
+        setMeasuredDimension(widthMeasureSpec, heightMeasureSpec);
         System.out.println("I am onMeasure:---myWidth----->" + myWidth + "------------>myHeight---->" + myHeight);
     }
 }

@@ -17,7 +17,7 @@ public class MyApplication extends Application {
 
     public static final String TAG = MyApplication.class.getSimpleName();
     private static MyApplication instance;
-    public String is_one = "";
+    public static String userId = "10827";
 
     @Override
     public void onCreate() {

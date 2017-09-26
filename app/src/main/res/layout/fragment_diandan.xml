@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal">
 
     <LinearLayout
@@ -11,78 +10,11 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <RadioGroup
-            android:id="@+id/radiogroup"
+        <com.gly.quickgoods.views.TbSelector
+            android:id="@+id/tbselector"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/rb_top"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/oval_selector"
-                android:button="@null"
-                android:gravity="center"
-                android:text="TOP单品"
-                android:textColor="@color/black" />
-
-            <RadioButton
-                android:id="@+id/rb_recai"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/oval_selector"
-                android:button="@null"
-                android:gravity="center"
-                android:text="热菜"
-                android:textColor="@color/black" />
-
-            <RadioButton
-                android:id="@+id/rb_liangcai"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/oval_selector"
-                android:button="@null"
-                android:gravity="center"
-                android:text="凉菜"
-                android:textColor="@color/black" />
-
-            <RadioButton
-                android:id="@+id/rb_zhushi"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/oval_selector"
-                android:button="@null"
-                android:gravity="center"
-                android:text="主食"
-                android:textColor="@color/black" />
-
-            <RadioButton
-                android:id="@+id/rb_jiushui"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/oval_selector"
-                android:button="@null"
-                android:gravity="center"
-                android:text="酒水"
-                android:textColor="@color/black" />
-        </RadioGroup>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" />
 
 
         <com.jingchen.pulltorefresh.PullToRefreshLayout
@@ -101,7 +33,9 @@
     </LinearLayout>
 
     <com.gly.quickgoods.views.DingDanView
+        android:id="@+id/dingdanview"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="300dp"
+        android:layout_gravity="center_vertical"
         android:layout_marginTop="10dp" />
 </LinearLayout>

@@ -5,11 +5,32 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/btn_bg_normal</item>
         <item name="android:windowBackground">@color/white</item>
         <item name="android:editTextBackground">@color/tranpant</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textStyle">normal</item>
     </style>
 
+    <style name="MyEditText" parent="Widget.AppCompat.EditText">
+        <item name="android:padding">5dp</item>
+        <item name="android:background">@drawable/edit_bg</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+
+
+
+    <style name="sign_dialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:editTextStyle">@style/MyEditText</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowEnterAnimation">@anim/dark_fade_in</item>
+        <item name="android:windowExitAnimation">@anim/dark_fade_out</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:width">@null</item>
+    </style>
 </resources>

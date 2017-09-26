@@ -23,49 +23,52 @@
         android:text="可口可乐/含糖可乐一厅"
         android:textColor="@color/black"
         android:textSize="16sp"
+        android:lines="2"
         app:layout_marginLeftPercent="12%h"
         app:layout_marginTopPercent="24%h"
         app:layout_textSizePercent="14%h" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/tv_price"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/tv_name"
-        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content" app:layout_heightPercent="32.4%h"
         android:gravity="center"
         android:text="0.02"
         android:textColor="@color/font2"
         android:textSize="14sp"
-        app:layout_heightPercent="32%h"
         app:layout_marginLeftPercent="12%h"
-        app:layout_marginTopPercent="21%h"
-        app:layout_textSizePercent="13%h" />
+        app:layout_marginTopPercent="5%h"
+        app:layout_textSizePercent="13%h"
+        android:layout_marginTop="33dp"
+        android:layout_below="@+id/tv_name"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="43dp" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textView2"
-        android:layout_toEndOf="@+id/textView2"
         android:gravity="center"
         android:text="元"
         android:textColor="@color/black"
         android:textSize="12sp"
-        app:layout_heightPercent="32%h"
-        app:layout_textSizePercent="9%h" />
+        app:layout_textSizePercent="9%h"
+        android:layout_alignBaseline="@+id/tv_price"
+        android:layout_alignBottom="@+id/tv_price"
+        android:layout_toEndOf="@+id/tv_price" />
 
     <com.zhy.android.percent.support.PercentLinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/textView3"
         android:orientation="horizontal"
         app:layout_heightPercent="32.4%h"
         app:layout_marginBottomPercent="12%h"
         app:layout_marginRightPercent="12%h"
-        app:layout_widthPercent="89.7%h">
+        app:layout_widthPercent="89.7%h"
+        android:layout_marginEnd="63dp"
+        android:layout_alignTop="@+id/tv_price"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/percentLinearLayout2">
 
         <ImageButton
             android:id="@+id/imb_reduce"
@@ -85,7 +88,7 @@
             android:layout_weight="1"
             android:background="@color/white"
             android:gravity="center"
-            android:text="0"
+            android:text="1"
             android:textColor="@color/black"
             android:textSize="12sp"
             app:layout_textSizePercent="45%h" />

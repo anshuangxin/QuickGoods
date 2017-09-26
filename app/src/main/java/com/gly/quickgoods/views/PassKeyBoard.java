@@ -5,8 +5,12 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
+import com.gly.quickgoods.dao.LongClickDao;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import gly.quickgoods.R;
@@ -17,6 +21,8 @@ import gly.quickgoods.R;
 
 public class PassKeyBoard extends FrameLayout {
     public onKeyClickLinstener onKeyClickLinstener;
+    @BindView(R.id.back)
+    ImageButton back;
 
     public PassKeyBoard(Context context) {
         this(context, null);
@@ -30,7 +36,13 @@ public class PassKeyBoard extends FrameLayout {
         super(context, attrs, defStyleAttr);
         View view = LinearLayout.inflate(context, R.layout.view_passkeyboard, null);
         addView(view);
-        ButterKnife.bind(this,view);
+        ButterKnife.bind(this, view);
+        LongClickDao.getInstance().checkLongClick(back, new LongClickDao.MyOnTouchLinstener() {
+            @Override
+            public void onClick(View v) {
+                onKeyClickLinstener.onKeyClock(-1);
+            }
+        });
     }
 
     public void setOnKeyClickLinstener(PassKeyBoard.onKeyClickLinstener onKeyClickLinstener) {
@@ -38,7 +50,7 @@ public class PassKeyBoard extends FrameLayout {
     }
 
 
-    @OnClick({R.id.button4, R.id.button1, R.id.button6, R.id.button5, R.id.back, R.id.button0, R.id.button7, R.id.button8, R.id.button9, R.id.button2, R.id.button3})
+    @OnClick({R.id.button4, R.id.button1, R.id.button6, R.id.button5,R.id.button0, R.id.button7, R.id.button8, R.id.button9, R.id.button2, R.id.button3})
     public void onViewClicked(View view) {
         if (null != onKeyClickLinstener) {
             int i = -1;
@@ -54,9 +66,6 @@ public class PassKeyBoard extends FrameLayout {
                     break;
                 case R.id.button5:
                     i = 5;
-                    break;
-                case R.id.back:
-                    i = -1;
                     break;
                 case R.id.button0:
                     i = 0;
@@ -80,6 +89,7 @@ public class PassKeyBoard extends FrameLayout {
             onKeyClickLinstener.onKeyClock(i);
         }
     }
+
 
     public interface onKeyClickLinstener {
         void onKeyClock(int i);

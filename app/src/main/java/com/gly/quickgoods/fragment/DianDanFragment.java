@@ -1,27 +1,25 @@
 package com.gly.quickgoods.fragment;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.gly.quickgoods.application.MyApplication;
 import com.gly.quickgoods.basees.BaseFragment;
+import com.gly.quickgoods.dao.ConnectDao;
 import com.gly.quickgoods.modle.GoodSInfo;
-import com.gly.quickgoods.request.ConnectDao;
+import com.gly.quickgoods.modle.TbSelecterInfo;
 import com.gly.quickgoods.utils.Logger;
-import com.gly.quickgoods.utils.ToastUtil;
 import com.gly.quickgoods.utils.baseListadapter.CommonAdapter;
 import com.gly.quickgoods.utils.baseListadapter.ViewHolder;
 import com.gly.quickgoods.utils.okhttp.listener.DisposeDataListener;
+import com.gly.quickgoods.views.DingDanView;
+import com.gly.quickgoods.views.TbSelector;
 import com.jingchen.pulltorefresh.PullToRefreshLayout;
 
 import java.util.ArrayList;
@@ -35,15 +33,16 @@ import gly.quickgoods.R;
  */
 
 public class DianDanFragment extends BaseFragment {
-    @BindView(R.id.rb_top)
-    RadioButton rbTop;
-    @BindView(R.id.radiogroup)
-    RadioGroup radiogroup;
+    @BindView(R.id.tbselector)
+    TbSelector tbselector;
     @BindView(R.id.refresh_view)
     PullToRefreshLayout refreshView;
+    @BindView(R.id.dingdanview)
+    DingDanView dingdanview;
     private GridView gridView;
     private boolean isFirstIn = true;
     private List<GoodSInfo.GoodsInfoBean> datas = new ArrayList<>();
+
     private CommonAdapter<GoodSInfo.GoodsInfoBean> adapter;
 
     @Override
@@ -56,18 +55,21 @@ public class DianDanFragment extends BaseFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initListView();
-
+        initView();
     }
 
     private void getData() {
-        ConnectDao.getPossess("10827", new DisposeDataListener<GoodSInfo>() {
+        ConnectDao.getPossess(MyApplication.userId, new DisposeDataListener<GoodSInfo>() {
             @Override
             public void onSuccess(GoodSInfo goodSInfo) {
+                initTitle(goodSInfo.oneLevel);
                 datas.clear();
                 datas.addAll(goodSInfo.goodsInfo);
                 adapter.notifyDataSetChanged();
                 Logger.log("responseObj: " + goodSInfo.toString());
-                refreshView.refreshFinish(PullToRefreshLayout.SUCCEED);
+                if (null != refreshView) {
+                    refreshView.refreshFinish(PullToRefreshLayout.SUCCEED);
+                }
             }
 
             @Override
@@ -77,26 +79,44 @@ public class DianDanFragment extends BaseFragment {
         });
     }
 
-    private void initView() {
-        radiogroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+    private void initTitle(List<GoodSInfo.OneLevelBean> oneLevel) {
+        this.oneLevel.clear();
+        this.oneLevel.addAll(oneLevel);
+        List<TbSelecterInfo> infos = new ArrayList<>();
+        for (GoodSInfo.OneLevelBean bean : oneLevel) {
+            infos.add(new TbSelecterInfo(bean.cat_name, 0, 0, R.drawable.oval_selector));
+        }
+        tbselector.inItTabS(infos);
+        tbselector.setOnTbSelectListener(new TbSelector.onTbSelectListener() {
             @Override
-            public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
-                switch (i) {
-                    case R.id.rb_top:
+            public void onSelectChange(int position) {
 
-                        break;
-                    case R.id.rb_recai:
-                        break;
-                    case R.id.rb_liangcai:
-                        break;
-                    case R.id.rb_zhushi:
-                        break;
-                    case R.id.rb_jiushui:
-                        break;
-                }
             }
         });
-        rbTop.performClick();
+
+//        radiogroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
+//                Logger.log("id" + i);
+//                switch (i) {
+//                    case R.id.rb_top:
+//
+//                        break;
+//                    case R.id.rb_recai:
+//                        break;
+//                    case R.id.rb_liangcai:
+//                        break;
+//                    case R.id.rb_zhushi:
+//                        break;
+//                    case R.id.rb_jiushui:
+//                        break;
+//                }
+//            }
+//        });
+    }
+
+    private void initView() {
+
     }
 
     @Override
@@ -128,9 +148,9 @@ public class DianDanFragment extends BaseFragment {
                 helper.getConvertView().getLayoutParams().width = gridView.getMeasuredWidth() / gridView.getNumColumns();
                 helper.getConvertView().getLayoutParams().height = (int) (helper.getConvertView().getLayoutParams().width * 1.533f);
                 helper.setText(R.id.tv_name, item.goods_name);
-                helper.setText(R.id.tv_code, "商品编号:" + item.sku_id);
-                helper.setText(R.id.tv_hava_count, "库存数量:" + item.goods_num);
-                helper.setText(R.id.tv_price, item.price);
+                helper.setText(R.id.tv_code, "商品编号: " + item.sku_id);
+                helper.setText(R.id.tv_hava_count, "库存数量: " + item.goods_num);
+                helper.setText(R.id.tv_price, item.price + "");
             }
         };
         gridView.setAdapter(adapter);
@@ -152,33 +172,9 @@ public class DianDanFragment extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                ToastUtil.showToast(mContext,
-                        " Click on " + parent.getAdapter().getItemId(position),
-                        Toast.LENGTH_SHORT).show();
+                dingdanview.addGoods(datas.get(position));
             }
         });
     }
 
-    /**
-     * 下拉刷新与上拉加载更多监听器
-     */
-    public class MyPullListener implements PullToRefreshLayout.OnPullListener {
-
-        @Override
-        public void onRefresh(final PullToRefreshLayout pullToRefreshLayout) {
-            getData();
-        }
-
-        @Override
-        public void onLoadMore(final PullToRefreshLayout pullToRefreshLayout) {
-            // 加载更多操作
-            new Handler() {
-                @Override
-                public void handleMessage(Message msg) {
-                    // 千万别忘了告诉控件加载完毕了哦！
-                    pullToRefreshLayout.loadmoreFinish(PullToRefreshLayout.SUCCEED);
-                }
-            }.sendEmptyMessageDelayed(0, 1000);
-        }
-    }
 }

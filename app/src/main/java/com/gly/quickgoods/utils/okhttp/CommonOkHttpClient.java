@@ -2,6 +2,7 @@ package com.gly.quickgoods.utils.okhttp;
 
 
 import com.gly.quickgoods.utils.okhttp.cookie.SimpleCookieJar;
+import com.gly.quickgoods.utils.okhttp.https.HttpsUtils;
 import com.gly.quickgoods.utils.okhttp.listener.DisposeDataHandle;
 import com.gly.quickgoods.utils.okhttp.response.CommonFileCallback;
 import com.gly.quickgoods.utils.okhttp.response.CommonJsonCallback;
@@ -12,9 +13,8 @@ import java.util.concurrent.TimeUnit;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
 
-import com.gly.quickgoods.utils.okhttp.https.HttpsUtils;
-
 import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -69,11 +69,15 @@ public class CommonOkHttpClient {
     /**
      * 指定cilent信任指定证书
      *
-     * @param certificates
      */
 //    public static void setCertificates(InputStream... certificates) {
 //        mOkHttpClient.newBuilder().sslSocketFactory(HttpsUtils.getSslSocketFactory(certificates, null, null)).build();
 //    }
+    public static Call get(Request request, Callback callback) {
+        Call call = mOkHttpClient.newCall(request);
+        call.enqueue(callback);
+        return call;
+    }
 
     /**
      * 通过构造好的Request,Callback去发送请求

@@ -73,6 +73,7 @@
         android:layout_alignStart="@+id/button9"
         android:background="@drawable/selector_dark"
         android:gravity="center"
+        android:padding="5dp"
         android:scaleType="centerInside"
         android:src="@drawable/jishuaqi_gb"
         android:textColor="@color/white"

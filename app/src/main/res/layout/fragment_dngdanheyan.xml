@@ -1,205 +1,224 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingLeft="8dp"
-    android:paddingRight="8dp"
-    android:paddingTop="10dp">
+    android:layout_height="match_parent">
 
-    <com.zhy.android.percent.support.PercentRelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@drawable/big_bg">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:background="@color/tranpant"
-            android:gravity="center_vertical"
-            android:text="订单审核/该订单已到期"
-            android:textSize="16sp"
-            app:layout_widthPercent="33.4%w" />
-
-        <LinearLayout
-            android:layout_width="400dp"
-            android:layout_height="match_parent"
-            android:layout_centerInParent="true"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/white"
-            android:orientation="horizontal"
-            app:layout_widthPercent="46%w">
-
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginRight="-10dp"
-                android:layout_weight="1"
-                android:background="@drawable/edit_bg"
-                android:ems="20"
-                android:gravity="center_vertical"
-                android:hint="输入商品条码"
-                android:paddingLeft="10dp"
-                android:textSize="16sp" />
-
-            <Button
-                android:layout_width="70dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/search_selector"
-                android:gravity="center"
-                android:text="搜索"
-                android:textSize="16sp" />
-        </LinearLayout>
-    </com.zhy.android.percent.support.PercentRelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <com.gly.quickgoods.views.DrawableLeftText
-            android:id="@+id/tv_pay_man"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/tranpant"
-            app:myImageHeight="18dp"
-            app:myImageScaleType="center"
-            app:myImageSrc="@drawable/check_icon01"
-            app:myImageWidth="16dp"
-            app:myText="付款人:大裤衩"
-            app:myTextAndImgPadding="5dp"
-            app:myTextColor="@color/black"
-            app:myTextSize="16sp" />
-
-        <com.gly.quickgoods.views.DrawableLeftText
-            android:id="@+id/tv_date"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/tranpant"
-            app:myImageHeight="18dp"
-            app:myImageScaleType="center"
-            app:myImageSrc="@drawable/check_icon02"
-            app:myImageWidth="16dp"
-            app:myText="日期:2017.08.10"
-            app:myTextAndImgPadding="5dp"
-            app:myTextColor="@color/black"
-            app:myTextSize="16sp" />
-
-        <com.gly.quickgoods.views.DrawableLeftText
-            android:id="@+id/tv_form_code"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            app:myImageHeight="18dp"
-            app:myImageScaleType="center"
-            app:myImageSrc="@drawable/check_icon03"
-            app:myImageWidth="16dp"
-            app:myText="订单号:13213213"
-            app:myTextAndImgPadding="5dp"
-            app:myTextColor="@color/black"
-            app:myTextSize="16sp" />
-
-        <com.gly.quickgoods.views.DrawableLeftText
-            android:id="@+id/tv_take_type"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/tranpant"
-
-            app:myImageHeight="18dp"
-            app:myImageScaleType="center"
-            app:myImageSrc="@drawable/check_icon04"
-            app:myImageWidth="16dp"
-            app:myText="食堂外带"
-            app:myTextAndImgPadding="5dp"
-            app:myTextColor="@color/black"
-            app:myTextSize="16sp" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/smallline" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:background="@drawable/big_bg"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_centerInParent="true"
-            android:background="@color/tranpant"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="@color/tranpant"
-                android:gravity="center"
-                android:text="数量:"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/tv_num"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:background="@color/tranpant"
-                android:gravity="center"
-                android:text="7"
-                android:textColor="@color/font4"
-                android:textSize="20sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="25dp"
-                android:background="@color/tranpant"
-                android:gravity="center"
-                android:text="金额:"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/tv_price"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:background="@color/tranpant"
-                android:gravity="center"
-                android:text="50"
-                android:textColor="@color/font4"
-                android:textSize="20sp" />
-        </LinearLayout>
-
-    </RelativeLayout>
-
-    <com.jingchen.pulltorefresh.PullToRefreshLayout
-        android:id="@+id/refresh_view"
+    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="10dp">
+        android:orientation="vertical"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="10dp">
 
-        <com.jingchen.pulltorefresh.PullableGridView
+        <com.zhy.android.percent.support.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+
+            android:background="@drawable/big_bg">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:background="@color/tranpant"
+                android:gravity="center_vertical"
+                android:text="订单审核"
+                android:textSize="16sp"
+                app:layout_widthPercent="33.4%w" />
+
+            <LinearLayout
+                android:layout_width="400dp"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                app:layout_widthPercent="46%w">
+
+
+                <EditText
+                    android:id="@+id/ed_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="-10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_bg"
+                    android:ems="20"
+                    android:gravity="center_vertical"
+                    android:hint="输入商品条码"
+                    android:imeOptions="flagNoExtractUi"
+                    android:paddingLeft="10dp"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/btn_search"
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/search_selector"
+                    android:gravity="center"
+                    android:text="搜索"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </com.zhy.android.percent.support.PercentRelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/isshowlayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <com.gly.quickgoods.views.DrawableLeftText
+                android:id="@+id/tv_pay_man"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:background="@color/tranpant"
+                app:myImageHeight="18dp"
+                app:myImageScaleType="center"
+                app:myImageSrc="@drawable/check_icon01"
+                app:myImageWidth="16dp"
+                app:myTextAndImgPadding="5dp"
+                app:myTextColor="@color/black"
+                app:myTextSize="14sp" />
+
+            <com.gly.quickgoods.views.DrawableLeftText
+                android:id="@+id/tv_date"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:background="@color/tranpant"
+                app:myImageHeight="18dp"
+                app:myImageScaleType="center"
+                app:myImageSrc="@drawable/check_icon02"
+                app:myImageWidth="16dp"
+                app:myTextAndImgPadding="5dp"
+                app:myTextColor="@color/black"
+                app:myTextSize="14sp" />
+
+            <com.gly.quickgoods.views.DrawableLeftText
+                android:id="@+id/tv_form_code"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                app:myImageHeight="18dp"
+                app:myImageScaleType="center"
+                app:myImageSrc="@drawable/check_icon03"
+                app:myImageWidth="16dp"
+                app:myTextAndImgPadding="5dp"
+                app:myTextColor="@color/black"
+                app:myTextSize="14sp" />
+
+            <com.gly.quickgoods.views.DrawableLeftText
+                android:id="@+id/tv_take_type"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:background="@color/tranpant"
+                app:myImageHeight="18dp"
+                app:myImageScaleType="center"
+                app:myImageSrc="@drawable/check_icon04"
+                app:myImageWidth="16dp"
+                app:myTextAndImgPadding="5dp"
+                app:myTextColor="@color/black"
+                app:myTextSize="14sp" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/isshowlayout2"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/smallline"
+            android:visibility="gone" />
+
+        <RelativeLayout
+            android:id="@+id/isshowlayout3"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@drawable/big_bg"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:background="@color/tranpant"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/tranpant"
+                    android:gravity="center"
+                    android:text="数量:"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:background="@color/tranpant"
+                    android:gravity="center"
+                    android:text="7"
+                    android:textColor="@color/font4"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="25dp"
+                    android:background="@color/tranpant"
+                    android:gravity="center"
+                    android:text="金额:"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:background="@color/tranpant"
+                    android:gravity="center"
+                    android:text="50"
+                    android:textColor="@color/font4"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <com.jingchen.pulltorefresh.PullToRefreshLayout
+            android:id="@+id/refresh_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:horizontalSpacing="5dp"
-            android:numColumns="5"
-            android:scrollbars="none"
-            android:verticalSpacing="5dp" />
+            android:layout_marginTop="10dp">
 
-    </com.jingchen.pulltorefresh.PullToRefreshLayout>
+            <com.jingchen.pulltorefresh.PullableGridView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:horizontalSpacing="5dp"
+                android:numColumns="5"
+                android:scrollbars="none"
+                android:verticalSpacing="5dp" />
 
-</LinearLayout>
+        </com.jingchen.pulltorefresh.PullToRefreshLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/img_ischeck"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_alignParentRight="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/check_sh"
+        android:visibility="gone" />
+</RelativeLayout>

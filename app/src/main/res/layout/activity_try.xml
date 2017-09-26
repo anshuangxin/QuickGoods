@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#434342"
+        android:orientation="vertical"
+        android:padding="42dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="申请试用"
+            android:textColor="@color/white"
+            android:textSize="22sp" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:text="如果您需要使用我们的产品，请在此申请，我们将在一个工作日与您联系"
+            android:textColor="@color/white"
+            android:textSize="13sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="21dp"
+            android:text="姓名"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/ed_name"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@drawable/ed_white_bg"
+            android:imeOptions="flagNoExtractUi"
+            android:padding="5dp"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textCursorDrawable="@color/black"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:text="电话"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/ed_phone"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@drawable/ed_white_bg"
+            android:imeOptions="flagNoExtractUi"
+            android:inputType="number"
+            android:padding="5dp"
+            android:textColor="@color/black"
+            android:textCursorDrawable="@color/black"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="21dp"
+            android:text="企业名称"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/ed_company_name"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@drawable/ed_white_bg"
+            android:imeOptions="flagNoExtractUi"
+            android:padding="5dp"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textCursorDrawable="@color/black"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="21dp"
+            android:text="邮箱(选填)"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/ed_mail"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@drawable/ed_white_bg"
+            android:imeOptions="flagNoExtractUi"
+            android:inputType="textEmailAddress"
+            android:padding="5dp"
+            android:textColor="@color/black"
+            android:textCursorDrawable="@color/black"
+            android:textSize="14sp" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="21dp"
+            android:text="其他补充信息"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/ed_other"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ed_white_bg"
+            android:gravity="left"
+            android:imeOptions="flagNoExtractUi|actionDone"
+            android:minLines="5"
+            android:padding="5dp"
+            android:textColor="@color/black"
+            android:textCursorDrawable="@color/black"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btn_commit"
+            android:layout_width="137dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/login_btn_selector"
+            android:text="提交" />
+    </LinearLayout>
+</ScrollView>

@@ -1,6 +1,9 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.android.percent.support.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:orientation="horizontal">
 
     <LinearLayout
@@ -17,14 +20,17 @@
             android:orientation="horizontal">
 
             <EditText
+                android:id="@+id/ed_search"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginRight="-10dp"
                 android:layout_weight="0.8"
                 android:background="@drawable/edit_bg"
+                android:imeOptions="flagNoExtractUi"
                 android:paddingLeft="10dp" />
 
             <Button
+                android:id="@+id/btn_search"
                 android:layout_width="70dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/search_selector"
@@ -49,8 +55,10 @@
     </LinearLayout>
 
     <com.gly.quickgoods.views.DingDanView
+        android:id="@+id/dingdanview"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="300dp"
+        android:layout_gravity="center_vertical"
         android:layout_marginTop="10dp" />
-</LinearLayout>
+</com.zhy.android.percent.support.PercentLinearLayout>
 

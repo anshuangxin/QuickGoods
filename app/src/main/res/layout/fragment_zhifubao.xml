@@ -17,7 +17,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:gravity="center"
+                android:gravity="right|center_vertical"
                 android:text="应收:"
                 android:textColor="@color/black"
                 android:textSize="16sp"
@@ -43,7 +43,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:gravity="center"
+                android:gravity="right|center_vertical"
                 android:text="支付宝授权码:"
                 android:textColor="@color/black"
                 android:textSize="16sp"
@@ -69,7 +69,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:gravity="center"
+                android:gravity="right|center_vertical"
                 android:text="手机号:"
                 android:textColor="@color/black"
                 android:textSize="16sp"
@@ -81,8 +81,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:ems="11"
                 android:background="@drawable/edit_bg"
+                android:ems="11"
                 android:gravity="center_vertical"
                 android:hint="手机号可积分"
                 android:paddingLeft="5dp"

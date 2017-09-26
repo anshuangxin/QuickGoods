@@ -2,6 +2,7 @@ package com.gly.quickgoods.utils.okhttp.response;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.gly.quickgoods.utils.Logger;
@@ -97,6 +98,7 @@ public class CommonJsonCallback<T> implements Callback {
 
     private void handleResponse(Object responseObj) {
         if (responseObj == null || responseObj.toString().trim().equals("")) {
+            mListener.onSuccess(responseObj);
             mListener.onFailure(new OkHttpException(NETWORK_ERROR, EMPTY_MSG));
             return;
         }
@@ -110,9 +112,11 @@ public class CommonJsonCallback<T> implements Callback {
             try {
                 T o = null;
                 try {
-                    o = (T) JSON.parseObject(responseObj.toString(), Class.forName(substring));
+                    String str = responseObj.toString();
+                    o = (T) JSON.parseObject(str, Class.forName(substring));
                 } catch (Exception e1) {
                     e1.printStackTrace();
+                    mListener.onSuccess(responseObj);
                     Logger.log("CommonJsonCallback:" + e1);
                 }
                 if (o != null) {
@@ -125,5 +129,16 @@ public class CommonJsonCallback<T> implements Callback {
                 mListener.onFailure(new OkHttpException(JSON_ERROR, EMPTY_MSG));
             }
         }
+    }
+
+    public static boolean isJsonArray(String str) {
+        if (TextUtils.isEmpty(str)) {
+            return false;
+        }
+        final char[] strChar = str.substring(0, 1).toCharArray();
+        final char firstChar = strChar[0];
+        if (firstChar == '{') {
+            return false;
+        } else return firstChar == '[';
     }
 }

@@ -17,11 +17,11 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.gly.quickgoods.application.MyApplication;
 import com.gly.quickgoods.basees.BaseActivity;
-import com.gly.quickgoods.request.ConnectDao;
+import com.gly.quickgoods.dao.ConnectDao;
 import com.gly.quickgoods.utils.Logger;
 import com.gly.quickgoods.utils.MyTextUtils;
+import com.gly.quickgoods.utils.SharedPreferencesUtil;
 import com.gly.quickgoods.utils.ToastUtil;
 import com.gly.quickgoods.utils.okhttp.listener.DisposeDataListener;
 
@@ -60,9 +60,19 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        ButterKnife.bind(this);
-        initView();
+        checkIsLogin();
+    }
+
+    private void checkIsLogin() {
+        String user_id = SharedPreferencesUtil.getString(mContext, "user_id");
+        if (!TextUtils.isEmpty(user_id)) {
+            startActivity(new Intent(mContext, MainActivity.class));
+            finish();
+        } else {
+            setContentView(R.layout.activity_login);
+            ButterKnife.bind(this);
+            initView();
+        }
     }
 
     private void initView() {
@@ -122,7 +132,7 @@ public class LoginActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.tv_getcode, R.id.btn_login, R.id.tv_regist})
+    @OnClick({R.id.tv_getcode, R.id.btn_login, R.id.tv_regist, R.id.imageview1})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_getcode:
@@ -132,6 +142,10 @@ public class LoginActivity extends BaseActivity {
                 login();
                 break;
             case R.id.tv_regist:
+                startActivity(new Intent(mContext, TryActivity.class));
+                break;
+            case R.id.imageview1:
+                startActivity(new Intent(mContext, TestSpeechActivity.class));
                 break;
         }
     }
@@ -166,7 +180,7 @@ public class LoginActivity extends BaseActivity {
                 String err = jsonObject.getString("err");
                 String message = jsonObject.getString("message");
                 if (err.equals("200")) {
-                    MyApplication.getInstance().is_one = jsonObject.getString("is_one");
+                    SharedPreferencesUtil.putString(mContext, "user_id", "user_id");
                     startActivity(new Intent(mContext, MainActivity.class));
                     LoginActivity.this.finish();
                 } else if ("false".equals(err)) {

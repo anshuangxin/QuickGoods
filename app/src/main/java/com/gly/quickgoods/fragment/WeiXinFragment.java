@@ -8,7 +8,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.gly.quickgoods.application.MyApplication;
 import com.gly.quickgoods.basees.BaseFragment;
+import com.gly.quickgoods.dao.ConnectDao;
+import com.gly.quickgoods.utils.Logger;
+import com.gly.quickgoods.utils.PayDialog;
+import com.gly.quickgoods.utils.okhttp.listener.DisposeDataListener;
 import com.gly.quickgoods.views.PassKeyBoard;
 
 import butterknife.BindView;
@@ -43,6 +48,7 @@ public class WeiXinFragment extends BaseFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         edYingshou.setInputType(0);
+        edYingshou.requestFocus();
         edPhonenum.setInputType(0);
         edShouquanma.setInputType(0);
         passkeyboard.setOnKeyClickLinstener(new PassKeyBoard.onKeyClickLinstener() {
@@ -66,6 +72,21 @@ public class WeiXinFragment extends BaseFragment {
 
     @OnClick(R.id.btn_sure)
     public void onViewClicked() {
+        ConnectDao.Ajaxpay("1","3654",edYingshou.getText().toString(), edPhonenum.getText().toString(), MyApplication.userId + "", new DisposeDataListener<String>() {
+            @Override
+            public void onSuccess(String responseObj) {
+                Logger.log(responseObj);
+                if(!responseObj.contains("-1")){
+                    PayDialog.ShowDialog(mContext, false);
+                }else {
+                    PayDialog.ShowDialog(mContext, true);
+                }
+            }
+            @Override
+            public void onFailure(Object reasonObj) {
+
+            }
+        });
 
     }
 
