@@ -50,6 +50,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="现金"
+                    android:checked="true"
                     android:textSize="14sp" />
 
                 <RadioButton
@@ -114,6 +115,7 @@
         </TableRow>
 
         <TableRow
+            android:id="@+id/tablerowkefu"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
@@ -164,6 +166,7 @@
         </TableRow>
 
         <TableRow
+            android:id="@+id/tablerowzhaoling"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
@@ -202,6 +205,43 @@
                     android:textSize="12sp" />
             </LinearLayout>
 
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tablerowshouquanma"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:visibility="gone"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="授  权  码:"
+                android:textSize="14sp" />
+
+
+            <EditText
+                android:id="@+id/ed_shouquanma"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/edit_bg"
+                android:gravity="center_vertical"
+                android:hint="授权码"
+                android:imeOptions="flagNoExtractUi"
+                android:inputType="number"
+                android:maxEms="15"
+                android:maxLength="15"
+                android:padding="5dp"
+                android:singleLine="true"
+                android:textSize="12sp" />
 
         </TableRow>
 

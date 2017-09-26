@@ -8,10 +8,12 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.gly.quickgoods.application.MyApplication;
 import com.gly.quickgoods.basees.BaseLayoutView;
 import com.gly.quickgoods.dao.ConnectDao;
 import com.gly.quickgoods.modle.CommitOrderInfo;
 import com.gly.quickgoods.modle.GoodSInfo;
+import com.gly.quickgoods.utils.Logger;
 import com.gly.quickgoods.utils.ReceiveDialog;
 import com.gly.quickgoods.utils.ToastUtil;
 import com.gly.quickgoods.utils.baseListadapter.CommonAdapter;
@@ -76,7 +78,7 @@ public class DingDanView extends BaseLayoutView {
         adapter = new CommonAdapter<GoodSInfo.GoodsInfoBean>(mContext, datas, R.layout.dingdanview_list_item) {
             @Override
             public void convert(ViewHolder helper, final GoodSInfo.GoodsInfoBean item) {
-                helper.getConvertView().getLayoutParams().height = (int) (list.getMeasuredHeight() / 2f);
+                helper.getConvertView().getLayoutParams().height = (int) (list.getMeasuredHeight() / 3f);
                 helper.setText(R.id.tv_name, item.goods_name);
                 helper.setText(R.id.tv_price, item.price + "");
                 helper.setOnclickLinstener(R.id.imb_delete, new OnClickListener() {
@@ -114,19 +116,19 @@ public class DingDanView extends BaseLayoutView {
         list.setAdapter(adapter);
     }
 
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        setMeasuredDimension(getDefaultSize(0, widthMeasureSpec),
-                getDefaultSize(0, heightMeasureSpec));
-        int childHeightSize = getMeasuredHeight();
-        int childWidthSize = (int) (childHeightSize / 1.41f);
-        widthMeasureSpec = MeasureSpec.makeMeasureSpec(childWidthSize,
-                MeasureSpec.EXACTLY);
-        heightMeasureSpec = MeasureSpec.makeMeasureSpec(childHeightSize,
-                MeasureSpec.EXACTLY);
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-    }
+//
+//    @Override
+//    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+//        setMeasuredDimension(getDefaultSize(0, widthMeasureSpec),
+//                getDefaultSize(0, heightMeasureSpec));
+//        int childHeightSize = getMeasuredHeight();
+//        int childWidthSize = (int) (childHeightSize / 1.41f);
+//        widthMeasureSpec = MeasureSpec.makeMeasureSpec(childWidthSize,
+//                MeasureSpec.EXACTLY);
+//        heightMeasureSpec = MeasureSpec.makeMeasureSpec(childHeightSize,
+//                MeasureSpec.EXACTLY);
+//        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+//    }
 
     @OnClick({R.id.btn_commit, R.id.btn_clear})
     public void onViewClicked(View view) {
@@ -134,12 +136,15 @@ public class DingDanView extends BaseLayoutView {
             case R.id.btn_commit:
                 RequestParams params = new RequestParams();
                 for (GoodSInfo.GoodsInfoBean bean : datas) {
-                    params.put("goods_id", bean.id + "");
+                    params.put("name[]", bean.id + "");
+                    params.put("num[]", bean.jianShu + "");
                 }
+                params.put("user_id", MyApplication.userId);
                 ConnectDao.commitOrder(params, new DisposeDataListener<CommitOrderInfo>() {
                     @Override
                     public void onSuccess(CommitOrderInfo responseObj) {
                         if (responseObj.state == 1) {
+                            Logger.log( responseObj.order_id);
                             ReceiveDialog.ShowDialog(mContext, totalPrice, totalCount, responseObj.order_id);
                         } else {
                             ToastUtil.showToast(mContext, "提交失败!", 2000).show();
@@ -148,7 +153,7 @@ public class DingDanView extends BaseLayoutView {
 
                     @Override
                     public void onFailure(Object reasonObj) {
-
+                        ToastUtil.showToast(mContext, "提交失败!", 2000).show();
                     }
                 });
 

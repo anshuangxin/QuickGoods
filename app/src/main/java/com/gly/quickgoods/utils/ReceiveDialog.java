@@ -8,10 +8,11 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.gly.quickgoods.application.MyApplication;
 import com.gly.quickgoods.dao.ConnectDao;
 import com.gly.quickgoods.utils.okhttp.listener.DisposeDataListener;
 
@@ -27,12 +28,21 @@ import gly.quickgoods.R;
 public class ReceiveDialog extends Dialog {
     public static ReceiveDialog receiveDialog;
     private String order_id;
+    @BindView(R.id.tablerowkefu)
+    TableRow tablerowkefu;
+    @BindView(R.id.tablerowshouquanma)
+    TableRow tablerowshouquanma;
+    @BindView(R.id.tablerowzhaoling)
+    TableRow tablerowzhaoling;
+
     @BindView(R.id.radiogroup)
     RadioGroup radiogroup;
     @BindView(R.id.tv_receive)
     TextView tvReceive;
     @BindView(R.id.ed_pay)
     EditText ed_pay;
+    @BindView(R.id.ed_shouquanma)
+    EditText ed_shouquanma;
     @BindView(R.id.tv_zhaoling)
     TextView tvZhaoling;
     @BindView(R.id.tv_count)
@@ -111,15 +121,21 @@ public class ReceiveDialog extends Dialog {
                 switch (i) {
                     case R.id.button1:
                         payType = "1";
-                        RadioButton childAt = (RadioButton) radioGroup.getChildAt(0);
+                        tablerowkefu.setVisibility(View.VISIBLE);
+                        tablerowshouquanma.setVisibility(View.GONE);
+                        tablerowzhaoling.setVisibility(View.VISIBLE);
                         break;
                     case R.id.button2:
                         payType = "2";
-                        RadioButton childAt1 = (RadioButton) radioGroup.getChildAt(1);
+                        tablerowkefu.setVisibility(View.GONE);
+                        tablerowshouquanma.setVisibility(View.VISIBLE);
+                        tablerowzhaoling.setVisibility(View.GONE);
                         break;
                     case R.id.button3:
                         payType = "3";
-                        RadioButton childAt2 = (RadioButton) radioGroup.getChildAt(2);
+                        tablerowkefu.setVisibility(View.GONE);
+                        tablerowshouquanma.setVisibility(View.VISIBLE);
+                        tablerowzhaoling.setVisibility(View.GONE);
                         break;
                     default:
                         break;
@@ -136,16 +152,16 @@ public class ReceiveDialog extends Dialog {
 
     @OnClick({R.id.imb_close, R.id.btn_sure})
     public void onViewClicked(View view) {
-        dismiss();
         switch (view.getId()) {
             case R.id.imb_close:
                 break;
             case R.id.btn_sure:
-                ConnectDao.collection(order_id, payType, ed_pay.getText().toString(), tvReceive.getText().toString(), edPhonenum.getText().toString(), new DisposeDataListener<String>() {
+                ConnectDao.collection(ed_shouquanma.getText().toString(),ed_pay.getText().toString(), order_id, ed_pay.getText().toString(), tvReceive.getText().toString(), edPhonenum.getText().toString(), MyApplication.userId, new DisposeDataListener<String>() {
                     @Override
                     public void onSuccess(String responseObj) {
                         if (responseObj.equals("1")) {
                             PayDialog.ShowDialog(getContext(), true);
+                            dismiss();
                         } else {
                             PayDialog.ShowDialog(getContext(), false);
                         }

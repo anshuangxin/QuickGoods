@@ -2,6 +2,7 @@ package com.gly.quickgoods.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,12 +20,10 @@ import com.gly.quickgoods.basees.BaseFragment;
 import com.gly.quickgoods.constants.HttpConstants;
 import com.gly.quickgoods.dao.ConnectDao;
 import com.gly.quickgoods.modle.GoodSInfo;
-import com.gly.quickgoods.utils.Logger;
 import com.gly.quickgoods.utils.baseListadapter.CommonAdapter;
 import com.gly.quickgoods.utils.baseListadapter.ViewHolder;
 import com.gly.quickgoods.utils.okhttp.listener.DisposeDataListener;
 import com.gly.quickgoods.views.DingDanView;
-import com.jingchen.pulltorefresh.PullToRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,13 +37,12 @@ import gly.quickgoods.R;
  */
 
 public class TiaoMaFragment extends BaseFragment {
-    @BindView(R.id.refresh_view)
-    PullToRefreshLayout refreshView;
+    @BindView(R.id.gridview)
+    GridView gridView;
     @BindView(R.id.dingdanview)
     DingDanView dingdanview;
     @BindView(R.id.ed_search)
     EditText ed_search;
-    private GridView gridView;
     private boolean isFirstIn = true;
     private List<GoodSInfo.GoodsInfoBean> datas;
     private CommonAdapter<GoodSInfo.GoodsInfoBean> adapter;
@@ -58,48 +56,7 @@ public class TiaoMaFragment extends BaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        // 此处设置下拉刷新或上拉加载更多监听器
-        // 设置带gif动画的上拉头与下拉头
-//        try {
-//            refreshView.setGifRefreshView(new GifDrawable(getResources(), R.drawable.anim));
-//            refreshView.setGifLoadmoreView(new GifDrawable(getResources(), R.drawable.anim));
-//
-//        } catch (Resources.NotFoundException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
-        gridView = (GridView) refreshView.getPullableView();
         initListView();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        // 第一次进入自动刷新
-        if (isFirstIn) {
-            refreshView.autoRefresh();
-            isFirstIn = false;
-            getData();
-        }
-    }
-
-    private void getData() {
-        ConnectDao.Calculate("1234", MyApplication.userId, new DisposeDataListener() {
-            @Override
-            public void onSuccess(Object responseObj) {
-                if (null != refreshView) {
-                    refreshView.refreshFinish(PullToRefreshLayout.SUCCEED);
-                }
-            }
-
-            @Override
-            public void onFailure(Object reasonObj) {
-
-            }
-        });
     }
 
 
@@ -113,10 +70,12 @@ public class TiaoMaFragment extends BaseFragment {
             public void convert(ViewHolder helper, GoodSInfo.GoodsInfoBean item) {
                 helper.getConvertView().getLayoutParams().width = gridView.getMeasuredWidth() / gridView.getNumColumns();
                 helper.getConvertView().getLayoutParams().height = (int) (helper.getConvertView().getLayoutParams().width * 1.533f);
-                ImageView imageView = helper.getView(R.id.img_title);
-                Glide.with(TiaoMaFragment.this)
-                        .load(HttpConstants.ROOT_URL + item.pic)
-                        .into(imageView);
+                if (!TextUtils.isEmpty(item.pic)) {
+                    ImageView imageView = helper.getView(R.id.img_title);
+                    Glide.with(TiaoMaFragment.this)
+                            .load(HttpConstants.ROOT_URL + item.pic)
+                            .into(imageView);
+                }
                 helper.setText(R.id.tv_name, item.goods_name);
                 helper.setText(R.id.tv_code, "商品编号: " + item.sku_id);
                 helper.setText(R.id.tv_name, "库存数量: " + item.goods_num);
@@ -140,7 +99,7 @@ public class TiaoMaFragment extends BaseFragment {
         ConnectDao.Calculate(ed_search.getText().toString(), MyApplication.userId, new DisposeDataListener<String>() {
             @Override
             public void onSuccess(String responseObj) {
-                Logger.log(responseObj);
+                datas.clear();
                 try {
                     JSONArray jsonArray = JSON.parseArray(responseObj);
                     for (int i = 0; i < jsonArray.size(); i++) {

@@ -1,6 +1,7 @@
 package com.gly.quickgoods.dao;
 
 import com.gly.quickgoods.modle.CommitOrderInfo;
+import com.gly.quickgoods.utils.Logger;
 import com.gly.quickgoods.utils.okhttp.listener.DisposeDataHandle;
 import com.gly.quickgoods.utils.okhttp.listener.DisposeDataListener;
 import com.gly.quickgoods.constants.HttpConstants;
@@ -84,7 +85,7 @@ public class ConnectDao {
      */
     public static void commitOrder(RequestParams params, DisposeDataListener<CommitOrderInfo> disposeDataListener) {
         CommonOkHttpClient.get(CommonRequest.
-                createGetRequest(HttpConstants.COMMITORDER, params),new DisposeDataHandle(disposeDataListener));
+                createGetRequest(HttpConstants.COMMITORDER, params), new DisposeDataHandle(disposeDataListener));
     }
 
     /*
@@ -129,11 +130,12 @@ public class ConnectDao {
     /**
      * 分页
      */
-    public static void ifyClass(int pager, DisposeDataListener disposeDataListener) {
+    public static void ifyClass(String parent, String user_id, DisposeDataListener disposeDataListener) {
         RequestParams params = new RequestParams();
-        params.put("page", pager + "");
+        params.put("parent", parent);
+        params.put("user_id", user_id);
         CommonOkHttpClient.get(CommonRequest.
-                createPostRequest(HttpConstants.IFY_CLASS, params), new DisposeDataHandle(disposeDataListener));
+                createGetRequest(HttpConstants.IFY_CLASS, params), new DisposeDataHandle(disposeDataListener));
     }
 
     /**
@@ -172,12 +174,23 @@ public class ConnectDao {
     /*
     *确认收款
     */
-    public static void collection(String order_id, String pay, String price, String order_price, String phone, DisposeDataListener<String> disposeDataListener) {
+    public static void collection(String codes_txt, String pay, String order_id, String price, String order_price, String phone, String userId, DisposeDataListener<String> disposeDataListener) {
+        //pay=1&
+        // order_id=20170925090751494
+        // &price=0.01
+        // &order_price=0.01
+        // &uid=10827
+        // &user_id=10827
+        // &phone=13823579661
         RequestParams params = new RequestParams();
-        params.put("order_id ", order_id);
         params.put("pay", pay);
+        params.put("codes_txt", codes_txt);
+        Logger.log(order_id);
+        params.put("order_id", order_id);
         params.put("price", price);
         params.put("order_price", order_price);
+        params.put("uid", userId);
+        params.put("user_id", userId);
         params.put("phone", phone);
         CommonOkHttpClient.get(CommonRequest.
                 createGetRequest(HttpConstants.COLLECTION, params), new DisposeDataHandle(disposeDataListener));

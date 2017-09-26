@@ -2,17 +2,16 @@ package com.gly.quickgoods.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.gly.quickgoods.application.MyApplication;
@@ -21,12 +20,10 @@ import com.gly.quickgoods.constants.HttpConstants;
 import com.gly.quickgoods.dao.ConnectDao;
 import com.gly.quickgoods.modle.DingDanHeYanInfo;
 import com.gly.quickgoods.utils.Logger;
-import com.gly.quickgoods.utils.ToastUtil;
 import com.gly.quickgoods.utils.baseListadapter.CommonAdapter;
 import com.gly.quickgoods.utils.baseListadapter.ViewHolder;
 import com.gly.quickgoods.utils.okhttp.listener.DisposeDataListener;
 import com.gly.quickgoods.views.DrawableLeftText;
-import com.jingchen.pulltorefresh.PullToRefreshLayout;
 
 import java.util.ArrayList;
 
@@ -59,12 +56,10 @@ public class DingDanHeYanFragment extends BaseFragment {
     TextView tvNum;
     @BindView(R.id.tv_price)
     TextView tvPrice;
-    @BindView(R.id.refresh_view)
-    PullToRefreshLayout refreshView;
+    @BindView(R.id.gridview)
+    GridView gridview;
     @BindView(R.id.img_ischeck)
     ImageView imgIscheck;
-    private GridView gridView;
-    private boolean isFirstIn = true;
     private CommonAdapter<DingDanHeYanInfo.OrderinfoBean> adapter;
     private ArrayList<DingDanHeYanInfo.OrderinfoBean> datas;
 
@@ -77,19 +72,6 @@ public class DingDanHeYanFragment extends BaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        // 设置带gif动画的上拉头与下拉头
-//        try {
-//            refreshView.setGifRefreshView(new GifDrawable(getResources(), R.drawable.anim));
-//            refreshView.setGifLoadmoreView(new GifDrawable(getResources(), R.drawable.anim));
-//
-//        } catch (Resources.NotFoundException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
-        gridView = (GridView) refreshView.getPullableView();
         initListView();
     }
 
@@ -99,38 +81,26 @@ public class DingDanHeYanFragment extends BaseFragment {
      */
     private void initListView() {
         datas = new ArrayList<>();
-        for (int i = 0; i < 30; i++) {
-//            datas.add("这里是item " + i);
-        }
         adapter = new CommonAdapter<DingDanHeYanInfo.OrderinfoBean>(mContext, datas, R.layout.dingdan_list_item) {
             @Override
             public void convert(ViewHolder helper, DingDanHeYanInfo.OrderinfoBean item) {
-                ImageView view = helper.getView(R.id.img_title);
-                Glide.with(DingDanHeYanFragment.this)
-                        .load(HttpConstants.ROOT_URL + item.pic)
-                        .into(view);
+                if (!TextUtils.isEmpty(item.pic)) {
+                    ImageView view = helper.getView(R.id.img_title);
+                    Glide.with(DingDanHeYanFragment.this)
+                            .load(HttpConstants.ROOT_URL + item.pic)
+                            .into(view);
+                }
                 helper.setText(R.id.tv_name, item.goods_name);
                 helper.setText(R.id.tv_count, item.actual_num);
             }
         };
-        gridView.setAdapter(adapter);
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                ToastUtil.showToast(mContext,
-                        " Click on " + parent.getAdapter().getItemId(position),
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
+        gridview.setAdapter(adapter);
     }
 
 
     @OnClick(R.id.btn_search)
     public void onViewClicked() {
 //        edCode.getText().toString()
-        refreshView.autoRefresh();
         datas.clear();
         imgIscheck.setVisibility(View.GONE);
         isshowlayout1.setVisibility(View.GONE);
@@ -139,6 +109,7 @@ public class DingDanHeYanFragment extends BaseFragment {
         ConnectDao.check(edCode.getText().toString(), MyApplication.userId, new DisposeDataListener<DingDanHeYanInfo>() {
             @Override
             public void onSuccess(DingDanHeYanInfo responseObj) {
+                datas.clear();
                 Logger.log(responseObj.toString());
                 datas.addAll(responseObj.orderinfo);
                 if (responseObj.flog == 1) {
@@ -169,7 +140,6 @@ public class DingDanHeYanFragment extends BaseFragment {
                 isshowlayout1.setVisibility(View.VISIBLE);
                 isshowlayout2.setVisibility(View.VISIBLE);
                 isshowlayout3.setVisibility(View.VISIBLE);
-                refreshView.refreshFinish(PullToRefreshLayout.SUCCEED);
             }
 
             @Override

@@ -25,7 +25,7 @@ public class HttpConstants {
     /**
      * 分页
      */
-    public static String IFY_CLASS = ROOT_URL + "/index.php/cashOrder/ifyclass";
+    public static String IFY_CLASS = ROOT_URL + "/admin.php/android/android/ifyclass";
 
     /**
      * 分类

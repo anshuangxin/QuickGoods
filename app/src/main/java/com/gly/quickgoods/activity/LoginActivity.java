@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.gly.quickgoods.application.MyApplication;
 import com.gly.quickgoods.basees.BaseActivity;
 import com.gly.quickgoods.dao.ConnectDao;
 import com.gly.quickgoods.utils.Logger;
@@ -66,6 +67,7 @@ public class LoginActivity extends BaseActivity {
     private void checkIsLogin() {
         String user_id = SharedPreferencesUtil.getString(mContext, "user_id");
         if (!TextUtils.isEmpty(user_id)) {
+            MyApplication.userId = "10827";//user_id;
             startActivity(new Intent(mContext, MainActivity.class));
             finish();
         } else {
@@ -176,18 +178,18 @@ public class LoginActivity extends BaseActivity {
         ConnectDao.Login("13823579661", "9566", "123456789", new DisposeDataListener<JSONObject>() {
             @Override
             public void onSuccess(JSONObject jsonObject) {
-                Logger.log("responseObj: " + jsonObject.toString());
                 String err = jsonObject.getString("err");
                 String message = jsonObject.getString("message");
                 if (err.equals("200")) {
-                    SharedPreferencesUtil.putString(mContext, "user_id", "user_id");
+                    SharedPreferencesUtil.putString(mContext, "user_id", message);
+                    MyApplication.userId = message;
                     startActivity(new Intent(mContext, MainActivity.class));
                     LoginActivity.this.finish();
                 } else if ("false".equals(err)) {
                     ToastUtil.showToast(mContext, message, 2000).show();
-                }
-                if (!TextUtils.isEmpty(message)) {
-                    tvErr.setText(message);
+                    if (!TextUtils.isEmpty(message)) {
+                        tvErr.setText(message);
+                    }
                 }
             }
 

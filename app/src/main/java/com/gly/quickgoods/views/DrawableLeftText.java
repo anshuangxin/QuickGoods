@@ -189,14 +189,15 @@ public class DrawableLeftText extends View {
             myImageWidth = myImageSrc.getWidth();
         }
         //测量宽度
-//        if (widthMode == MeasureSpec.EXACTLY) {
-        myWidth = widthSize;
-//        } else {
-//            int desired = getPaddingLeft() + myImageSrc.getWidth() + myTextAndImgPadding + myTextBound.width() + getPaddingRight();
-//            if (widthMode == MeasureSpec.AT_MOST) {
-//                myWidth = Math.min(desired, widthSize);
-//            }
-//        }
+        if (widthMode == MeasureSpec.EXACTLY) {
+            myWidth = widthSize;
+        } else {
+            int desired = (int) (getPaddingLeft() + myImageSrc.getWidth() *1.5f+ myTextAndImgPadding + myTextBound.width()*1.2f+
+                    getPaddingRight());
+            if (widthMode == MeasureSpec.AT_MOST) {
+                myWidth = Math.min(desired, widthSize);
+            }
+        }
         //测量高度
 //        if (heightMode == MeasureSpec.EXACTLY) {
         myHeight = heightSize;
@@ -207,7 +208,7 @@ public class DrawableLeftText extends View {
 //            System.out.println("desired------>" + desired);
 //            myHeight = Math.min(desired, heightSize);
 //        }
-        setMeasuredDimension(widthMeasureSpec, heightMeasureSpec);
+        setMeasuredDimension(myWidth, myHeight);
         System.out.println("I am onMeasure:---myWidth----->" + myWidth + "------------>myHeight---->" + myHeight);
     }
 }

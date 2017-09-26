@@ -113,6 +113,7 @@ public class CommonJsonCallback<T> implements Callback {
                 T o = null;
                 try {
                     String str = responseObj.toString();
+                    Logger.log(str);
                     o = (T) JSON.parseObject(str, Class.forName(substring));
                 } catch (Exception e1) {
                     e1.printStackTrace();

@@ -75,9 +75,9 @@
 
             <com.gly.quickgoods.views.DrawableLeftText
                 android:id="@+id/tv_pay_man"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
                 android:background="@color/tranpant"
                 app:myImageHeight="18dp"
                 app:myImageScaleType="center"
@@ -89,9 +89,9 @@
 
             <com.gly.quickgoods.views.DrawableLeftText
                 android:id="@+id/tv_date"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
                 android:background="@color/tranpant"
                 app:myImageHeight="18dp"
                 app:myImageScaleType="center"
@@ -103,9 +103,9 @@
 
             <com.gly.quickgoods.views.DrawableLeftText
                 android:id="@+id/tv_form_code"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
                 app:myImageHeight="18dp"
                 app:myImageScaleType="center"
                 app:myImageSrc="@drawable/check_icon03"
@@ -116,9 +116,9 @@
 
             <com.gly.quickgoods.views.DrawableLeftText
                 android:id="@+id/tv_take_type"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
                 android:background="@color/tranpant"
                 app:myImageHeight="18dp"
                 app:myImageScaleType="center"
@@ -128,6 +128,7 @@
                 app:myTextColor="@color/black"
                 app:myTextSize="14sp" />
         </LinearLayout>
+
 
         <View
             android:id="@+id/isshowlayout2"
@@ -195,21 +196,15 @@
 
         </RelativeLayout>
 
-        <com.jingchen.pulltorefresh.PullToRefreshLayout
-            android:id="@+id/refresh_view"
+        <GridView
+            android:id="@+id/gridview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="10dp">
+            android:horizontalSpacing="5dp"
+            android:numColumns="5"
+            android:scrollbars="none"
+            android:verticalSpacing="5dp" />
 
-            <com.jingchen.pulltorefresh.PullableGridView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:horizontalSpacing="5dp"
-                android:numColumns="5"
-                android:scrollbars="none"
-                android:verticalSpacing="5dp" />
-
-        </com.jingchen.pulltorefresh.PullToRefreshLayout>
 
     </LinearLayout>
 
@@ -218,6 +213,7 @@
         android:layout_width="130dp"
         android:layout_height="130dp"
         android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp"
         android:scaleType="centerCrop"
         android:src="@drawable/check_sh"
         android:visibility="gone" />

@@ -64,7 +64,7 @@
             android:textColor="@color/font3"
             android:textSize="12sp"
             app:layout_marginLeftPercent="4.4%h"
-            app:layout_marginTopPercent="4.4%h"
+            app:layout_marginTopPercent="2.4%h"
             app:layout_textSizePercent="4.4%h" />
 
 
@@ -80,7 +80,8 @@
             android:textColor="@color/font2"
             android:textSize="16sp"
             app:layout_marginLeftPercent="4.4%h"
-            app:layout_marginTopPercent="5%h"
+            app:layout_marginTopPercent="2.2%h"
+            app:layout_marginBottomPercent="4%h"
             app:layout_textSizePercent="6%h" />
 
        <!-- <TextView android:id="@+id/tv_count"

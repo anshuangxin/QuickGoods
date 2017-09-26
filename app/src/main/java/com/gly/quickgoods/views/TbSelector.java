@@ -48,6 +48,7 @@ public class TbSelector extends HorizontalScrollView {
     public void inItTabS(List<TbSelecterInfo> titleList) {
         this.titleList.clear();
         this.titleList.addAll(titleList);
+        removeAllViews();
         initGroup();
     }
 

@@ -2,17 +2,21 @@ package com.gly.quickgoods.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.Toast;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.gly.quickgoods.application.MyApplication;
 import com.gly.quickgoods.basees.BaseFragment;
+import com.gly.quickgoods.constants.HttpConstants;
 import com.gly.quickgoods.dao.ConnectDao;
 import com.gly.quickgoods.modle.GoodSInfo;
+import com.gly.quickgoods.modle.IfyInfo;
 import com.gly.quickgoods.modle.TbSelecterInfo;
 import com.gly.quickgoods.utils.Logger;
 import com.gly.quickgoods.utils.baseListadapter.CommonAdapter;
@@ -66,7 +70,6 @@ public class DianDanFragment extends BaseFragment {
                 datas.clear();
                 datas.addAll(goodSInfo.goodsInfo);
                 adapter.notifyDataSetChanged();
-                Logger.log("responseObj: " + goodSInfo.toString());
                 if (null != refreshView) {
                     refreshView.refreshFinish(PullToRefreshLayout.SUCCEED);
                 }
@@ -79,9 +82,9 @@ public class DianDanFragment extends BaseFragment {
         });
     }
 
-    private void initTitle(List<GoodSInfo.OneLevelBean> oneLevel) {
+    private void initTitle(List<GoodSInfo.OneLevelBean> oneLevel2) {
         this.oneLevel.clear();
-        this.oneLevel.addAll(oneLevel);
+        this.oneLevel.addAll(oneLevel2);
         List<TbSelecterInfo> infos = new ArrayList<>();
         for (GoodSInfo.OneLevelBean bean : oneLevel) {
             infos.add(new TbSelecterInfo(bean.cat_name, 0, 0, R.drawable.oval_selector));
@@ -90,6 +93,19 @@ public class DianDanFragment extends BaseFragment {
         tbselector.setOnTbSelectListener(new TbSelector.onTbSelectListener() {
             @Override
             public void onSelectChange(int position) {
+                ConnectDao.ifyClass(oneLevel.get(position).id, MyApplication.userId, new DisposeDataListener<IfyInfo>() {
+                    @Override
+                    public void onSuccess(IfyInfo responseObj) {
+                        datas.clear();
+                        datas.addAll(responseObj.data);
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onFailure(Object reasonObj) {
+
+                    }
+                });
 
             }
         });
@@ -147,10 +163,17 @@ public class DianDanFragment extends BaseFragment {
             public void convert(ViewHolder helper, GoodSInfo.GoodsInfoBean item) {
                 helper.getConvertView().getLayoutParams().width = gridView.getMeasuredWidth() / gridView.getNumColumns();
                 helper.getConvertView().getLayoutParams().height = (int) (helper.getConvertView().getLayoutParams().width * 1.533f);
+
                 helper.setText(R.id.tv_name, item.goods_name);
                 helper.setText(R.id.tv_code, "商品编号: " + item.sku_id);
                 helper.setText(R.id.tv_hava_count, "库存数量: " + item.goods_num);
                 helper.setText(R.id.tv_price, item.price + "");
+                if (!TextUtils.isEmpty(item.pic)) {
+                    ImageView view = helper.getView(R.id.img_title);
+                    Glide.with(DianDanFragment.this)
+                            .load(HttpConstants.ROOT_URL + item.pic)
+                            .into(view);
+                }
             }
         };
         gridView.setAdapter(adapter);
@@ -159,11 +182,6 @@ public class DianDanFragment extends BaseFragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view,
                                            int position, long id) {
-                Toast.makeText(
-                        mContext,
-                        "LongClick on "
-                                + parent.getAdapter().getItemId(position),
-                        Toast.LENGTH_SHORT).show();
                 return true;
             }
         });
