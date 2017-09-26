@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.gly.quickgoods.application.MyApplication;
 import com.gly.quickgoods.dao.ConnectDao;
 import com.gly.quickgoods.utils.okhttp.listener.DisposeDataListener;
+import com.gly.quickgoods.views.PassKeyBoard;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,6 +31,8 @@ public class ReceiveDialog extends Dialog {
     private String order_id;
     @BindView(R.id.tablerowkefu)
     TableRow tablerowkefu;
+    @BindView(R.id.passkeyboard)
+    PassKeyBoard passkeyboard;
     @BindView(R.id.tablerowshouquanma)
     TableRow tablerowshouquanma;
     @BindView(R.id.tablerowzhaoling)
@@ -109,7 +112,26 @@ public class ReceiveDialog extends Dialog {
 
             }
         });
-
+        ed_shouquanma.setInputType(0);
+        ed_pay.setInputType(0);
+        edPhonenum.setInputType(0);
+        passkeyboard.setOnKeyClickLinstener(new PassKeyBoard.onKeyClickLinstener() {
+            @Override
+            public void onKeyClock(int i) {
+                View currentFocus = getWindow().getCurrentFocus();
+                if (currentFocus instanceof EditText) {
+                    EditText e = (EditText) currentFocus;
+                    if (i == -1) {
+                        int index = e.getSelectionStart();
+                        if (index > 0) {
+                            e.getEditableText().delete(index - 1, index);
+                        }
+                    } else {
+                        e.getEditableText().append(i + "");
+                    }
+                }
+            }
+        });
         radiogroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
