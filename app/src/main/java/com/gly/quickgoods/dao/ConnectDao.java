@@ -1,11 +1,10 @@
 package com.gly.quickgoods.dao;
 
+import com.gly.quickgoods.constants.HttpConstants;
 import com.gly.quickgoods.modle.CommitOrderInfo;
-import com.gly.quickgoods.utils.Logger;
+import com.gly.quickgoods.utils.okhttp.CommonOkHttpClient;
 import com.gly.quickgoods.utils.okhttp.listener.DisposeDataHandle;
 import com.gly.quickgoods.utils.okhttp.listener.DisposeDataListener;
-import com.gly.quickgoods.constants.HttpConstants;
-import com.gly.quickgoods.utils.okhttp.CommonOkHttpClient;
 import com.gly.quickgoods.utils.okhttp.request.CommonRequest;
 import com.gly.quickgoods.utils.okhttp.request.RequestParams;
 import com.gly.quickgoods.utils.okhttp.response.CommonSimpleCalback;
@@ -183,15 +182,13 @@ public class ConnectDao {
         // &user_id=10827
         // &phone=13823579661
         RequestParams params = new RequestParams();
-        params.put("pay", pay);
         params.put("codes_txt", codes_txt);
-        Logger.log(order_id);
         params.put("order_id", order_id);
         params.put("price", price);
         params.put("order_price", order_price);
-        params.put("uid", userId);
         params.put("user_id", userId);
         params.put("phone", phone);
+        params.put("pay", pay);
         CommonOkHttpClient.get(CommonRequest.
                 createGetRequest(HttpConstants.COLLECTION, params), new DisposeDataHandle(disposeDataListener));
     }

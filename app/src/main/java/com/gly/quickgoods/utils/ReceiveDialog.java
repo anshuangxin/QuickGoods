@@ -49,7 +49,7 @@ public class ReceiveDialog extends Dialog {
     TextView tvCount;
     @BindView(R.id.ed_phonenum)
     EditText edPhonenum;
-    private String payType;
+    private String payType = "1";
 
     public static void ShowDialog(Context mContext, double totalPrice, int totalCount, String order_id) {
         if (null != receiveDialog) {
@@ -154,9 +154,10 @@ public class ReceiveDialog extends Dialog {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imb_close:
+                dismiss();
                 break;
             case R.id.btn_sure:
-                ConnectDao.collection(ed_shouquanma.getText().toString(),ed_pay.getText().toString(), order_id, ed_pay.getText().toString(), tvReceive.getText().toString(), edPhonenum.getText().toString(), MyApplication.userId, new DisposeDataListener<String>() {
+                ConnectDao.collection(ed_shouquanma.getText().toString(), payType, order_id, ed_pay.getText().toString(), tvReceive.getText().toString(), edPhonenum.getText().toString(), MyApplication.userId, new DisposeDataListener<String>() {
                     @Override
                     public void onSuccess(String responseObj) {
                         if (responseObj.equals("1")) {
