@@ -1,5 +1,4 @@
 <com.zhy.android.percent.support.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusable="true"
@@ -25,13 +24,17 @@
                 android:layout_height="match_parent"
                 android:layout_marginRight="-10dp"
                 android:layout_weight="0.8"
+                android:textSize="16sp"
+                android:maxLength="13"
                 android:background="@drawable/edit_bg"
+                android:hint="请用扫码枪扫描商品条码"
                 android:imeOptions="flagNoExtractUi"
                 android:paddingLeft="10dp" />
 
             <Button
                 android:id="@+id/btn_search"
                 android:layout_width="70dp"
+                android:textSize="16sp"
                 android:layout_height="match_parent"
                 android:background="@drawable/search_selector"
                 android:text="搜索" />
@@ -46,7 +49,7 @@
 
     </LinearLayout>
 
-    <com.gly.quickgoods.views.DingDanView
+    <com.bjyzqs.kuaihuo_yunshouyin.views.DingDanView
         android:id="@+id/dingdanview"
         android:layout_width="200dp"
         android:layout_height="match_parent"

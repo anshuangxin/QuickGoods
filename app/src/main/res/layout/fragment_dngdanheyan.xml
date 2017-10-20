@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
         android:orientation="vertical"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
@@ -15,18 +15,8 @@
         <com.zhy.android.percent.support.PercentRelativeLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
+            android:background="@color/big_bg">
 
-            android:background="@drawable/big_bg">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:background="@color/tranpant"
-                android:gravity="center_vertical"
-                android:text="订单审核"
-                android:textSize="16sp"
-                app:layout_widthPercent="33.4%w" />
 
             <LinearLayout
                 android:layout_width="400dp"
@@ -47,10 +37,13 @@
                     android:layout_marginRight="-10dp"
                     android:layout_weight="1"
                     android:background="@drawable/edit_bg"
+                    android:digits="0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ-"
                     android:ems="20"
                     android:gravity="center_vertical"
-                    android:hint="输入商品条码"
+                    android:hint="接入扫码盒后扫码核验"
                     android:imeOptions="flagNoExtractUi"
+                    android:inputType="number"
+                    android:lines="1"
                     android:paddingLeft="10dp"
                     android:textSize="16sp" />
 
@@ -73,7 +66,7 @@
             android:orientation="horizontal"
             android:visibility="gone">
 
-            <com.gly.quickgoods.views.DrawableLeftText
+            <com.bjyzqs.kuaihuo_yunshouyin.views.DrawableLeftText
                 android:id="@+id/tv_pay_man"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
@@ -87,7 +80,7 @@
                 app:myTextColor="@color/black"
                 app:myTextSize="14sp" />
 
-            <com.gly.quickgoods.views.DrawableLeftText
+            <com.bjyzqs.kuaihuo_yunshouyin.views.DrawableLeftText
                 android:id="@+id/tv_date"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
@@ -101,7 +94,7 @@
                 app:myTextColor="@color/black"
                 app:myTextSize="14sp" />
 
-            <com.gly.quickgoods.views.DrawableLeftText
+            <com.bjyzqs.kuaihuo_yunshouyin.views.DrawableLeftText
                 android:id="@+id/tv_form_code"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
@@ -114,7 +107,7 @@
                 app:myTextColor="@color/black"
                 app:myTextSize="14sp" />
 
-            <com.gly.quickgoods.views.DrawableLeftText
+            <com.bjyzqs.kuaihuo_yunshouyin.views.DrawableLeftText
                 android:id="@+id/tv_take_type"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
@@ -141,7 +134,7 @@
             android:id="@+id/isshowlayout3"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:background="@drawable/big_bg"
+            android:background="@color/big_bg"
             android:orientation="horizontal"
             android:visibility="gone">
 
@@ -208,13 +201,30 @@
 
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/img_ischeck"
+    <FrameLayout
+        android:id="@+id/frm_ischeck"
         android:layout_width="130dp"
         android:layout_height="130dp"
         android:layout_alignParentRight="true"
+        android:layout_marginRight="30dp"
         android:layout_marginTop="10dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/check_sh"
-        android:visibility="gone" />
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/check_shb" />
+
+        <TextView
+            android:id="@+id/tv_heyan_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            android:gravity="center"
+            android:text="2017.08.10 12:30"
+            android:textColor="#80E50000"
+            android:textSize="11dp" />
+    </FrameLayout>
+
 </RelativeLayout>

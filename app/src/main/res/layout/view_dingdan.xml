@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F7F6EF"
     android:orientation="vertical"
@@ -12,7 +12,6 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="@color/white"
-        android:listSelector="@drawable/white_bg_selector"
         android:scrollbars="none" />
 
     <LinearLayout
@@ -34,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="0"
+            android:text="0 "
             android:textColor="@color/font2"
             android:textSize="16sp" />
 
@@ -66,7 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="0"
+            android:text="0 "
             android:textColor="@color/font2"
             android:textSize="16sp" />
 
@@ -74,30 +73,44 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="33dp"
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/btn_commit"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
-            android:layout_weight="2"
+            android:layout_weight="0.5"
             android:background="@drawable/login_btn_selector"
+            android:ems="4"
             android:text="提交订单"
             android:textColor="@color/black"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btn_guadan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/login_btn_selector"
+            android:ems="1"
+            android:text="挂单"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/btn_clear"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/selector_dark"
+            android:ems="2"
             android:text="清空"
             android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
     </LinearLayout>
 
 </LinearLayout>

@@ -18,8 +18,25 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="自动打印"
+            android:text="播放语音"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
 
+        <com.kyleduo.switchbutton.SwitchButton
+            android:id="@+id/swb_auto_speech"
+            android:layout_width="38dp"
+            android:layout_height="14dp"
+            android:layout_marginLeft="10dp"
+            app:kswBackDrawable="@drawable/switch_selector"
+            app:kswThumbDrawable="@drawable/shadow_round"
+            app:kswThumbMargin="-2dp" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="自动打印"
             android:textColor="@color/black"
             android:textSize="14sp" />
 
@@ -31,6 +48,17 @@
             app:kswBackDrawable="@drawable/switch_selector"
             app:kswThumbDrawable="@drawable/shadow_round"
             app:kswThumbMargin="-2dp" />
+
+        <Button
+            android:id="@+id/btn_loginout"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/loginout_btn_selector"
+            android:gravity="center"
+            android:text="退出登录"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
     </LinearLayout>
 
 

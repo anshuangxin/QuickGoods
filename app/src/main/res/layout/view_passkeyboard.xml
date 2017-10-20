@@ -94,7 +94,23 @@
         app:layout_heightPercent="18.7%"
         app:layout_marginTopPercent="0.5%"
         app:layout_textSizePercent="15%"
-        app:layout_widthPercent="66.5%" />
+        app:layout_widthPercent="33%" />
+
+    <Button
+        android:id="@+id/button_point"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/button0"
+        android:background="@drawable/selector_dark"
+        android:gravity="center"
+        android:text="."
+        android:textColor="@color/white"
+        app:layout_heightPercent="18.7%"
+        app:layout_marginLeftPercent="0.5%"
+        app:layout_marginTopPercent="0.5%"
+        app:layout_textSizePercent="15%"
+        app:layout_widthPercent="33%" />
 
     <Button
         android:id="@+id/button7"

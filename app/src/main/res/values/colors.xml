@@ -7,6 +7,7 @@
     <color name="key_delete_press">#a6a6a6</color>
     <color name="zero_default">#858585</color>
     <color name="default1">#b1b1b1</color>
+    <color name="default_bg">#F1F1F1</color>
     <color name="black">#000000</color>
     <color name="smallline">#E1E4E4</color>
     <color name="btn_bg_normal">#FFD700</color>
@@ -22,4 +23,5 @@
     <color name="toumingbai">#10000000</color>
     <color name="buttenbg2">#5A5A5A</color>
     <color name="dark">#9B9B9B</color>
+    <color name="big_bg">#F7F6EF</color>
 </resources>

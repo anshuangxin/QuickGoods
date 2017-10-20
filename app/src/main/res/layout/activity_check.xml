@@ -5,6 +5,7 @@
     android:orientation="vertical">
 
     <RadioGroup
+
         android:id="@+id/radiogroup"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -12,21 +13,8 @@
         android:orientation="horizontal">
 
         <RadioButton
-            android:id="@+id/rb_tiaomashouyin"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/rb_selector"
-            android:button="@null"
-            android:gravity="center"
-            android:text="条码收银"
-            android:textColor="@color/black" />
-
-        <RadioButton
             android:id="@+id/rb_diandanshouyin"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
@@ -38,8 +26,22 @@
             android:textColor="@color/black" />
 
         <RadioButton
+            android:id="@+id/rb_tiaomashouyin"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/rb_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="条码收银"
+            android:textColor="@color/black" />
+
+
+        <RadioButton
             android:id="@+id/rb_xianjinshouyin"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
@@ -52,7 +54,7 @@
 
         <RadioButton
             android:id="@+id/rb_weixinshouyin"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
@@ -60,25 +62,14 @@
             android:background="@drawable/rb_selector"
             android:button="@null"
             android:gravity="center"
-            android:text="微信收银"
+            android:lines="1"
+            android:text="微信/支付宝收银"
             android:textColor="@color/black" />
 
-        <RadioButton
-            android:id="@+id/rb_zhifubaoshouyin"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/rb_selector"
-            android:button="@null"
-            android:gravity="center"
-            android:text="支付宝收银"
-            android:textColor="@color/black" />
 
         <RadioButton
             android:id="@+id/rb_dengdanheyan"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
@@ -91,7 +82,7 @@
 
         <RadioButton
             android:id="@+id/rb_shouguanma"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
@@ -104,7 +95,7 @@
 
         <RadioButton
             android:id="@+id/rb_dingdanliu"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"

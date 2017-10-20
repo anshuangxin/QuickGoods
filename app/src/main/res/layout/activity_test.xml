@@ -12,7 +12,7 @@
         android:text="123465789.00"
         android:textColor="@color/black"
         android:textCursorDrawable="@color/black"
-        android:inputType="numberDecimal"
+        android:inputType="number"
         android:imeOptions="flagNoExtractUi"/>
 
     <Button

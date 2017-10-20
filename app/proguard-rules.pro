@@ -34,6 +34,10 @@
 -dontwarn com.squareup.okhttp.**
 -dontwarn okio.**
 
+#percentlayout混淆配置
+-keep class com.zhy.android.percent.** { *;}
+-dontwarn com.zhy.android.percent.**
+
 #glide混淆配置
 -keep public class * implements com.bumptech.glide.module.GlideModule
 -keep public class * extends com.bumptech.glide.AppGlideModule
@@ -41,7 +45,9 @@
   **[] $VALUES;
   public *;
 }
-
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}
+-keep class android.support.**{*;}
 
 #-----------------不需要混淆系统组件等-------------------------------------------------------------------
 -keep public class * extends android.app.Activity
@@ -52,7 +58,7 @@
 -keep public class * extends android.preference.Preference
 -keep public class com.android.vending.licensing.ILicensingService
 
--keep class com.gly.quickgoods.modle.**{*;}                                   #过滤掉自己编写的实体类
+-keep class com.bjyzqs.kuaihuo_yunshouyin.modle.**{*;}                                   #过滤掉自己编写的实体类
 
 
 #----------------保护指定的类和类的成员，但条件是所有指定的类和类成员是要存在------------------------------------

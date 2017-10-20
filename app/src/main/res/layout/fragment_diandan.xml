@@ -10,7 +10,7 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <com.gly.quickgoods.views.TbSelector
+        <com.bjyzqs.kuaihuo_yunshouyin.views.TbSelector
             android:id="@+id/tbselector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
         </com.jingchen.pulltorefresh.PullToRefreshLayout>
     </LinearLayout>
 
-    <com.gly.quickgoods.views.DingDanView
+    <com.bjyzqs.kuaihuo_yunshouyin.views.DingDanView
         android:id="@+id/dingdanview"
         android:layout_width="200dp"
         android:layout_height="match_parent"
