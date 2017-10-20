@@ -81,30 +81,29 @@ public class DingDanHeYanFragment extends BaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (null == datas) {
-            initListView();
-            edCode.requestFocus();
-            edCode.setInputType(0);
-            edCode.setText("20171017152753204-B");
-            edCode.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                }
+        initListView();
+        edCode.setFocusable(true);
+        edCode.setFocusableInTouchMode(true);
+        edCode.requestFocus();
+        edCode.setInputType(0);
+        edCode.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    String s = charSequence.toString();
-                    if (!TextUtils.isEmpty(s) && s.endsWith("-B")) {
-                        search();
-                    }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String s = charSequence.toString();
+                if (!TextUtils.isEmpty(s) && s.endsWith("-B")) {
+                    search();
                 }
+            }
 
-                @Override
-                public void afterTextChanged(Editable editable) {
+            @Override
+            public void afterTextChanged(Editable editable) {
 
-                }
-            });
-        }
+            }
+        });
     }
 
 
@@ -163,7 +162,7 @@ public class DingDanHeYanFragment extends BaseFragment {
                 } else {
                     tvDate.setMyText("");
                 }
-                tvFormCode.setMyText("订单号: " + responseObj.validate_id);
+                tvFormCode.setMyText("订单号: " + responseObj.goods_id);
                 tvNum.setText(String.valueOf(responseObj.num));
                 tvPrice.setText(responseObj.money);
                 String bringType = "";

@@ -13,6 +13,7 @@ import android.widget.RadioGroup;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.bjyzqs.kuaihuo_yunshouyin.R;
 import com.bjyzqs.kuaihuo_yunshouyin.application.MyApplication;
 import com.bjyzqs.kuaihuo_yunshouyin.dao.ConnectDao;
 import com.bjyzqs.kuaihuo_yunshouyin.dao.SpeechDao;
@@ -24,7 +25,6 @@ import java.text.DecimalFormat;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import com.bjyzqs.kuaihuo_yunshouyin.R;
 
 import static com.bjyzqs.kuaihuo_yunshouyin.R.id.btn_sure;
 
@@ -60,6 +60,11 @@ public class ReceiveDialog extends Dialog {
     EditText edPhonenum;
     private int payType = 1;
 
+    public ReceiveDialog(Context mContext, double mtotalPrice, int mtotalCount, String order_id, OnDismissListener onDismissListener) {
+        this(mContext, mtotalPrice, mtotalCount, order_id);
+        setOnDismissListener(onDismissListener);
+    }
+
     public static void ShowDialog(Context mContext, double totalPrice, int totalCount, String order_id) {
         if (null != receiveDialog) {
             if (null != receiveDialog.getWindow() && receiveDialog.isShowing()) {
@@ -68,7 +73,6 @@ public class ReceiveDialog extends Dialog {
             }
         }
         receiveDialog = new ReceiveDialog(mContext, totalPrice, totalCount, order_id);
-        receiveDialog.setCancelable(true);
         receiveDialog.show();
 
     }
@@ -83,6 +87,7 @@ public class ReceiveDialog extends Dialog {
     public ReceiveDialog(Context mContext, final double totalPrice, int totalCount, String order_id) {
         super(mContext, R.style.sign_dialog);
         this.order_id = order_id;
+        setCancelable(true);
         int heightPixels = mContext.getResources().getDisplayMetrics().heightPixels;
 //        Window dialogWindow = getWindow();
 //        dialogWindow.setGravity(Gravity.CENTER);

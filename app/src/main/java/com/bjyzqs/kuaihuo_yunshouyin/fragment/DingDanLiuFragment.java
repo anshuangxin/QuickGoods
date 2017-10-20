@@ -193,8 +193,10 @@ public class DingDanLiuFragment extends BaseFragment {
                     Button btn_pay = holder.getView(R.id.btn_pay);
                     if (o.pay == 8) {
                         btn_pay.setText("付款");
+                        btn_pay.setBackgroundResource(R.drawable.login_btn_selector);
                     } else {
                         btn_pay.setText("已付款");
+                        btn_pay.setBackgroundResource(R.drawable.rb_dayin_selector);
                     }
 
                     holder.setText(R.id.tv_tablecode, "桌号:" + o.tables);

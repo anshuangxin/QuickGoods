@@ -57,40 +57,40 @@ public class TiaoMaFragment extends BaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (null == datas) {
-            initListView();
+        initListView();
 
-            dingdanview.setOnChangeLinstener(new DingDanView.onChangeLinstener() {
-                @Override
-                public void onClear() {
-                    if (null != datas) {
-                        datas.clear();
-                        adapter.notifyDataSetChanged();
-                    }
+        dingdanview.setOnChangeLinstener(new DingDanView.onChangeLinstener() {
+            @Override
+            public void onClear() {
+                if (null != datas) {
+                    datas.clear();
+                    adapter.notifyDataSetChanged();
                 }
-            });
-            ed_search.setInputType(0);
+            }
+        });
+        ed_search.setInputType(0);
 
-            ed_search.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                }
+        ed_search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    String s = charSequence.toString();
-                    if (!TextUtils.isEmpty(s) && s.length() >= 13) {
-                        search();
-                    }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String s = charSequence.toString();
+                if (!TextUtils.isEmpty(s) && s.length() >= 13) {
+                    search();
                 }
+            }
 
-                @Override
-                public void afterTextChanged(Editable editable) {
-                }
-            });
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
 //            ed_search.setText("6920202888883");
-        }
-
+        ed_search.setFocusable(true);
+        ed_search.setFocusableInTouchMode(true);
+        ed_search.requestFocus();
     }
 
 
@@ -137,7 +137,6 @@ public class TiaoMaFragment extends BaseFragment {
         ConnectDao.Calculate(ed_search.getText().toString(), MyApplication.userId, new DisposeDataListener<String>() {
             @Override
             public void onSuccess(String responseObj) {
-                datas.clear();
                 try {
                     JSONArray jsonArray = JSON.parseArray(responseObj);
                     for (int i = 0; i < jsonArray.size(); i++) {
@@ -153,6 +152,8 @@ public class TiaoMaFragment extends BaseFragment {
 
                 if (null != ed_search) {
                     ed_search.setText("");
+                    ed_search.setFocusable(true);
+                    ed_search.setFocusableInTouchMode(true);
                     ed_search.requestFocus();
                 }
 
@@ -162,6 +163,8 @@ public class TiaoMaFragment extends BaseFragment {
             public void onFailure(Object reasonObj) {
                 if (null != ed_search) {
                     ed_search.setText("");
+                    ed_search.setFocusable(true);
+                    ed_search.setFocusableInTouchMode(true);
                     ed_search.requestFocus();
                 }
             }

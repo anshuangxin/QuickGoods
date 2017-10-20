@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:gravity="center_vertical"
-            android:text="付款通知"
+            android:text="付款方式"
             android:textColor="@color/black"
             android:textSize="18sp" />
 

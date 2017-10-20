@@ -1,6 +1,7 @@
 package com.bjyzqs.kuaihuo_yunshouyin.views;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -28,8 +29,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-
-import static com.bjyzqs.kuaihuo_yunshouyin.views.ReceiveDialog.ShowDialog;
 
 /**
  * Created by gly on 2017/9/15.
@@ -151,7 +150,14 @@ public class DingDanView extends BaseLayoutView {
                     @Override
                     public void onSuccess(CommitOrderInfo responseObj) {
                         if (responseObj.state == 1) {
-                            ShowDialog(mContext, mtotalPrice, mtotalCount, responseObj.order_id);
+                            new ReceiveDialog(mContext, mtotalPrice, mtotalCount, responseObj.order_id, new DialogInterface.OnDismissListener() {
+                                @Override
+                                public void onDismiss(DialogInterface dialogInterface) {
+                                    if (null != onChangeLinstener) {
+                                        onChangeLinstener.onClear();
+                                    }
+                                }
+                            }).show();
                         } else {
                             ToastUtil.showToast(mContext, "挂单失败!", 2000);
                         }
