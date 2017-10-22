@@ -22,15 +22,16 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
-    <style name="CapDialog" parent="@android:style/Theme.Holo.Dialog.NoActionBar">
+    <style name="CapDialog" parent="@android:style/Animation.Dialog">
         <item name="android:windowFrame">@null</item>
         <!--最后面是window background-->
         <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowNoTitle">false</item>
         <!--这个不设置它会沾满屏幕-->
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowAnimationStyle">@android:style/Animation.Translucent</item>
+        <!-- 设置contentview的背景图-->
+      <!--  <item name="android:background">@drawable/myshape</item>-->
     </style>
 
 
