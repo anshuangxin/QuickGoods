@@ -2,6 +2,7 @@ package com.bjyzqs.kuaihuo_yunshouyin.views;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.annotation.IdRes;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -59,10 +60,11 @@ public class ReceiveDialog extends Dialog {
     @BindView(R.id.ed_phonenum)
     EditText edPhonenum;
     private int payType = 1;
+    public OnCanclelinstener onCanclelinstener;
 
-    public ReceiveDialog(Context mContext, double mtotalPrice, int mtotalCount, String order_id, OnDismissListener onDismissListener) {
+    public ReceiveDialog(Context mContext, double mtotalPrice, int mtotalCount, String order_id, OnCanclelinstener onCanclelinstener) {
         this(mContext, mtotalPrice, mtotalCount, order_id);
-        setOnDismissListener(onDismissListener);
+        this.onCanclelinstener = onCanclelinstener;
     }
 
     public static void ShowDialog(Context mContext, double totalPrice, int totalCount, String order_id) {
@@ -87,7 +89,7 @@ public class ReceiveDialog extends Dialog {
     public ReceiveDialog(Context mContext, final double totalPrice, int totalCount, String order_id) {
         super(mContext, R.style.sign_dialog);
         this.order_id = order_id;
-        setCancelable(true);
+        setCancelable(false);
         int heightPixels = mContext.getResources().getDisplayMetrics().heightPixels;
 //        Window dialogWindow = getWindow();
 //        dialogWindow.setGravity(Gravity.CENTER);
@@ -238,18 +240,39 @@ public class ReceiveDialog extends Dialog {
             public void onSuccess(String responseObj) {
                 if (responseObj.equals("1")) {
                     SpeechDao.receive(tvReceive.getText().toString());
-                    new MessageDialog(getContext()).isSuccess(true).message("付款成功").show();
+                    MessageDialog paysuccess = new MessageDialog(getContext()).isSuccess(true).message("付款成功");
+                    paysuccess.setOnDismissListener(new OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialogInterface) {
+                            ReceiveDialog.this.dismiss();
+                        }
+                    });
+                    paysuccess.show();
+                    if (null != onCanclelinstener) {
+                        onCanclelinstener.onSuccess();
+                    }
                 } else {
                     new MessageDialog(getContext()).isSuccess(false).message("付款失败").show();
+                    if (null != onCanclelinstener) {
+                        onCanclelinstener.onFail();
+                    }
                 }
-                ReceiveDialog.cancle();
             }
 
             @Override
             public void onFailure(Object reasonObj) {
+                if (null != onCanclelinstener) {
+                    onCanclelinstener.onFail();
+                }
                 new MessageDialog(getContext()).isSuccess(false).message("付款失败").show();
             }
         });
+    }
+
+    public interface OnCanclelinstener {
+        void onSuccess();
+
+        void onFail();
     }
 
     @OnClick(btn_sure)

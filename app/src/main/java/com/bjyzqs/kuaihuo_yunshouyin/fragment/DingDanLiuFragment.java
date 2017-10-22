@@ -37,6 +37,7 @@ import com.bjyzqs.kuaihuo_yunshouyin.utils.baserecycleadapter.CommonAdapter;
 import com.bjyzqs.kuaihuo_yunshouyin.utils.baserecycleadapter.base.ViewHolder;
 import com.bjyzqs.kuaihuo_yunshouyin.utils.okhttp.listener.DisposeDataListener;
 import com.bjyzqs.kuaihuo_yunshouyin.views.CircularImageView;
+import com.bjyzqs.kuaihuo_yunshouyin.views.ReceiveDialog;
 import com.bjyzqs.kuaihuo_yunshouyin.views.SpacesItemDecoration;
 import com.kyleduo.switchbutton.SwitchButton;
 
@@ -178,11 +179,11 @@ public class DingDanLiuFragment extends BaseFragment {
             recycleview.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
             adapter = new CommonAdapter<OrderInfo.InterfacegoodsBean>(mContext, interfacegoods, R.layout.dingdanliu_view) {
                 @Override
-                protected void convert(ViewHolder holder, OrderInfo.InterfacegoodsBean o, int position) {
+                protected void convert(ViewHolder holder, final OrderInfo.InterfacegoodsBean o, int position) {
                     CircularImageView view = holder.getView(R.id.circle_view);
                     view.setText("v" + o.tickets);
                     view.setTextColor(Color.BLACK);
-                    holder.setText(R.id.textview2, DingDanChannel.getChannel(o.order_source));
+                    holder.setText(R.id.textview2, DingDanChannel.getChannelText(o.order_source, o.pay, o.order_sltmode));
                     view.setBackgroundColor(getResources().getColor(R.color.btn_bg_normal));
                     TextView tv_tablecode = holder.getView(R.id.tv_tablecode);
                     if (o.tables == 0) {
@@ -190,14 +191,37 @@ public class DingDanLiuFragment extends BaseFragment {
                     } else {
                         tv_tablecode.setVisibility(View.VISIBLE);
                     }
-                    Button btn_pay = holder.getView(R.id.btn_pay);
+                    final Button btn_pay = holder.getView(R.id.btn_pay);
                     if (o.pay == 8) {
                         btn_pay.setText("付款");
                         btn_pay.setBackgroundResource(R.drawable.login_btn_selector);
+                        btn_pay.setTextColor(Color.BLACK);
+                        btn_pay.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                new ReceiveDialog(mContext, o.actual_sum, o.orderinfo.size(), o.goods_id, new ReceiveDialog.OnCanclelinstener() {
+                                    @Override
+                                    public void onSuccess() {
+                                        o.pay = 9;
+                                        btn_pay.setText("已付款");
+                                        btn_pay.setTextColor(getResources().getColor(R.color.btn_bg_normal));
+                                        btn_pay.setBackgroundResource(R.drawable.rb_dayin_selector);
+                                    }
+
+                                    @Override
+                                    public void onFail() {
+
+                                    }
+                                }).show();
+                            }
+                        });
                     } else {
                         btn_pay.setText("已付款");
+                        btn_pay.setTextColor(getResources().getColor(R.color.btn_bg_normal));
                         btn_pay.setBackgroundResource(R.drawable.rb_dayin_selector);
+                        btn_pay.setOnClickListener(null);
                     }
+
 
                     holder.setText(R.id.tv_tablecode, "桌号:" + o.tables);
                     holder.setText(R.id.tv_pay_man, o.name);

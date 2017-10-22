@@ -96,12 +96,12 @@ public class OrderInfo {
         public Object user_id;
         public Object distribution;
         public String sum_total = "";
-        public String actual_sum = "";
+        public double actual_sum;
         public int order_source;
         public int tables;
         public String validate_time = "";
         public String validate_id = "";
-        public String order_sltmode = "";
+        public int order_sltmode;
         public String tickets = "";
         public String discount = "";
         public String other_expens = "";

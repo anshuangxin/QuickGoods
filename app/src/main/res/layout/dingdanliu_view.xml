@@ -51,6 +51,7 @@
                     android:id="@+id/textview2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
                     android:text="微信小程序商城"
                     android:textColor="@color/font3"
                     android:textSize="11sp" />

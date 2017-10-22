@@ -9,10 +9,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bjyzqs.kuaihuo_yunshouyin.R;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import com.bjyzqs.kuaihuo_yunshouyin.R;
 
 /**
  * @author gly
@@ -21,33 +22,12 @@ import com.bjyzqs.kuaihuo_yunshouyin.R;
 public class MessageDialog extends Dialog {
     private static final int DELAY_CLOSE = 100;
     private long delayTime = 2000;
-    public static MessageDialog messageDialog;
     @BindView(R.id.tv_title)
     TextView tv_title;
     @BindView(R.id.img_img)
     ImageView imgImg;
     @BindView(R.id.tv_dialog_message)
     TextView tvDialogMessage;
-
-//    public static void ShowDialog(Context mContext, boolean isSuccess) {
-//        if (null != messageDialog) {
-//            if (null != messageDialog.getWindow() && messageDialog.isShowing()) {
-//                messageDialog.cancel();
-//                messageDialog = null;
-//            }
-//        }
-//        messageDialog = new MessageDialog(mContext);
-//        messageDialog.setCancelable(true);
-//        messageDialog.show();
-//
-//    }
-
-    public static void cancle() {
-        if (null != messageDialog && messageDialog.isShowing()) {
-            messageDialog.dismiss();
-            messageDialog = null;
-        }
-    }
 
     public MessageDialog isSuccess(boolean isSuccess) {
         int img_res = isSuccess ? R.drawable.icon_suc : R.drawable.icon_gb;
@@ -79,7 +59,7 @@ public class MessageDialog extends Dialog {
         super(mContext, R.style.sign_dialog);
 //        float density = mContext.getResources().getDisplayMetrics().density;
 //        int size = (int) (density * 90);
-        int heightPixels = mContext.getResources().getDisplayMetrics().heightPixels;
+//        int heightPixels = mContext.getResources().getDisplayMetrics().heightPixels;
 //
 //        Window dialogWindow = getWindow();
 //        dialogWindow.setGravity(Gravity.CENTER);
@@ -87,7 +67,7 @@ public class MessageDialog extends Dialog {
 //        p.height = (int) (heightPixels * 0.8f); // 高度设置为屏幕的0.6
 //        p.width = p.height; // 宽度设置为屏幕的0.65
 //        dialogWindow.setAttributes(p);
-        int size = (int) (heightPixels * 0.8f);
+//        int size = (int) (heightPixels * 0.8f);
         View inflate = LayoutInflater.from(mContext).inflate(R.layout.pay_success_dialog, null);
         setContentView(inflate/*, new RelativeLayout.LayoutParams(size, size)*/);
         ButterKnife.bind(this, inflate);
@@ -99,17 +79,12 @@ public class MessageDialog extends Dialog {
         handler.sendEmptyMessageDelayed(DELAY_CLOSE, delayTime);
     }
 
-    protected MessageDialog(Context context, boolean cancelable,
-                            OnCancelListener cancelListener) {
-        super(context, cancelable, cancelListener);
-        // TODO Auto-generated constructor stub
-    }
-
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case DELAY_CLOSE:
+                    cancel();
                     dismiss();
                     break;
             }

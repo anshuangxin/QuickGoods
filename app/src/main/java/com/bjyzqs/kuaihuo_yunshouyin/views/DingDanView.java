@@ -1,7 +1,6 @@
 package com.bjyzqs.kuaihuo_yunshouyin.views;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -150,12 +149,15 @@ public class DingDanView extends BaseLayoutView {
                     @Override
                     public void onSuccess(CommitOrderInfo responseObj) {
                         if (responseObj.state == 1) {
-                            new ReceiveDialog(mContext, mtotalPrice, mtotalCount, responseObj.order_id, new DialogInterface.OnDismissListener() {
+                            new ReceiveDialog(mContext, mtotalPrice, mtotalCount, responseObj.order_id, new ReceiveDialog.OnCanclelinstener() {
                                 @Override
-                                public void onDismiss(DialogInterface dialogInterface) {
-                                    if (null != onChangeLinstener) {
-                                        onChangeLinstener.onClear();
-                                    }
+                                public void onSuccess() {
+                                    clearGoods();
+                                }
+
+                                @Override
+                                public void onFail() {
+
                                 }
                             }).show();
                         } else {
@@ -168,11 +170,10 @@ public class DingDanView extends BaseLayoutView {
                         ToastUtil.showToast(mContext, "挂单失败!", 2000);
                     }
                 });
-                clearGoods();
+
                 break;
             case R.id.btn_clear:
                 clearGoods();
-
                 break;
             case R.id.btn_guadan:
                 if (datas.size() == 0) {
@@ -189,6 +190,7 @@ public class DingDanView extends BaseLayoutView {
                     public void onSuccess(CommitOrderInfo responseObj) {
                         if (responseObj.state == 1) {
                             new MessageDialog(mContext).title("").message("挂单成功，请到订单流完成支付").isSuccess(true).show();
+                            clearGoods();
                         } else {
                             ToastUtil.showToast(mContext, "提交失败!", 2000);
                         }
@@ -199,7 +201,7 @@ public class DingDanView extends BaseLayoutView {
                         ToastUtil.showToast(mContext, "提交失败!", 2000);
                     }
                 });
-                clearGoods();
+
                 break;
         }
     }

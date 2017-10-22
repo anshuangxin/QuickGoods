@@ -1,9 +1,12 @@
 package com.bjyzqs.kuaihuo_yunshouyin.activity;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -14,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -26,11 +30,19 @@ import com.bjyzqs.kuaihuo_yunshouyin.utils.Logger;
 import com.bjyzqs.kuaihuo_yunshouyin.utils.MyTextUtils;
 import com.bjyzqs.kuaihuo_yunshouyin.utils.SharedPreferencesUtil;
 import com.bjyzqs.kuaihuo_yunshouyin.utils.ToastUtil;
+import com.bjyzqs.kuaihuo_yunshouyin.utils.Util;
 import com.bjyzqs.kuaihuo_yunshouyin.utils.okhttp.listener.DisposeDataListener;
+import com.bjyzqs.kuaihuo_yunshouyin.views.MessageDialog;
+import com.zbar.lib.CaptureActivity;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.bjyzqs.kuaihuo_yunshouyin.R.id.ed_pwd;
 
 public class LoginActivity extends BaseActivity {
 
@@ -44,7 +56,7 @@ public class LoginActivity extends BaseActivity {
     EditText edCode;
     @BindView(R.id.tv_getcode)
     TextView tvGetcode;
-    @BindView(R.id.ed_pwd)
+    @BindView(ed_pwd)
     EditText edPwd;
     @BindView(R.id.btn_login)
     Button btnLogin;
@@ -96,8 +108,28 @@ public class LoginActivity extends BaseActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (MyTextUtils.isMobileNO(charSequence.toString())) {
                     codeLayout.setVisibility(View.VISIBLE);
+                    edPwd.setVisibility(View.GONE);
                 } else {
+                    edPwd.setVisibility(View.VISIBLE);
                     codeLayout.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        edCode.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.length() >= 4 && codeLayout.getVisibility() == View.VISIBLE) {
+                    login();
                 }
             }
 
@@ -155,7 +187,28 @@ public class LoginActivity extends BaseActivity {
                 startActivityForResult(new Intent(mContext, TryActivity.class), TRY_REQUEST_CODE);
                 break;
             case R.id.imageview1:
-                startActivity(new Intent(mContext, TestSpeechActivity.class));
+                Intent openCameraIntent = new Intent(mContext, CaptureActivity.class);
+                startActivityForResult(openCameraIntent, 0);
+//                startActivity(new Intent(mContext, TestSpeechActivity.class));
+                break;
+        }
+    }
+
+    private final int REQUEST_CAMERA = 102;//请求照相机权限
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CAMERA:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Intent openCameraIntent = new Intent(mContext, CaptureActivity.class);
+                    startActivityForResult(openCameraIntent, 0);
+                } else {
+                    ToastUtil.showToast(mContext, "无照相机权限，无法使用", Toast.LENGTH_SHORT);
+                }
+                break;
+
+            default:
                 break;
         }
     }
@@ -278,6 +331,33 @@ public class LoginActivity extends BaseActivity {
                     String returnedData = data.getStringExtra(KEY_MSG_DATA);
                     SharedPreferencesUtil.putBoolean(mContext, KEY_MSG_DATA, true);
                     tvRegist.setText(returnedData);
+                }
+                break;
+            case 0:
+                if (null != data) {
+                    Bundle bundle = data.getExtras();
+                    final String scanResult = bundle.getString("result");
+                    ToastUtil.showToast(mContext, scanResult, 0);
+                    //只能由数字和字母组成匹配
+                    Pattern p = Pattern.compile("^[A-Za-z0-9]+$");
+                    //邮箱匹配
+                    Pattern email = Pattern.compile("^[a-zA-Z][\\w\\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\\w\\.-]*[a-zA-Z0-9]\\.[a-zA-Z][a-zA-Z\\.]*[a-zA-Z]$");
+                    Matcher phone_p = p.matcher(scanResult);
+                    Matcher email_p = email.matcher(scanResult);
+                    //网址匹配
+                    Pattern pm = Util.setMatcher();
+                    Matcher Web_p = pm.matcher(scanResult);
+                    if (phone_p.find() || email_p.find()) {
+                    } else if (Web_p.find()) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW,
+                                (Uri.parse(scanResult))
+                        ).addCategory(Intent.CATEGORY_BROWSABLE)
+                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        //扫描不到的
+                    } else {
+                        new MessageDialog(mContext).isSuccess(true).delayTime(100000).title("扫描结果").message(scanResult).show();
+                    }
                 }
                 break;
         }

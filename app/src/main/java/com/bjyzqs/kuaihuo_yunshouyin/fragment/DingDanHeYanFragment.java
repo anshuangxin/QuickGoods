@@ -71,6 +71,7 @@ public class DingDanHeYanFragment extends BaseFragment {
     TextView tv_heyan_date;
     private CommonAdapter<DingDanHeYanInfo.OrderinfoBean> adapter;
     private ArrayList<DingDanHeYanInfo.OrderinfoBean> datas;
+    private MessageDialog messageDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -147,7 +148,10 @@ public class DingDanHeYanFragment extends BaseFragment {
                 datas.clear();
                 Logger.log(responseObj.toString());
                 if (responseObj.flog == 1) {
-                    new MessageDialog(mContext).isSuccess(false).title("").delayTime(2000).message("此订单已过期失效").show();
+                    if (null == messageDialog) {
+                        messageDialog = new MessageDialog(mContext).isSuccess(false).title("").delayTime(2000).message("此订单已过期失效");
+                    }
+                    messageDialog.show();
                     SpeechDao.check(false);
                 } else {
                     SpeechDao.check(true);
@@ -157,8 +161,8 @@ public class DingDanHeYanFragment extends BaseFragment {
                 datas.addAll(responseObj.orderinfo);
                 adapter.notifyDataSetChanged();
                 tvPayMan.setMyText("付款人: " + responseObj.name);
-                if (!TextUtils.isEmpty(responseObj.validate_time) && responseObj.validate_time.length() > 9) {
-                    tvDate.setMyText("日期: " + responseObj.validate_time.substring(0, 10));
+                if (!TextUtils.isEmpty(responseObj.validate_time)) {
+                    tvDate.setMyText("日期: " + responseObj.time);
                 } else {
                     tvDate.setMyText("");
                 }
@@ -199,7 +203,10 @@ public class DingDanHeYanFragment extends BaseFragment {
             @Override
             public void onFailure(Object reasonObj) {
                 SpeechDao.check(false);
-                new MessageDialog(mContext).isSuccess(false).title("").delayTime(3000).message("暂无此订单,请确认订单号正确").show();
+                if (null == messageDialog) {
+                    messageDialog = new MessageDialog(mContext).isSuccess(false).title("").delayTime(3000).message("暂无此订单,请确认订单号正确");
+                    messageDialog.show();
+                }
                 if (null != edCode) {
                     edCode.setText("");
                     edCode.setFocusable(true);
