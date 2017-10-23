@@ -14,48 +14,56 @@
 
         <com.zhy.android.percent.support.PercentRelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="45dp"
             android:background="@color/big_bg">
 
 
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="400dp"
-                android:layout_height="match_parent"
+                android:layout_height="36dp"
                 android:layout_centerInParent="true"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:background="@color/white"
+                android:gravity="center_horizontal"
                 android:orientation="horizontal"
                 app:layout_widthPercent="46%w">
-
 
                 <EditText
                     android:id="@+id/ed_code"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="-10dp"
+                    android:layout_gravity="center"
                     android:layout_weight="1"
                     android:background="@drawable/edit_bg"
                     android:digits="0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ-"
                     android:ems="20"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     android:gravity="center_vertical"
                     android:hint="接入扫码盒后扫码核验"
                     android:imeOptions="flagNoExtractUi"
                     android:inputType="number"
                     android:lines="1"
+                    android:paddingBottom="2dp"
                     android:paddingLeft="10dp"
-                    android:textSize="16sp" />
+                    android:paddingRight="30dp"
+                    android:paddingTop="2dp"
+                    android:textSize="@dimen/textsize2" />
 
-                <Button
-                    android:id="@+id/btn_search"
-                    android:layout_width="70dp"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/search_selector"
-                    android:gravity="center"
-                    android:text="搜索"
-                    android:textSize="16sp" />
-            </LinearLayout>
+                <ImageView
+                    android:id="@+id/btn_decode"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="2dp"
+                    android:background="@color/transpant"
+                    android:focusable="false"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/saoma_selector" />
+
+            </FrameLayout>
         </com.zhy.android.percent.support.PercentRelativeLayout>
 
         <LinearLayout
@@ -78,7 +86,7 @@
                 app:myImageWidth="16dp"
                 app:myTextAndImgPadding="5dp"
                 app:myTextColor="@color/black"
-                app:myTextSize="14sp" />
+                app:myTextSize="@dimen/textsize2" />
 
             <com.bjyzqs.kuaihuo_yunshouyin.views.DrawableLeftText
                 android:id="@+id/tv_date"
@@ -92,7 +100,7 @@
                 app:myImageWidth="16dp"
                 app:myTextAndImgPadding="5dp"
                 app:myTextColor="@color/black"
-                app:myTextSize="14sp" />
+                app:myTextSize="@dimen/textsize2" />
 
             <com.bjyzqs.kuaihuo_yunshouyin.views.DrawableLeftText
                 android:id="@+id/tv_form_code"
@@ -105,7 +113,7 @@
                 app:myImageWidth="16dp"
                 app:myTextAndImgPadding="5dp"
                 app:myTextColor="@color/black"
-                app:myTextSize="14sp" />
+                app:myTextSize="@dimen/textsize2" />
 
             <com.bjyzqs.kuaihuo_yunshouyin.views.DrawableLeftText
                 android:id="@+id/tv_take_type"
@@ -119,7 +127,7 @@
                 app:myImageWidth="16dp"
                 app:myTextAndImgPadding="5dp"
                 app:myTextColor="@color/black"
-                app:myTextSize="14sp" />
+                app:myTextSize="@dimen/textsize2" />
         </LinearLayout>
 
 
@@ -152,7 +160,7 @@
                     android:gravity="center"
                     android:text="数量:"
                     android:textColor="@color/black"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/textsize2" />
 
                 <TextView
                     android:id="@+id/tv_num"
@@ -173,7 +181,7 @@
                     android:gravity="center"
                     android:text="金额:"
                     android:textColor="@color/black"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/textsize2" />
 
                 <TextView
                     android:id="@+id/tv_price"

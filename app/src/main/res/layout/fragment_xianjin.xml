@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="40dp"
+    android:layout_marginTop="@dimen/viewHeight"
     android:gravity="center_horizontal"
     android:orientation="horizontal">
 
@@ -16,11 +16,11 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/viewHeight"
                 android:gravity="right|center_vertical"
                 android:text="应收:"
                 android:textColor="@color/black"
-                android:textSize="16sp"
+                android:textSize="@dimen/textsize2"
                 app:layout_heightPercent="13.6%h" />
 
             <EditText
@@ -42,11 +42,11 @@
             <TextView
                 android:id="@+id/textView5"
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/viewHeight"
                 android:gravity="right|center_vertical"
                 android:text="客付:"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="@dimen/textsize2" />
 
             <EditText
                 android:id="@+id/ed_kefu"
@@ -69,12 +69,12 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/viewHeight"
                 android:ems="5"
                 android:gravity="right|center_vertical"
                 android:text="手机号:"
                 android:textColor="@color/black"
-                android:textSize="16sp"
+                android:textSize="@dimen/textsize2"
                 app:layout_heightPercent="13.6%h" />
 
             <EditText
@@ -99,11 +99,11 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/viewHeight"
                 android:gravity="right|center_vertical"
                 android:text="找零:"
                 android:textColor="@color/black"
-                android:textSize="16sp"
+                android:textSize="@dimen/textsize2"
                 app:layout_heightPercent="13.6%h" />
 
             <LinearLayout
@@ -144,10 +144,10 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/viewHeight"
                 android:gravity="center"
                 android:textColor="@color/black"
-                android:textSize="16sp"
+                android:textSize="@dimen/textsize2"
                 app:layout_heightPercent="13.6%h" />
 
             <Button
@@ -168,7 +168,7 @@
         android:id="@+id/passkeyboard"
         android:layout_width="wrap_content"
         android:layout_height="230dp"
-        android:layout_marginLeft="40dp"
+        android:layout_marginLeft="@dimen/viewHeight"
         android:layout_weight="1" />
 
 

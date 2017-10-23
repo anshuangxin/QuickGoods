@@ -20,7 +20,7 @@
             android:lines="2"
             android:text="可口可乐/含糖可乐一厅"
             android:textColor="@color/black"
-            android:textSize="14sp" />
+            android:textSize="@dimen/textsize2" />
 
         <ImageButton
             android:id="@+id/imb_delete"

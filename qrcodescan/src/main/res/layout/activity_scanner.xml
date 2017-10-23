@@ -4,26 +4,35 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <SurfaceView
-        android:id="@+id/capture_preview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true" />
-
-
     <RelativeLayout
         android:id="@+id/capture_crop_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/capture"
-        android:contentDescription="@string/app_name">
+        android:background="@drawable/capture">
+
+
+        <SurfaceView
+            android:id="@+id/capture_preview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_margin="2dp" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_centerInParent="true"
             android:layout_margin="5dp"
-            android:background="#FF00FF" />
+            android:background="#F1CB00" />
+
+        <ImageButton
+            android:id="@+id/btn_close"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:background="@color/transpant"
+            android:onClick="onClick"
+            android:src="@drawable/btn_close02" />
     </RelativeLayout>
 </RelativeLayout>

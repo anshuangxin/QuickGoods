@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/imageview1"
         android:layout_marginTop="10dp"
-        android:layout_toEndOf="@+id/textView"
+        android:layout_toRightOf="@+id/textView"
         android:orientation="vertical"
         app:layout_marginLeftPercent="22.7%w"
         app:layout_marginRightPercent="22.7%w">
@@ -39,7 +39,7 @@
             <EditText
                 android:id="@+id/ed_phone"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="@dimen/viewHeight"
                 android:layout_weight="1"
                 android:background="@null"
                 android:hint="请输入手机号或者企业名"
@@ -47,7 +47,7 @@
                 android:lines="1"
                 android:paddingLeft="10dp"
                 android:singleLine="true"
-                android:textSize="16sp" />
+                android:textSize="@dimen/textsize2" />
 
             <View
                 android:layout_width="match_parent"
@@ -57,7 +57,7 @@
             <LinearLayout
                 android:id="@+id/code_layout"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="@dimen/viewHeight"
                 android:layout_weight="1"
                 android:orientation="horizontal"
                 android:visibility="gone">
@@ -79,7 +79,7 @@
                     android:lines="1"
                     android:paddingLeft="10dp"
                     android:singleLine="true"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/textsize2" />
 
                 <TextView
                     android:id="@+id/tv_getcode"
@@ -91,7 +91,7 @@
                     android:paddingRight="10dp"
                     android:text="获取验证码"
                     android:textColor="@color/font1"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/textsize2" />
 
                 <View
                     android:layout_width="0.5dp"
@@ -108,7 +108,7 @@
             <EditText
                 android:id="@+id/ed_pwd"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="@dimen/viewHeight"
                 android:layout_weight="1"
                 android:background="@null"
                 android:hint="请输入密码(不少于6位)"
@@ -117,7 +117,7 @@
                 android:lines="1"
                 android:paddingLeft="10dp"
                 android:singleLine="true"
-                android:textSize="16sp" />
+                android:textSize="@dimen/textsize2" />
         </LinearLayout>
 
 
@@ -130,7 +130,7 @@
             android:gravity="center"
             android:text="登录"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="@dimen/textsize2" />
     </LinearLayout>
 
 
@@ -149,7 +149,7 @@
             android:layout_weight="1"
             android:gravity="center_vertical|left"
             android:textColor="@color/font1"
-            android:textSize="14sp" />
+            android:textSize="@dimen/textsize2" />
 
         <TextView
             android:id="@+id/tv_regist"
@@ -159,7 +159,7 @@
             android:gravity="center_vertical|right"
             android:text="没有账户申请开通"
             android:textColor="@color/font1"
-            android:textSize="14sp" />
+            android:textSize="@dimen/textsize2" />
     </LinearLayout>
 
 

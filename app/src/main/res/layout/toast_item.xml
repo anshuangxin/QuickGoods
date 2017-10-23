@@ -16,6 +16,6 @@
         android:paddingTop="8dp"
         android:text="安安实打实的"
         android:textColor="@color/white"
-        android:textSize="16sp" />
+        android:textSize="@dimen/textsize2" />
 
 </RelativeLayout>

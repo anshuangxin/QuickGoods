@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="#F7F6EF"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="7dp">
 
     <ListView
         android:id="@+id/list"
@@ -26,7 +26,7 @@
             android:gravity="center"
             android:text="总价:"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="@dimen/textsize2" />
 
         <TextView
             android:id="@+id/tv_total_price"
@@ -35,7 +35,7 @@
             android:gravity="center"
             android:text="0 "
             android:textColor="@color/font2"
-            android:textSize="16sp" />
+            android:textSize="@dimen/textsize2" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -58,7 +58,7 @@
             android:gravity="center"
             android:text="件数:"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="@dimen/textsize2" />
 
         <TextView
             android:id="@+id/tv_total_count"
@@ -67,7 +67,7 @@
             android:gravity="center"
             android:text="0 "
             android:textColor="@color/font2"
-            android:textSize="16sp" />
+            android:textSize="@dimen/textsize2" />
 
     </LinearLayout>
 
@@ -81,25 +81,26 @@
             android:id="@+id/btn_commit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="5dp"
             android:layout_weight="0.5"
+            android:padding="5dp"
             android:background="@drawable/login_btn_selector"
             android:ems="4"
             android:text="提交订单"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="@dimen/textsize2" />
 
         <Button
             android:id="@+id/btn_guadan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:background="@drawable/login_btn_selector"
             android:ems="1"
             android:text="挂单"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="@dimen/textsize2" />
 
         <Button
             android:id="@+id/btn_clear"
@@ -110,7 +111,7 @@
             android:ems="2"
             android:text="清空"
             android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:textSize="@dimen/textsize2" />
     </LinearLayout>
 
 </LinearLayout>

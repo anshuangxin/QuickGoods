@@ -13,31 +13,49 @@
 
         <LinearLayout
             android:layout_width="300dp"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/viewHeight"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
+            android:gravity="center"
             android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/ed_search"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginRight="-10dp"
-                android:layout_weight="0.8"
-                android:textSize="16sp"
-                android:maxLength="13"
-                android:background="@drawable/edit_bg"
-                android:hint="请用扫码枪扫描商品条码"
-                android:imeOptions="flagNoExtractUi"
-                android:paddingLeft="10dp" />
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/btn_search"
-                android:layout_width="70dp"
-                android:textSize="16sp"
-                android:layout_height="match_parent"
-                android:background="@drawable/search_selector"
-                android:text="搜索" />
+                <EditText
+                    android:id="@+id/ed_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_bg"
+                    android:ems="14"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:hint="请用扫码枪扫描商品条码"
+                    android:imeOptions="flagNoExtractUi"
+                    android:lines="1"
+                    android:maxLength="13"
+                    android:paddingBottom="2dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="30dp"
+                    android:paddingTop="2dp"
+                    android:textSize="@dimen/textsize2" />
+
+                <ImageView
+                    android:id="@+id/btn_decode"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="2dp"
+                    android:background="@color/transpant"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/saoma_selector"
+                    android:textSize="@dimen/textsize2" />
+            </FrameLayout>
         </LinearLayout>
 
         <GridView

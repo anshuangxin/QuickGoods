@@ -1,6 +1,7 @@
 package com.zbar.lib;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Point;
 import android.media.AudioManager;
@@ -9,10 +10,12 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.DisplayMetrics;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
+import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -26,13 +29,16 @@ import java.io.IOException;
  * 二维码扫描
  */
 public class CaptureActivity extends Activity implements Callback {
-
+    public static final String KEY_DECODE_RESULT = "result";
+    public static final String ACTION_DECODE_INTENT = "saoma";
+    public static Activity activity;
     private CaptureActivityHandler handler;
     private boolean hasSurface;
     private InactivityTimer inactivityTimer;
     private MediaPlayer mediaPlayer;
     private boolean playBeep;
     private static final float BEEP_VOLUME = 0.50f;
+
     private boolean vibrate;
     private int x = 0;
     private int y = 0;
@@ -88,8 +94,8 @@ public class CaptureActivity extends Activity implements Callback {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_scanner);
+        activity = this;
         // 初始化CameraManager
         CameraManager.init(getApplication());
         hasSurface = false;
@@ -100,10 +106,10 @@ public class CaptureActivity extends Activity implements Callback {
         //获得屏幕的宽高
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         int screenWith = displayMetrics.widthPixels;
+        int screenHeight = displayMetrics.heightPixels;
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mCropLayout.getLayoutParams();
         params.width = (int) (screenWith * 0.7f);
-        params.height = (int) (screenWith * 0.7f);
-//		mCropLayout.setLayoutParams(params);
+        params.height = (int) (screenHeight * 0.7f);
         mCropLayout.setLayoutParams(params);
     }
 
@@ -120,6 +126,13 @@ public class CaptureActivity extends Activity implements Callback {
             CameraManager.get().offLight();
         }
 
+    }
+
+    public void onClick(View view) {
+        if (view.getId() == R.id.btn_close) {
+            finish();
+            inactivityTimer.onActivity();
+        }
     }
 
     @SuppressWarnings("deprecation")
@@ -162,23 +175,24 @@ public class CaptureActivity extends Activity implements Callback {
     public void handleDecode(String result) {
         inactivityTimer.onActivity();
         playBeepSoundAndVibrate();
-
         Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
-        finish();
-
+//        finish();
+        LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(this);
+        Intent intent = new Intent();
+        intent.putExtra(KEY_DECODE_RESULT, result);
+        intent.setAction(ACTION_DECODE_INTENT);
+        lbm.sendBroadcast(intent);
+        handler.sendEmptyMessageDelayed(R.id.restart_preview, 1000);
     }
 
     private void initCamera(SurfaceHolder surfaceHolder) {
         try {
             CameraManager.get().openDriver(surfaceHolder);
-
             Point point = CameraManager.get().getCameraResolution();
             int width = point.y;
             int height = point.x;
-
             int x = mCropLayout.getLeft() * width / mContainer.getWidth();
             int y = mCropLayout.getTop() * height / mContainer.getHeight();
-
             int cropWidth = mCropLayout.getWidth() * width / mContainer.getWidth();
             int cropHeight = mCropLayout.getHeight() * height / mContainer.getHeight();
 

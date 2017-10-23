@@ -38,7 +38,6 @@ public final class CaptureActivityHandler extends Handler {
 			if (state == State.PREVIEW) {
 				CameraManager.get().requestAutoFocus(this, R.id.auto_focus);
 			}
-
 		} else if (message.what == R.id.restart_preview) {
 			restartPreviewAndDecode();
 

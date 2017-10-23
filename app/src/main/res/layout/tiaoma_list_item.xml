@@ -32,7 +32,7 @@
             android:text="可口可乐"
             android:minLines="2"
             android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textSize="@dimen/textsize2"
             app:layout_marginLeftPercent="4.4%h"
             app:layout_marginTopPercent="6%h"
             app:layout_textSizePercent="6%h" />
@@ -78,7 +78,7 @@
             android:gravity="center_vertical"
             android:text="0.02"
             android:textColor="@color/font2"
-            android:textSize="16sp"
+            android:textSize="@dimen/textsize2"
             app:layout_marginLeftPercent="4.4%h"
             app:layout_marginTopPercent="2.2%h"
             app:layout_marginBottomPercent="4%h"
@@ -94,7 +94,7 @@
             android:gravity="center_vertical"
             android:text="x1"
             android:textColor="@color/font2"
-            android:textSize="16sp"
+            android:textSize="@dimen/textsize2"
             app:layout_marginRightPercent="4.4%h"
             app:layout_marginTopPercent="5%h"
             app:layout_textSizePercent="6%h" />-->

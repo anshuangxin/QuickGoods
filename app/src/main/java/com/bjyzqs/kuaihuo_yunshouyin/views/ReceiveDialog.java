@@ -1,25 +1,31 @@
 package com.bjyzqs.kuaihuo_yunshouyin.views;
 
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.annotation.IdRes;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.bjyzqs.kuaihuo_yunshouyin.R;
 import com.bjyzqs.kuaihuo_yunshouyin.application.MyApplication;
 import com.bjyzqs.kuaihuo_yunshouyin.dao.ConnectDao;
 import com.bjyzqs.kuaihuo_yunshouyin.dao.SpeechDao;
+import com.bjyzqs.kuaihuo_yunshouyin.utils.Logger;
 import com.bjyzqs.kuaihuo_yunshouyin.utils.ToastUtil;
 import com.bjyzqs.kuaihuo_yunshouyin.utils.okhttp.listener.DisposeDataListener;
+import com.zbar.lib.CaptureActivity;
 
 import java.text.DecimalFormat;
 
@@ -27,23 +33,24 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.bjyzqs.kuaihuo_yunshouyin.R.id.btn_sure;
+import static com.zbar.lib.CaptureActivity.ACTION_DECODE_INTENT;
+import static com.zbar.lib.CaptureActivity.KEY_DECODE_RESULT;
 
 /**
  * @author gly
  * @Description:自定义对话框
  */
 public class ReceiveDialog extends Dialog {
-    public static ReceiveDialog receiveDialog;
+    public static boolean isShow = false;
     private String order_id;
-    @BindView(R.id.tablerowkefu)
-    TableRow tablerowkefu;
+    @BindView(R.id.linearlayoutkefu)
+    LinearLayout linearlayoutkefu;
     @BindView(R.id.passkeyboard)
     PassKeyBoard passkeyboard;
-    @BindView(R.id.tablerowshouquanma)
-    TableRow tablerowshouquanma;
-    @BindView(R.id.tablerowzhaoling)
-    TableRow tablerowzhaoling;
+    @BindView(R.id.linearlayoutshouquanma)
+    LinearLayout tablerowshouquanma;
+    @BindView(R.id.linearlayoutzhaoling)
+    LinearLayout linearLayoutzhaoling;
 
     @BindView(R.id.radiogroup)
     RadioGroup radiogroup;
@@ -61,29 +68,12 @@ public class ReceiveDialog extends Dialog {
     EditText edPhonenum;
     private int payType = 1;
     public OnCanclelinstener onCanclelinstener;
+    private ShouQuanReciver shouQuanReciver;
+    private LocalBroadcastManager localBroadcastManager;
 
     public ReceiveDialog(Context mContext, double mtotalPrice, int mtotalCount, String order_id, OnCanclelinstener onCanclelinstener) {
         this(mContext, mtotalPrice, mtotalCount, order_id);
         this.onCanclelinstener = onCanclelinstener;
-    }
-
-    public static void ShowDialog(Context mContext, double totalPrice, int totalCount, String order_id) {
-        if (null != receiveDialog) {
-            if (null != receiveDialog.getWindow() && receiveDialog.isShowing()) {
-                receiveDialog.cancel();
-                receiveDialog = null;
-            }
-        }
-        receiveDialog = new ReceiveDialog(mContext, totalPrice, totalCount, order_id);
-        receiveDialog.show();
-
-    }
-
-    public static void cancle() {
-        if (null != receiveDialog && receiveDialog.isShowing()) {
-            receiveDialog.dismiss();
-            receiveDialog = null;
-        }
     }
 
     public ReceiveDialog(Context mContext, final double totalPrice, int totalCount, String order_id) {
@@ -170,23 +160,23 @@ public class ReceiveDialog extends Dialog {
                 switch (i) {
                     case R.id.button1:
                         payType = 1;
-                        tablerowkefu.setVisibility(View.VISIBLE);
+                        linearlayoutkefu.setVisibility(View.VISIBLE);
                         tablerowshouquanma.setVisibility(View.GONE);
-                        tablerowzhaoling.setVisibility(View.VISIBLE);
+                        linearLayoutzhaoling.setVisibility(View.VISIBLE);
                         ed_pay.requestFocus();
                         break;
                     case R.id.button2:
                         payType = 2;
-                        tablerowkefu.setVisibility(View.GONE);
+                        linearlayoutkefu.setVisibility(View.GONE);
                         tablerowshouquanma.setVisibility(View.VISIBLE);
-                        tablerowzhaoling.setVisibility(View.GONE);
+                        linearLayoutzhaoling.setVisibility(View.GONE);
                         ed_shouquanma.requestFocus();
                         break;
                     case R.id.button3:
                         payType = 3;
-                        tablerowkefu.setVisibility(View.GONE);
+                        linearlayoutkefu.setVisibility(View.GONE);
                         tablerowshouquanma.setVisibility(View.VISIBLE);
-                        tablerowzhaoling.setVisibility(View.GONE);
+                        linearLayoutzhaoling.setVisibility(View.GONE);
                         break;
                     default:
                         break;
@@ -195,20 +185,54 @@ public class ReceiveDialog extends Dialog {
         });
     }
 
-    protected ReceiveDialog(Context context, boolean cancelable,
-                            OnCancelListener cancelListener) {
-        super(context, cancelable, cancelListener);
-        // TODO Auto-generated constructor stub
+    @Override
+    public void show() {
+        if (!isShow) {
+            isShow = true;
+            super.show();
+        }
     }
 
-    @OnClick({R.id.imb_close, btn_sure})
+    @Override
+    public void dismiss() {
+        super.dismiss();
+        isShow = false;
+    }
+
+    private class ShouQuanReciver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String result = intent.getStringExtra(KEY_DECODE_RESULT);
+            Logger.log("dialogrecive" + result);
+            ed_shouquanma.setText(result);
+            if (null != CaptureActivity.activity) {
+                CaptureActivity.activity.finish();
+            }
+        }
+    }
+
+
+    @OnClick({R.id.imb_close, R.id.btn_sure, R.id.btn_saoma})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imb_close:
                 dismiss();
                 break;
-            case btn_sure:
+            case R.id.btn_sure:
                 upload();
+                break;
+            case R.id.btn_saoma:
+                shouQuanReciver = new ShouQuanReciver();
+                localBroadcastManager = LocalBroadcastManager.getInstance(getContext());
+                localBroadcastManager.registerReceiver(shouQuanReciver, new IntentFilter(ACTION_DECODE_INTENT));
+                setOnDismissListener(new OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        localBroadcastManager.unregisterReceiver(shouQuanReciver);
+                    }
+                });
+                getContext().startActivity(new Intent(getContext(), CaptureActivity.class));
                 break;
         }
     }
@@ -252,21 +276,27 @@ public class ReceiveDialog extends Dialog {
                         onCanclelinstener.onSuccess();
                     }
                 } else {
-                    new MessageDialog(getContext()).isSuccess(false).message("付款失败").show();
-                    if (null != onCanclelinstener) {
-                        onCanclelinstener.onFail();
-                    }
+                    checkFail();
                 }
             }
 
             @Override
             public void onFailure(Object reasonObj) {
-                if (null != onCanclelinstener) {
-                    onCanclelinstener.onFail();
-                }
-                new MessageDialog(getContext()).isSuccess(false).message("付款失败").show();
+                checkFail();
             }
         });
+    }
+
+    private void checkFail() {
+        new MessageDialog(getContext()).isSuccess(false).message("付款失败").show();
+        if (null != onCanclelinstener) {
+            onCanclelinstener.onFail();
+        }
+        ed_shouquanma.setText("");
+        ed_shouquanma.setFocusable(true);
+        ed_shouquanma.setFocusableInTouchMode(true);
+        ed_shouquanma.requestFocus();
+
     }
 
     public interface OnCanclelinstener {
@@ -274,8 +304,5 @@ public class ReceiveDialog extends Dialog {
 
         void onFail();
     }
-
-    @OnClick(btn_sure)
-    public void onViewClicked() {
-    }
 }
+

@@ -35,7 +35,7 @@
             android:layout_marginTop="21dp"
             android:text="姓名"
             android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textSize="@dimen/textsize2" />
 
         <EditText
             android:id="@+id/ed_name"
@@ -47,7 +47,7 @@
             android:singleLine="true"
             android:textColor="@color/black"
             android:textCursorDrawable="@color/black"
-            android:textSize="14sp" />
+            android:textSize="@dimen/textsize2" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -55,7 +55,7 @@
             android:layout_marginTop="11dp"
             android:text="电话"
             android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textSize="@dimen/textsize2" />
 
         <EditText
             android:id="@+id/ed_phone"
@@ -67,7 +67,7 @@
             android:padding="5dp"
             android:textColor="@color/black"
             android:textCursorDrawable="@color/black"
-            android:textSize="14sp" />
+            android:textSize="@dimen/textsize2" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -75,7 +75,7 @@
             android:layout_marginTop="21dp"
             android:text="企业名称"
             android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textSize="@dimen/textsize2" />
 
         <EditText
             android:id="@+id/ed_company_name"
@@ -87,7 +87,7 @@
             android:singleLine="true"
             android:textColor="@color/black"
             android:textCursorDrawable="@color/black"
-            android:textSize="14sp" />
+            android:textSize="@dimen/textsize2" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -95,7 +95,7 @@
             android:layout_marginTop="21dp"
             android:text="邮箱(选填)"
             android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textSize="@dimen/textsize2" />
 
         <EditText
             android:id="@+id/ed_mail"
@@ -107,7 +107,7 @@
             android:padding="5dp"
             android:textColor="@color/black"
             android:textCursorDrawable="@color/black"
-            android:textSize="14sp" />
+            android:textSize="@dimen/textsize2" />
 
 
         <TextView
@@ -116,7 +116,7 @@
             android:layout_marginTop="21dp"
             android:text="其他补充信息"
             android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textSize="@dimen/textsize2" />
 
         <EditText
             android:id="@+id/ed_other"
@@ -129,7 +129,7 @@
             android:padding="5dp"
             android:textColor="@color/black"
             android:textCursorDrawable="@color/black"
-            android:textSize="14sp" />
+            android:textSize="@dimen/textsize2" />
 
         <Button
             android:id="@+id/btn_commit"

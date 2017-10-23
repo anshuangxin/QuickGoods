@@ -181,7 +181,11 @@ public class DingDanLiuFragment extends BaseFragment {
                 @Override
                 protected void convert(ViewHolder holder, final OrderInfo.InterfacegoodsBean o, int position) {
                     CircularImageView view = holder.getView(R.id.circle_view);
-                    view.setText("v" + o.tickets);
+                    if (o.order_source == 4) {
+                        view.setText("S" + o.tickets);
+                    } else {
+                        view.setText("V" + o.tickets);
+                    }
                     view.setTextColor(Color.BLACK);
                     holder.setText(R.id.textview2, DingDanChannel.getChannelText(o.order_source, o.pay, o.order_sltmode));
                     view.setBackgroundColor(getResources().getColor(R.color.btn_bg_normal));

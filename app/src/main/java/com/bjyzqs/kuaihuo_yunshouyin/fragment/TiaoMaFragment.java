@@ -1,7 +1,12 @@
 package com.bjyzqs.kuaihuo_yunshouyin.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -22,17 +27,22 @@ import com.bjyzqs.kuaihuo_yunshouyin.basees.BaseFragment;
 import com.bjyzqs.kuaihuo_yunshouyin.constants.HttpConstants;
 import com.bjyzqs.kuaihuo_yunshouyin.dao.ConnectDao;
 import com.bjyzqs.kuaihuo_yunshouyin.modle.GoodSInfo;
+import com.bjyzqs.kuaihuo_yunshouyin.utils.Logger;
 import com.bjyzqs.kuaihuo_yunshouyin.utils.baseListadapter.CommonAdapter;
 import com.bjyzqs.kuaihuo_yunshouyin.utils.baseListadapter.ViewHolder;
 import com.bjyzqs.kuaihuo_yunshouyin.utils.okhttp.listener.DisposeDataListener;
 import com.bjyzqs.kuaihuo_yunshouyin.views.DingDanView;
 import com.bumptech.glide.Glide;
+import com.zbar.lib.CaptureActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.zbar.lib.CaptureActivity.ACTION_DECODE_INTENT;
+import static com.zbar.lib.CaptureActivity.KEY_DECODE_RESULT;
 
 /**
  * Created by gly on 2017/9/13.
@@ -47,6 +57,8 @@ public class TiaoMaFragment extends BaseFragment {
     EditText ed_search;
     private List<GoodSInfo.GoodsInfoBean> datas;
     private CommonAdapter<GoodSInfo.GoodsInfoBean> adapter;
+    private ShouQuanReciver shouQuanReciver;
+    private LocalBroadcastManager localBroadcastManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -91,6 +103,30 @@ public class TiaoMaFragment extends BaseFragment {
         ed_search.setFocusable(true);
         ed_search.setFocusableInTouchMode(true);
         ed_search.requestFocus();
+
+        registReciver();
+    }
+
+    private void registReciver() {
+        localBroadcastManager = LocalBroadcastManager.getInstance(mContext);
+        shouQuanReciver = new ShouQuanReciver();
+        localBroadcastManager.registerReceiver(shouQuanReciver, new IntentFilter(ACTION_DECODE_INTENT));
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        localBroadcastManager.unregisterReceiver(shouQuanReciver);
+    }
+
+    private class ShouQuanReciver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String result = intent.getStringExtra(KEY_DECODE_RESULT);
+            Logger.log("tiaomarecive" + result);
+            ed_search.setText(result);
+        }
     }
 
 
@@ -127,9 +163,9 @@ public class TiaoMaFragment extends BaseFragment {
         });
     }
 
-    @OnClick(R.id.btn_search)
+    @OnClick(R.id.btn_decode)
     public void onViewClicked() {
-        search();
+        getContext().startActivity(new Intent(getContext(), CaptureActivity.class));
     }
 
     private void search() {
@@ -149,25 +185,22 @@ public class TiaoMaFragment extends BaseFragment {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
-                if (null != ed_search) {
-                    ed_search.setText("");
-                    ed_search.setFocusable(true);
-                    ed_search.setFocusableInTouchMode(true);
-                    ed_search.requestFocus();
-                }
-
+                reSetEditText();
             }
 
             @Override
             public void onFailure(Object reasonObj) {
-                if (null != ed_search) {
-                    ed_search.setText("");
-                    ed_search.setFocusable(true);
-                    ed_search.setFocusableInTouchMode(true);
-                    ed_search.requestFocus();
-                }
+                reSetEditText();
             }
         });
+    }
+
+    private void reSetEditText() {
+        if (null != ed_search) {
+            ed_search.setText("");
+            ed_search.setFocusable(true);
+            ed_search.setFocusableInTouchMode(true);
+            ed_search.requestFocus();
+        }
     }
 }

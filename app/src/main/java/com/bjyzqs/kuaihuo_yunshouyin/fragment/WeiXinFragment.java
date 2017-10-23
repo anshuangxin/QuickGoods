@@ -1,7 +1,12 @@
 package com.bjyzqs.kuaihuo_yunshouyin.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -11,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.bjyzqs.kuaihuo_yunshouyin.R;
 import com.bjyzqs.kuaihuo_yunshouyin.application.MyApplication;
 import com.bjyzqs.kuaihuo_yunshouyin.basees.BaseFragment;
 import com.bjyzqs.kuaihuo_yunshouyin.dao.ConnectDao;
@@ -19,10 +25,15 @@ import com.bjyzqs.kuaihuo_yunshouyin.utils.Logger;
 import com.bjyzqs.kuaihuo_yunshouyin.utils.okhttp.listener.DisposeDataListener;
 import com.bjyzqs.kuaihuo_yunshouyin.views.MessageDialog;
 import com.bjyzqs.kuaihuo_yunshouyin.views.PassKeyBoard;
+import com.bjyzqs.kuaihuo_yunshouyin.views.SquarImageButton;
+import com.zbar.lib.CaptureActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import com.bjyzqs.kuaihuo_yunshouyin.R;
+
+import static com.bjyzqs.kuaihuo_yunshouyin.R.id.ed_shouquanma;
+import static com.zbar.lib.CaptureActivity.ACTION_DECODE_INTENT;
+import static com.zbar.lib.CaptureActivity.KEY_DECODE_RESULT;
 
 /**
  * Created by gly on 2017/9/13.
@@ -33,7 +44,9 @@ public class WeiXinFragment extends BaseFragment {
 
     @BindView(R.id.ed_yingshou)
     EditText edYingshou;
-    @BindView(R.id.ed_shouquanma)
+    @BindView(R.id.btn_saoma)
+    SquarImageButton btnSaoma;
+    @BindView(ed_shouquanma)
     EditText edShouquanma;
     @BindView(R.id.ed_phonenum)
     EditText edPhonenum;
@@ -41,6 +54,8 @@ public class WeiXinFragment extends BaseFragment {
     Button btnSure;
     @BindView(R.id.passkeyboard)
     PassKeyBoard passkeyboard;
+    private ShouQuanReciver shouQuanReciver;
+    private LocalBroadcastManager localBroadcastManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -51,11 +66,13 @@ public class WeiXinFragment extends BaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        localBroadcastManager = LocalBroadcastManager.getInstance(mContext);
         edYingshou.setInputType(0);
         edYingshou.requestFocus();
         edPhonenum.setInputType(0);
         edShouquanma.setInputType(0);
         edShouquanma.setEnabled(false);
+        btnSaoma.setEnabled(false);
         edYingshou.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -66,8 +83,10 @@ public class WeiXinFragment extends BaseFragment {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (charSequence.length() == 0) {
                     edShouquanma.setEnabled(false);
+                    btnSaoma.setEnabled(false);
                 } else {
                     edShouquanma.setEnabled(true);
+                    btnSaoma.setEnabled(true);
                 }
             }
 
@@ -90,6 +109,27 @@ public class WeiXinFragment extends BaseFragment {
             public void afterTextChanged(Editable editable) {
             }
         });
+
+        shouQuanReciver = new ShouQuanReciver();
+        localBroadcastManager.registerReceiver(shouQuanReciver, new IntentFilter(ACTION_DECODE_INTENT));
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        localBroadcastManager.unregisterReceiver(shouQuanReciver);
+    }
+
+    private class ShouQuanReciver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String result = intent.getStringExtra(KEY_DECODE_RESULT);
+            edShouquanma.setText(result);
+            if (null != CaptureActivity.activity) {
+                CaptureActivity.activity.finish();
+            }
+        }
     }
 
     private void checkShouquanMa() {
@@ -121,11 +161,15 @@ public class WeiXinFragment extends BaseFragment {
                     SpeechDao.receive(edYingshou.getText().toString());
                     new MessageDialog(getContext()).isSuccess(true).message("付款成功").show();
                 }
+                edShouquanma.setFocusable(true);
+                edShouquanma.setFocusableInTouchMode(true);
                 edShouquanma.requestFocus();
             }
 
             @Override
             public void onFailure(Object reasonObj) {
+                edShouquanma.setFocusable(true);
+                edShouquanma.setFocusableInTouchMode(true);
                 edShouquanma.requestFocus();
             }
         });
@@ -133,10 +177,16 @@ public class WeiXinFragment extends BaseFragment {
 
     }
 
-
-    @OnClick(R.id.btn_sure)
-    public void onViewClicked() {
-        checkShouquanMa();
+    @OnClick({R.id.btn_saoma, R.id.btn_sure})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.btn_saoma:
+                Intent openCameraIntent = new Intent(mContext, CaptureActivity.class);
+                startActivityForResult(openCameraIntent, 0);
+                break;
+            case R.id.btn_sure:
+                checkShouquanMa();
+                break;
+        }
     }
-
 }

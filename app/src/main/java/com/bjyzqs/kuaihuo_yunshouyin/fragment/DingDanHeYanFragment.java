@@ -1,9 +1,14 @@
 package com.bjyzqs.kuaihuo_yunshouyin.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -32,11 +37,15 @@ import com.bjyzqs.kuaihuo_yunshouyin.utils.okhttp.listener.DisposeDataListener;
 import com.bjyzqs.kuaihuo_yunshouyin.views.DrawableLeftText;
 import com.bjyzqs.kuaihuo_yunshouyin.views.MessageDialog;
 import com.bumptech.glide.Glide;
+import com.zbar.lib.CaptureActivity;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.zbar.lib.CaptureActivity.ACTION_DECODE_INTENT;
+import static com.zbar.lib.CaptureActivity.KEY_DECODE_RESULT;
 
 /**
  * Created by gly on 2017/9/14.
@@ -72,6 +81,8 @@ public class DingDanHeYanFragment extends BaseFragment {
     private CommonAdapter<DingDanHeYanInfo.OrderinfoBean> adapter;
     private ArrayList<DingDanHeYanInfo.OrderinfoBean> datas;
     private MessageDialog messageDialog;
+    private ShouQuanReciver shouQuanReciver;
+    private LocalBroadcastManager localBroadcastManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -105,6 +116,29 @@ public class DingDanHeYanFragment extends BaseFragment {
 
             }
         });
+        registReciver();
+    }
+
+    private void registReciver() {
+        localBroadcastManager = LocalBroadcastManager.getInstance(mContext);
+        shouQuanReciver = new ShouQuanReciver();
+        localBroadcastManager.registerReceiver(shouQuanReciver, new IntentFilter(ACTION_DECODE_INTENT));
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        localBroadcastManager.unregisterReceiver(shouQuanReciver);
+    }
+
+    private class ShouQuanReciver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String result = intent.getStringExtra(KEY_DECODE_RESULT);
+            Logger.log("dingdanrecive" + result);
+            edCode.setText(result);
+        }
     }
 
 
@@ -130,9 +164,9 @@ public class DingDanHeYanFragment extends BaseFragment {
     }
 
 
-    @OnClick(R.id.btn_search)
+    @OnClick(R.id.btn_decode)
     public void onViewClicked() {
-        search();
+        getContext().startActivity(new Intent(getContext(), CaptureActivity.class));
     }
 
     private void search() {

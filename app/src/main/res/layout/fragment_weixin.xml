@@ -1,83 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="40dp"
+    android:layout_marginTop="@dimen/viewHeight"
     android:gravity="center_horizontal"
     android:orientation="horizontal">
 
-    <TableLayout
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:orientation="vertical">
 
 
-        <TableRow>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/viewHeight"
                 android:gravity="right|center_vertical"
                 android:text="应收:"
                 android:textColor="@color/black"
-                android:textSize="16sp"
-                app:layout_heightPercent="13.6%h" />
+                android:textSize="@dimen/textsize2" />
 
             <EditText
                 android:id="@+id/ed_yingshou"
-                android:layout_width="wrap_content"
+                android:layout_width="250dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="1"
                 android:background="@drawable/edit_bg"
                 android:ems="11"
                 android:gravity="center_vertical"
                 android:paddingLeft="5dp"
                 android:textColor="@color/black" />
-        </TableRow>
-
-        <TableRow
-
-            android:layout_marginTop="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/viewHeight"
+                android:gravity="center"
+                android:textSize="@dimen/textsize2" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/viewHeight"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/viewHeight"
                 android:gravity="right|center_vertical"
-                android:text="        授权码:"
+                android:text="授权码:"
                 android:textColor="@color/black"
-                android:textSize="16sp"
-                app:layout_heightPercent="13.6%h" />
+                android:textSize="@dimen/textsize2" />
 
-            <EditText
-                android:id="@+id/ed_shouquanma"
+            <FrameLayout
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="@dimen/viewHeight"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/edit_bg"
-                android:ems="11"
-                android:gravity="center_vertical"
-                android:paddingLeft="5dp"
-                android:textColor="@color/black" />
-        </TableRow>
+                android:orientation="horizontal">
 
-        <TableRow
+                <EditText
+                    android:id="@+id/ed_shouquanma"
+                    android:layout_width="250dp"
+                    android:layout_height="@dimen/viewHeight"
+                    android:background="@drawable/edit_bg"
+                    android:ems="11"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="5dp"
+                    android:textColor="@color/black" />
 
-            android:layout_marginTop="10dp">
+                <com.bjyzqs.kuaihuo_yunshouyin.views.SquarImageButton
+                    android:id="@+id/btn_saoma"
+                    android:layout_width="@dimen/viewHeight"
+                    android:layout_height="@dimen/viewHeight"
+                    android:layout_gravity="right|center_vertical"
+                    android:background="@color/transpant"
+                    android:padding="5dp"
+                    android:saveEnabled="false"
+                    android:src="@drawable/saoma_selector" />
+
+            </FrameLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/viewHeight"
                 android:gravity="right|center_vertical"
                 android:text="手机号:"
                 android:textColor="@color/black"
-                android:textSize="16sp"
-                app:layout_heightPercent="13.6%h" />
+                android:textSize="@dimen/textsize2" />
 
             <EditText
                 android:id="@+id/ed_phonenum"
-                android:layout_width="wrap_content"
+                android:layout_width="250dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
@@ -89,38 +118,37 @@
                 android:inputType="number"
                 android:paddingLeft="5dp"
                 android:textColor="@color/black" />
-        </TableRow>
-
-        <TableRow
-
-            android:layout_marginTop="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/viewHeight"
                 android:gravity="center"
                 android:textColor="@color/black"
-                android:textSize="16sp"
-                app:layout_heightPercent="13.6%h" />
+                android:textSize="@dimen/textsize2" />
+        </LinearLayout>
 
-            <Button
-                android:id="@+id/btn_sure"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/login_btn_selector"
-                android:enabled="false"
-                android:gravity="center"
-                android:text="确认" />
-        </TableRow>
-    </TableLayout>
+
+        <Button
+            android:id="@+id/btn_sure"
+            android:layout_width="250dp"
+            android:layout_height="@dimen/viewHeight"
+            android:layout_gravity="left"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/login_btn_selector"
+            android:enabled="false"
+            android:gravity="center"
+            android:text="确认" />
+
+
+    </LinearLayout>
 
 
     <com.bjyzqs.kuaihuo_yunshouyin.views.PassKeyBoard
         android:id="@+id/passkeyboard"
         android:layout_width="wrap_content"
         android:layout_height="230dp"
-        android:layout_marginLeft="40dp"
+        android:layout_marginLeft="20dp"
         android:layout_weight="1" />
 
 

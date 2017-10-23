@@ -3,14 +3,14 @@
     <item android:state_focused="true">
         <shape>
             <corners android:radius="4dp" />
-            <solid android:color="@color/tranpant" />
+            <solid android:color="@color/white" />
             <stroke android:width="0.5dp" android:color="@color/btn_bg_normal" />
         </shape>
     </item>
     <item>
         <shape>
             <corners android:radius="4dp" />
-            <solid android:color="@color/tranpant" />
+            <solid android:color="@color/white" />
             <stroke android:width="0.5dp" android:color="@color/smallline" />
         </shape>
     </item>

@@ -8,9 +8,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <TableLayout
+        <LinearLayout
             android:layout_width="340dp"
-            android:layout_height="320dp"
+            android:layout_height="wrap_content"
             android:layout_margin="3dp"
             android:background="@drawable/alert_bg"
             android:orientation="vertical"
@@ -26,7 +26,7 @@
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
-            <TableRow
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
@@ -40,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:text="付款方式:"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/textsize2" />
 
                 <RadioGroup
                     android:id="@+id/radiogroup"
@@ -56,7 +56,7 @@
                         android:layout_weight="1"
                         android:checked="true"
                         android:text="现金"
-                        android:textSize="14sp" />
+                        android:textSize="@dimen/textsize2" />
 
                     <RadioButton
                         android:id="@+id/button2"
@@ -64,14 +64,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="微信/支付宝"
-                        android:textSize="14sp" />
+                        android:textSize="@dimen/textsize2" />
                 </RadioGroup>
 
 
-            </TableRow>
+            </LinearLayout>
 
 
-            <TableRow
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
@@ -83,7 +83,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:text="应        收:"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/textsize2" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -98,7 +98,7 @@
                         android:gravity="center_vertical"
                         android:text="0.01"
                         android:textColor="@color/font2"
-                        android:textSize="14sp" />
+                        android:textSize="@dimen/textsize2" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -109,10 +109,10 @@
                 </LinearLayout>
 
 
-            </TableRow>
+            </LinearLayout>
 
-            <TableRow
-                android:id="@+id/tablerowkefu"
+            <LinearLayout
+                android:id="@+id/linearlayoutkefu"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
@@ -125,7 +125,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:text="客        付:"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/textsize2" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -160,10 +160,10 @@
                 </LinearLayout>
 
 
-            </TableRow>
+            </LinearLayout>
 
-            <TableRow
-                android:id="@+id/tablerowzhaoling"
+            <LinearLayout
+                android:id="@+id/linearlayoutzhaoling"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
@@ -175,7 +175,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:text="找        零:"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/textsize2" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -191,7 +191,7 @@
                         android:gravity="center_vertical"
                         android:text="0"
                         android:textColor="@color/font2"
-                        android:textSize="14sp" />
+                        android:textSize="@dimen/textsize2" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -203,12 +203,12 @@
                 </LinearLayout>
 
 
-            </TableRow>
+            </LinearLayout>
 
-            <TableRow
-                android:id="@+id/tablerowshouquanma"
+            <LinearLayout
+                android:id="@+id/linearlayoutshouquanma"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
@@ -220,29 +220,44 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:text="授  权  码:"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/textsize2" />
 
-
-                <EditText
-                    android:id="@+id/ed_shouquanma"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="5dp"
                     android:background="@drawable/edit_bg"
-                    android:gravity="center_vertical"
-                    android:hint="授权码"
-                    android:imeOptions="flagNoExtractUi"
-                    android:inputType="number"
-                    android:maxEms="18"
-                    android:maxLength="18"
-                    android:padding="5dp"
-                    android:singleLine="true"
-                    android:textSize="12sp" />
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-            </TableRow>
+                    <EditText
+                        android:id="@+id/ed_shouquanma"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:hint="授权码"
+                        android:imeOptions="flagNoExtractUi"
+                        android:inputType="number"
+                        android:maxEms="20"
+                        android:maxLength="20"
+                        android:padding="5dp"
+                        android:singleLine="true"
+                        android:textSize="12sp" />
 
-            <TableRow
+                    <com.bjyzqs.kuaihuo_yunshouyin.views.SquarImageButton
+                        android:id="@+id/btn_saoma"
+                        android:layout_width="20dp"
+                        android:layout_marginRight="2dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="5dp"
+                        android:background="@color/transpant"
+                        android:saveEnabled="false"
+                        android:src="@drawable/saoma_selector" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
@@ -254,7 +269,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:text="件        数:"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/textsize2" />
 
                 <TextView
                     android:id="@+id/tv_count"
@@ -265,12 +280,12 @@
                     android:maxEms="5"
                     android:text="1"
                     android:textColor="@color/font2"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/textsize2" />
 
 
-            </TableRow>
+            </LinearLayout>
 
-            <TableRow
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
@@ -282,16 +297,16 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:text="手机号码:"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/textsize2" />
 
                 <EditText
                     android:id="@+id/ed_phonenum"
-                    android:digits="0123456789"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="5dp"
                     android:background="@drawable/edit_bg"
+                    android:digits="0123456789"
                     android:gravity="center_vertical"
                     android:hint="手机号可积分(选填)"
                     android:imeOptions="flagNoExtractUi"
@@ -303,7 +318,7 @@
                     android:textSize="12sp" />
 
 
-            </TableRow>
+            </LinearLayout>
 
 
             <Button
@@ -318,7 +333,7 @@
                 android:textSize="18dp" />
 
 
-        </TableLayout>
+        </LinearLayout>
 
         <ImageButton
             android:id="@+id/imb_close"

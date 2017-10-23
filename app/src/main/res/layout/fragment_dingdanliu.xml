@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:text="播放语音"
             android:textColor="@color/black"
-            android:textSize="14sp" />
+            android:textSize="@dimen/textsize2" />
 
         <com.kyleduo.switchbutton.SwitchButton
             android:id="@+id/swb_auto_speech"
@@ -38,7 +38,7 @@
             android:layout_marginLeft="20dp"
             android:text="自动打印"
             android:textColor="@color/black"
-            android:textSize="14sp" />
+            android:textSize="@dimen/textsize2" />
 
         <com.kyleduo.switchbutton.SwitchButton
             android:id="@+id/swb_auto_print"
@@ -58,7 +58,7 @@
             android:gravity="center"
             android:text="退出登录"
             android:textColor="@color/black"
-            android:textSize="14sp" />
+            android:textSize="@dimen/textsize2" />
     </LinearLayout>
 
 
