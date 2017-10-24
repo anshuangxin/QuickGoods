@@ -245,7 +245,7 @@
                         android:singleLine="true"
                         android:textSize="12sp" />
 
-                    <com.bjyzqs.kuaihuo_yunshouyin.views.SquarImageButton
+                    <com.zmsoft.TestTool.views.SquarImageButton
                         android:id="@+id/btn_saoma"
                         android:layout_width="20dp"
                         android:layout_marginRight="2dp"
@@ -345,7 +345,7 @@
             android:src="@drawable/btn_close02" />
     </FrameLayout>
 
-    <com.bjyzqs.kuaihuo_yunshouyin.views.PassKeyBoard
+    <com.zmsoft.TestTool.views.PassKeyBoard
         android:id="@+id/passkeyboard"
         android:layout_width="180dp"
         android:layout_height="250dp"

@@ -10,7 +10,7 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <com.bjyzqs.kuaihuo_yunshouyin.views.TbSelector
+        <com.zmsoft.TestTool.views.TbSelector
             android:id="@+id/tbselector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
         </com.jingchen.pulltorefresh.PullToRefreshLayout>
     </LinearLayout>
 
-    <com.bjyzqs.kuaihuo_yunshouyin.views.DingDanView
+    <com.zmsoft.TestTool.views.DingDanView
         android:id="@+id/dingdanview"
         android:layout_width="200dp"
         android:layout_height="match_parent"

@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <com.bjyzqs.kuaihuo_yunshouyin.views.CircularImageView
+            <com.zmsoft.TestTool.views.CircularImageView
                 android:id="@+id/circle_view"
                 android:layout_width="50dp"
                 android:layout_height="50dp"

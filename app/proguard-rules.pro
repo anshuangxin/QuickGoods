@@ -49,6 +49,8 @@
 -keep public class com.tencent.bugly.**{*;}
 -keep class android.support.**{*;}
 
+
+
 #-----------------不需要混淆系统组件等-------------------------------------------------------------------
 -keep public class * extends android.app.Activity
 -keep public class * extends android.app.Application
@@ -58,7 +60,7 @@
 -keep public class * extends android.preference.Preference
 -keep public class com.android.vending.licensing.ILicensingService
 
--keep class com.bjyzqs.kuaihuo_yunshouyin.modle.**{*;}                                   #过滤掉自己编写的实体类
+-keep class com.zmsoft.TestTool.modle.**{*;}                                   #过滤掉自己编写的实体类
 
 
 #----------------保护指定的类和类的成员，但条件是所有指定的类和类成员是要存在------------------------------------

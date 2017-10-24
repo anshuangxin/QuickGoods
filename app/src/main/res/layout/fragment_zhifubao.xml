@@ -114,7 +114,7 @@
         </TableRow>
     </TableLayout>
 
-    <com.bjyzqs.kuaihuo_yunshouyin.views.PassKeyBoard
+    <com.zmsoft.TestTool.views.PassKeyBoard
         android:id="@+id/passkeyboard"
         android:layout_width="wrap_content"
         android:layout_height="230dp"

@@ -1,1 +1,1 @@
-include ':app', ':pullToRefreshlibrary', ':qrcodescan'
+include ':app', ':pullToRefreshlibrary', ':qrcodescan',':updatepluginlib'

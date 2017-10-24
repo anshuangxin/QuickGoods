@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.bjyzqs.kuaihuo_yunshouyin">
+    package="com.zmsoft.TestTool">
     <!-- Required 蓝牙权限-->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <!-- Required -->
     <permission
-        android:name="com.bjyzqs.kuaihuo_yunshouyin.permission.JPUSH_MESSAGE"
+        android:name="com.zmsoft.TestTool.permission.JPUSH_MESSAGE"
         android:protectionLevel="signature" />
 
     <!-- Required  一些系统要求的权限，如访问网络等-->
-    <uses-permission android:name="com.bjyzqs.kuaihuo_yunshouyin.permission.JPUSH_MESSAGE" />
+    <uses-permission android:name="com.zmsoft.TestTool.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -41,7 +41,7 @@
     <uses-permission android:name="android.permission.READ_LOGS" />
 
     <application
-        android:name=".application.MyApplication"
+        android:name="com.zmsoft.TestTool.application.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -50,7 +50,7 @@
         android:theme="@style/AppTheme"
         tools:replace="android:icon, android:theme">
         <activity
-            android:name=".activity.TestSpeechActivity"
+            android:name="com.zmsoft.TestTool.activity.TestSpeechActivity"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustResize">
             <!--<intent-filter>-->
@@ -60,7 +60,7 @@
             <!--</intent-filter>-->
         </activity>
         <activity
-            android:name=".activity.LoginActivity"
+            android:name="com.zmsoft.TestTool.activity.LoginActivity"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
@@ -70,13 +70,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.MainActivity"
+            android:name="com.zmsoft.TestTool.activity.MainActivity"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustUnspecified|stateHidden">
 
         </activity>
         <activity
-            android:name=".activity.TryActivity"
+            android:name="com.zmsoft.TestTool.activity.TryActivity"
             android:launchMode="singleTask"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="stateHidden" />
@@ -111,7 +111,7 @@
             android:exported="false">
             <intent-filter android:priority="1000">
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />   <!--Required  显示通知栏 -->
-                <category android:name="com.bjyzqs.kuaihuo_yunshouyin" />
+                <category android:name="com.zmsoft.TestTool" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.USER_PRESENT" />
@@ -134,7 +134,7 @@
         <!-- Required SDK核心功能-->
         <!-- User defined.  For test only  用户自定义的广播接收器-->
         <receiver
-            android:name=".sdk.jpush.MyReceiver"
+            android:name="com.zmsoft.TestTool.sdk.jpush.MyReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
@@ -143,7 +143,7 @@
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" /> <!--Required  用户接收SDK通知栏信息的intent-->
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" /> <!--Required  用户打开自定义通知栏的intent-->
                 <action android:name="cn.jpush.android.intent.CONNECTION" /><!-- 接收网络变化 连接/断开 since 1.6.3 -->
-                <category android:name="com.bjyzqs.kuaihuo_yunshouyin" />
+                <category android:name="com.zmsoft.TestTool" />
             </intent-filter>
         </receiver>
         <!-- Required  . Enable it you can get statistics data with channel -->
@@ -152,7 +152,7 @@
             android:value="developer-default" />
         <meta-data
             android:name="JPUSH_APPKEY"
-            android:value="d19014e6ec1171e7789c59fb" /> <!--  </>值来自开发者平台取得的AppKey-->
+            android:value="e9f6966b38bfef423c39d454" /> <!--  </>值来自开发者平台取得的AppKey-->
     </application>
 
 </manifest>

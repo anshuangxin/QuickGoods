@@ -74,7 +74,7 @@
             android:orientation="horizontal"
             android:visibility="gone">
 
-            <com.bjyzqs.kuaihuo_yunshouyin.views.DrawableLeftText
+            <com.zmsoft.TestTool.views.DrawableLeftText
                 android:id="@+id/tv_pay_man"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
@@ -88,7 +88,7 @@
                 app:myTextColor="@color/black"
                 app:myTextSize="@dimen/textsize2" />
 
-            <com.bjyzqs.kuaihuo_yunshouyin.views.DrawableLeftText
+            <com.zmsoft.TestTool.views.DrawableLeftText
                 android:id="@+id/tv_date"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
@@ -102,7 +102,7 @@
                 app:myTextColor="@color/black"
                 app:myTextSize="@dimen/textsize2" />
 
-            <com.bjyzqs.kuaihuo_yunshouyin.views.DrawableLeftText
+            <com.zmsoft.TestTool.views.DrawableLeftText
                 android:id="@+id/tv_form_code"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
@@ -115,7 +115,7 @@
                 app:myTextColor="@color/black"
                 app:myTextSize="@dimen/textsize2" />
 
-            <com.bjyzqs.kuaihuo_yunshouyin.views.DrawableLeftText
+            <com.zmsoft.TestTool.views.DrawableLeftText
                 android:id="@+id/tv_take_type"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"

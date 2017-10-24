@@ -75,7 +75,7 @@
                     android:paddingLeft="5dp"
                     android:textColor="@color/black" />
 
-                <com.bjyzqs.kuaihuo_yunshouyin.views.SquarImageButton
+                <com.zmsoft.TestTool.views.SquarImageButton
                     android:id="@+id/btn_saoma"
                     android:layout_width="@dimen/viewHeight"
                     android:layout_height="@dimen/viewHeight"
@@ -144,7 +144,7 @@
     </LinearLayout>
 
 
-    <com.bjyzqs.kuaihuo_yunshouyin.views.PassKeyBoard
+    <com.zmsoft.TestTool.views.PassKeyBoard
         android:id="@+id/passkeyboard"
         android:layout_width="wrap_content"
         android:layout_height="230dp"
