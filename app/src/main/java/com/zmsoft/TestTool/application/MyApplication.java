@@ -3,15 +3,26 @@ package com.zmsoft.TestTool.application;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.os.StrictMode;
 import android.util.Log;
 
-import com.zmsoft.TestTool.utils.Logger;
+import com.taobao.sophix.PatchStatus;
+import com.taobao.sophix.SophixManager;
+import com.taobao.sophix.listener.PatchLoadStatusListener;
 import com.tencent.bugly.crashreport.CrashReport;
+import com.zmsoft.TestTool.bluetooth.BluetoothConnectUtil;
+import com.zmsoft.TestTool.utils.Logger;
+import com.zmsoft.TestTool.utils.SharedPreferencesUtil;
+import com.zmsoft.TestTool.utils.ToastUtil;
 
 import org.json.JSONObject;
 import org.lzh.framework.updatepluginlib.UpdateConfig;
 import org.lzh.framework.updatepluginlib.model.Update;
 import org.lzh.framework.updatepluginlib.model.UpdateParser;
+import org.lzh.framework.updatepluginlib.strategy.UpdateStrategy;
 
 import java.util.List;
 
@@ -23,33 +34,70 @@ public class MyApplication extends Application {
     public static final String TAG = MyApplication.class.getSimpleName();
     private static MyApplication instance;
     public static String userId = "10827";
+    public BluetoothConnectUtil bluetoothService;
+    public static boolean debug = true;
+    private int mVersionCode;
+    private String mVersionName;
 
     @Override
     public void onCreate() {
         super.onCreate();
         instance = this;
         if (shouldInit()) {
-            Logger.log("init_main_process");
+            getCurrentVersion(this);
+            StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+            StrictMode.setVmPolicy(builder.build());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                builder.detectFileUriExposure();
+            }
+            Logger.log("init_main_process:");
             CrashReport.initCrashReport(getApplicationContext(), "c5d68181f5", false);
             JPushInterface.setDebugMode(true);
             JPushInterface.init(this);// 初始化 JPush
             initJpushNotifycation();
-
+            initBlueTooth();
+            initUpdate();
+            initSopHix();
         }
     }
 
-    private void initUpDateUtil(){
+    private void initSopHix() {
+        Logger.log("mVersionName: " +mVersionName);
+        SophixManager.getInstance().setContext(this)
+                .setAppVersion(mVersionName)
+                .setAesKey(null)
+                .setEnableDebug(true)
+                .setPatchLoadStatusStub(new PatchLoadStatusListener() {
+                    @Override
+                    public void onLoad(final int mode, final int code, final String info, final int handlePatchVersion) {
+                        // 补丁加载回调通知
+                        if (code == PatchStatus.CODE_LOAD_SUCCESS) {
+                            // 表明补丁加载成功
+                            ToastUtil.showToast("补丁加载成功:" + info);
+                        } else if (code == PatchStatus.CODE_LOAD_RELAUNCH) {
+                            // 表明新补丁生效需要重启. 开发者可提示用户或者强制重启;
+                            // 建议: 用户可以监听进入后台事件, 然后调用killProcessSafely自杀，以此加快应用补丁，详见1.3.2.3
+                        } else {
+                            // 其它错误信息, 查看PatchStatus类说明
+                        }
+                    }
+                }).initialize();
+    }
+
+
+    private void initUpdate() {
         UpdateConfig.getConfig()
                 // 必填：数据更新接口,url与checkEntity两种方式任选一种填写
-                .url("https://raw.githubusercontent.com/yjfnypeu/UpdatePlugin/master/update.json")
+                .url("http://119.23.209.169/apkUpdaterService/getUploadMessage?name=getApkpath")
 //                .checkEntity(new CheckEntity().setMethod(HttpMethod.GET).setUrl("http://www.baidu.com"))
                 // 必填：用于从数据更新接口获取的数据response中。解析出Update实例。以便框架内部处理
                 .jsonParser(new UpdateParser() {
                     @Override
-                    public Update parse(String response) throws Exception{
+                    public Update parse(String response) throws Exception {
                         /* 此处根据上面url或者checkEntity设置的检查更新接口的返回数据response解析出
                          * 一个update对象返回即可。更新启动时框架内部即可根据update对象的数据进行处理
                          */
+                        Logger.log(response);
                         JSONObject object = new JSONObject(response);
                         Update update = new Update();
                         // 此apk包的下载地址
@@ -63,16 +111,16 @@ public class MyApplication extends Application {
                         // 此apk包是否为强制更新
                         update.setForced(false);
                         // 是否显示忽略此次版本更新按钮
-                        update.setIgnore(object.optBoolean("ignore_able",false));
+                        update.setIgnore(object.optBoolean("ignore_able", false));
                         return update;
                     }
                 })
-        // TODO: 2016/5/11 除了以上两个参数为必填。以下的参数均为非必填项。
-        // 检查更新接口是否有新版本更新的回调。
+                // TODO: 2016/5/11 除了以上两个参数为必填。以下的参数均为非必填项。
+                // 检查更新接口是否有新版本更新的回调。
 //                .checkCB(callback)
-        // apk下载的回调
+                // apk下载的回调
 //                .downloadCB(callback)
-        // 自定义更新检查器。
+                // 自定义更新检查器。
                 /*.updateChecker(new UpdateChecker() {
                     @Override
                     public boolean check(Update update) {
@@ -105,25 +153,25 @@ public class MyApplication extends Application {
                     }
                 })
                 // 自定义更新策略，默认WIFI下自动下载更新
-                .strategy(new UpdateStrategy() {
-                    @Override
-                    public boolean isShowUpdateDialog(Update update) {
-                        // 是否在检查到有新版本更新时展示Dialog。
-                        return false;
-                    }
+             */.strategy(new UpdateStrategy() {
+            @Override
+            public boolean isShowUpdateDialog(Update update) {
+                // 是否在检查到有新版本更新时展示Dialog。
+                return true;
+            }
 
-                    @Override
-                    public boolean isAutoInstall() {
-                        // 是否自动更新.当为自动更新时。代表下载成功后不通知用户。直接调起安装。
-                        return false;
-                    }
+            @Override
+            public boolean isAutoInstall() {
+                // 是否自动更新.当为自动更新时。代表下载成功后不通知用户。直接调起安装。
+                return false;
+            }
 
-                    @Override
-                    public boolean isShowDownloadDialog() {
-                        // 在APK下载时。是否显示下载进度的Dialog
-                        return false;
-                    }
-                })
+            @Override
+            public boolean isShowDownloadDialog() {
+                // 在APK下载时。是否显示下载进度的Dialog
+                return true;
+            }
+        })/*
                 // 自定义检查出更新后显示的Dialog，
                 .updateDialogCreator(new DialogCreator() {
                     @Override
@@ -150,7 +198,34 @@ public class MyApplication extends Application {
                     }
                 })*/;
 
+
     }
+
+    public void getCurrentVersion(Context context) {
+        try {
+            PackageInfo packageInfo =
+                    context.getPackageManager().getPackageInfo(this.getPackageName(),
+                            PackageManager.GET_CONFIGURATIONS);
+            mVersionCode = packageInfo.versionCode;
+            mVersionName = packageInfo.versionName;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void initBlueTooth() {
+        bluetoothService = BluetoothConnectUtil.getInstance(this);
+        boolean isOpenBlueTooth = SharedPreferencesUtil.getBoolean(this, "isOpenBlueTooth");
+        if (isOpenBlueTooth) {
+            if (!bluetoothService.isOpen()) {
+                MyApplication.getInstance().bluetoothService.openBluetooth(this);
+            } else {
+                MyApplication.getInstance().bluetoothService.searchDevices();
+            }
+        }
+    }
+
 
     private boolean shouldInit() {
         ActivityManager am = ((ActivityManager) getSystemService(Context.ACTIVITY_SERVICE));

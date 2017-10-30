@@ -11,6 +11,7 @@ import android.text.style.CharacterStyle;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.TextAppearanceSpan;
 import android.util.Log;
+import android.widget.EditText;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -28,9 +29,34 @@ import java.util.regex.Pattern;
 
 @SuppressWarnings("deprecation")
 public class MyTextUtils {
+    public static void reSetEdit(EditText ed) {
+        if (ed == null) {
+            return;
+        }
+        ed.setText("");
+        ed.invalidate();
+        ed.setFocusable(true);
+        ed.setFocusableInTouchMode(true);
+        ed.requestFocus();
+        ed.findFocus();
+    }
+
+    public static void reSetEdit(EditText ed, String text) {
+        if (ed == null) {
+            return;
+        }
+        ed.setText(text);
+        ed.invalidate();
+        ed.setFocusable(true);
+        ed.setFocusableInTouchMode(true);
+        ed.requestFocus();
+        ed.findFocus();
+    }
+
     public static boolean isNum(String str) {
         return str.matches("^[-+]?(([0-9]+)([.]([0-9]+))?|([.]([0-9]+))?)$");
     }
+
     public static boolean isName(String str) {
         return str.matches("[\\u4E00-\\u9FA5]{2,4}");
     }

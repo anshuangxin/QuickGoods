@@ -1,12 +1,10 @@
 package com.zmsoft.TestTool.activity;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -17,7 +15,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -33,7 +30,6 @@ import com.zmsoft.TestTool.utils.ToastUtil;
 import com.zmsoft.TestTool.utils.Util;
 import com.zmsoft.TestTool.utils.okhttp.listener.DisposeDataListener;
 import com.zmsoft.TestTool.views.MessageDialog;
-import com.zbar.lib.CaptureActivity;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -86,7 +82,7 @@ public class LoginActivity extends BaseActivity {
     private void checkIsLogin() {
         String user_id = SharedPreferencesUtil.getString(mContext, "user_id");
         if (!TextUtils.isEmpty(user_id)) {
-            MyApplication.userId = user_id;//"10827";//
+            MyApplication.userId ="10827";// user_id;//
             SpeechDao.open();
             loginJiGuang();
             startActivity(new Intent(mContext, MainActivity.class));
@@ -192,31 +188,13 @@ public class LoginActivity extends BaseActivity {
                 startActivityForResult(new Intent(mContext, TryActivity.class), TRY_REQUEST_CODE);
                 break;
             case R.id.imageview1:
-                Intent openCameraIntent = new Intent(mContext, CaptureActivity.class);
-                startActivityForResult(openCameraIntent, 0);
+//                ActivityStarter.startCapActivity(mContext);
 //                startActivity(new Intent(mContext, TestSpeechActivity.class));
                 break;
         }
     }
 
-    private final int REQUEST_CAMERA = 102;//请求照相机权限
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_CAMERA:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Intent openCameraIntent = new Intent(mContext, CaptureActivity.class);
-                    startActivityForResult(openCameraIntent, 0);
-                } else {
-                    ToastUtil.showToast(mContext, "无照相机权限，无法使用", Toast.LENGTH_SHORT);
-                }
-                break;
-
-            default:
-                break;
-        }
-    }
 
     private void login() {
 //        telephone String 是门店名称或手机号

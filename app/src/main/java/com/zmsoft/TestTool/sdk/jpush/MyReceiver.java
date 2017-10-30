@@ -6,14 +6,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import com.alibaba.fastjson.JSON;
 import com.zmsoft.TestTool.activity.LoginActivity;
+import com.zmsoft.TestTool.application.MyApplication;
 import com.zmsoft.TestTool.dao.SpeechDao;
+import com.zmsoft.TestTool.modle.OrderFlowInfo;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Iterator;
+import java.util.List;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -160,12 +163,13 @@ public class MyReceiver extends BroadcastReceiver {
             while (it.hasNext()) {
                 String myKey = it.next().toString();
                 if (myKey.equals("type")) {
-                    JSONArray s = new JSONArray(json.optString(myKey));
-                    int[] indexs = new int[s.length()];
-                    for (int i = 0; i < s.length(); i++) {
-                        indexs[i] = Integer.parseInt(s.get(i).toString());
-                    }
+                    List<Integer> indexs =JSON.parseArray(json.optString(myKey),Integer.class);
                     SpeechDao.speechByPosition(indexs);
+                } else if (myKey.equals("printMessage")) {
+                    OrderFlowInfo orderFlowInfo = JSON.parseObject(json.optString(myKey), OrderFlowInfo.class);
+                    if (null != MyApplication.getInstance().bluetoothService) {
+                        MyApplication.getInstance().bluetoothService.print(orderFlowInfo);
+                    }
                 }
             }
         } catch (JSONException e) {

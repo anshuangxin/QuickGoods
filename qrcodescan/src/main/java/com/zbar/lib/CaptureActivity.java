@@ -16,6 +16,9 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -31,6 +34,7 @@ import java.io.IOException;
 public class CaptureActivity extends Activity implements Callback {
     public static final String KEY_DECODE_RESULT = "result";
     public static final String ACTION_DECODE_INTENT = "saoma";
+    private static final long DECODE_DELY_TIME = 2000;
     public static Activity activity;
     private CaptureActivityHandler handler;
     private boolean hasSurface;
@@ -111,7 +115,16 @@ public class CaptureActivity extends Activity implements Callback {
         params.width = (int) (screenWith * 0.7f);
         params.height = (int) (screenHeight * 0.7f);
         mCropLayout.setLayoutParams(params);
+
+        TranslateAnimation mAnimation = new TranslateAnimation(TranslateAnimation.ABSOLUTE, 0f, TranslateAnimation.ABSOLUTE, 0f,
+                TranslateAnimation.RELATIVE_TO_PARENT, -0.7f, TranslateAnimation.RELATIVE_TO_PARENT, 0.7f);
+        mAnimation.setDuration(2500);
+        mAnimation.setRepeatCount(-1);
+        mAnimation.setRepeatMode(Animation.REVERSE);
+        mAnimation.setInterpolator(new LinearInterpolator());
+        findViewById(R.id.animview).setAnimation(mAnimation);
     }
+
 
     boolean flag = true;
 
@@ -182,10 +195,10 @@ public class CaptureActivity extends Activity implements Callback {
         intent.putExtra(KEY_DECODE_RESULT, result);
         intent.setAction(ACTION_DECODE_INTENT);
         lbm.sendBroadcast(intent);
-        handler.sendEmptyMessageDelayed(R.id.restart_preview, 1000);
+        handler.sendEmptyMessageDelayed(R.id.restart_preview, DECODE_DELY_TIME);
     }
 
-    private void initCamera(SurfaceHolder surfaceHolder) {
+    private int initCamera(SurfaceHolder surfaceHolder) {
         try {
             CameraManager.get().openDriver(surfaceHolder);
             Point point = CameraManager.get().getCameraResolution();
@@ -204,13 +217,14 @@ public class CaptureActivity extends Activity implements Callback {
 
 
         } catch (IOException ioe) {
-            return;
+            return 0;
         } catch (RuntimeException e) {
-            return;
+            return 0;
         }
         if (handler == null) {
             handler = new CaptureActivityHandler(CaptureActivity.this);
         }
+        return 1;
     }
 
     @Override

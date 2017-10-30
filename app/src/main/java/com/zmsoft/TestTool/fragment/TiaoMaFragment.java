@@ -21,19 +21,21 @@ import android.widget.ImageView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.bumptech.glide.Glide;
 import com.zmsoft.TestTool.R;
 import com.zmsoft.TestTool.application.MyApplication;
 import com.zmsoft.TestTool.basees.BaseFragment;
 import com.zmsoft.TestTool.constants.HttpConstants;
+import com.zmsoft.TestTool.dao.ActivityStarter;
 import com.zmsoft.TestTool.dao.ConnectDao;
 import com.zmsoft.TestTool.modle.GoodSInfo;
 import com.zmsoft.TestTool.utils.Logger;
+import com.zmsoft.TestTool.utils.MyTextUtils;
+import com.zmsoft.TestTool.utils.ToastUtil;
 import com.zmsoft.TestTool.utils.baseListadapter.CommonAdapter;
 import com.zmsoft.TestTool.utils.baseListadapter.ViewHolder;
 import com.zmsoft.TestTool.utils.okhttp.listener.DisposeDataListener;
 import com.zmsoft.TestTool.views.DingDanView;
-import com.bumptech.glide.Glide;
-import com.zbar.lib.CaptureActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,11 +103,14 @@ public class TiaoMaFragment extends BaseFragment {
                 }
             });
 //            ed_search.setText("6920202888883");
-            ed_search.setFocusable(true);
-            ed_search.setFocusableInTouchMode(true);
-            ed_search.requestFocus();
             registReciver();
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MyTextUtils.reSetEdit(ed_search);
     }
 
     private void registReciver() {
@@ -126,9 +131,11 @@ public class TiaoMaFragment extends BaseFragment {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            String result = intent.getStringExtra(KEY_DECODE_RESULT);
-            Logger.log("tiaomarecive" + result);
-            ed_search.setText(result);
+            if (intent.getAction().equals(ACTION_DECODE_INTENT)) {
+                String result = intent.getStringExtra(KEY_DECODE_RESULT);
+                Logger.log("tiaomarecive" + result);
+                MyTextUtils.reSetEdit(ed_search,result);
+            }
         }
     }
 
@@ -168,11 +175,10 @@ public class TiaoMaFragment extends BaseFragment {
 
     @OnClick(R.id.btn_decode)
     public void onViewClicked() {
-        getContext().startActivity(new Intent(getContext(), CaptureActivity.class));
+        ActivityStarter.startCapActivity(getContext());
     }
 
     private void search() {
-        datas.clear();
         ConnectDao.Calculate(ed_search.getText().toString(), MyApplication.userId, new DisposeDataListener<String>() {
             @Override
             public void onSuccess(String responseObj) {
@@ -181,29 +187,24 @@ public class TiaoMaFragment extends BaseFragment {
                     for (int i = 0; i < jsonArray.size(); i++) {
                         JSONObject o = (JSONObject) jsonArray.get(i);
                         GoodSInfo.GoodsInfoBean goodsInfoBean = JSON.parseObject(o.toString(), GoodSInfo.GoodsInfoBean.class);
-                        datas.add(goodsInfoBean);
+                        if (!datas.contains(goodsInfoBean)) {
+                            datas.add(goodsInfoBean);
+                        }
                         dingdanview.addGoods(goodsInfoBean);
                     }
                     adapter.notifyDataSetChanged();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                reSetEditText();
+                MyTextUtils.reSetEdit(ed_search);
             }
 
             @Override
             public void onFailure(Object reasonObj) {
-                reSetEditText();
+                ToastUtil.showToast(mContext, "订单不存在!", 2000);
+                MyTextUtils.reSetEdit(ed_search);
             }
         });
     }
 
-    private void reSetEditText() {
-        if (null != ed_search) {
-            ed_search.setText("");
-            ed_search.setFocusable(true);
-            ed_search.setFocusableInTouchMode(true);
-            ed_search.requestFocus();
-        }
-    }
 }

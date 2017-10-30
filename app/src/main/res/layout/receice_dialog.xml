@@ -222,11 +222,10 @@
                     android:text="授  权  码:"
                     android:textSize="@dimen/textsize2" />
 
-                <LinearLayout
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:background="@drawable/edit_bg"
                     android:gravity="center"
                     android:orientation="horizontal">
 
@@ -235,6 +234,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:background="@drawable/edit_bg"
                         android:gravity="center_vertical"
                         android:hint="授权码"
                         android:imeOptions="flagNoExtractUi"
@@ -248,13 +248,14 @@
                     <com.zmsoft.TestTool.views.SquarImageButton
                         android:id="@+id/btn_saoma"
                         android:layout_width="20dp"
-                        android:layout_marginRight="2dp"
                         android:layout_height="20dp"
+                        android:layout_gravity="right|center_vertical"
                         android:layout_marginLeft="5dp"
+                        android:layout_marginRight="2dp"
                         android:background="@color/transpant"
                         android:saveEnabled="false"
                         android:src="@drawable/saoma_selector" />
-                </LinearLayout>
+                </FrameLayout>
             </LinearLayout>
 
             <LinearLayout

@@ -11,19 +11,41 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class PrintDataUtil {
     private Context context = null;
-    private String deviceAddress = null;
+    private static List<PrinterHolder> printerHolders = new ArrayList<>();
     private BluetoothAdapter bluetoothAdapter = BluetoothAdapter
             .getDefaultAdapter();
-    private BluetoothDevice device = null;
-    private static BluetoothSocket bluetoothSocket = null;
-    private static OutputStream outputStream = null;
     private static final UUID uuid = UUID
             .fromString("00001101-0000-1000-8000-00805F9B34FB");
-    private boolean isConnection = false;
+
+    private class PrinterHolder {
+        public String deviceAddress;
+        public boolean isPrint;
+        public BluetoothDevice bluetoothDevice;
+        public BluetoothSocket bluetoothSocket;
+        public OutputStream outputStream;
+
+        public PrinterHolder(String deviceAddress, BluetoothDevice bluetoothDevice, BluetoothSocket bluetoothSocket, OutputStream outputStream) {
+            this.deviceAddress = deviceAddress;
+            this.bluetoothDevice = bluetoothDevice;
+            this.bluetoothSocket = bluetoothSocket;
+            this.outputStream = outputStream;
+        }
+
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj instanceof String) {
+                return deviceAddress.equals(obj);
+            } else return false;
+        }
+
+    }
 
     /**
      * 打印纸一行最大的字节
@@ -44,48 +66,41 @@ public class PrintDataUtil {
      */
     public static final int MEAL_NAME_MAX_LENGTH = 8;
 
-    public PrintDataUtil(Context context, String deviceAddress) {
+
+    public PrintDataUtil(Context context) {
         super();
         this.context = context;
-        this.deviceAddress = deviceAddress;
-        this.device = this.bluetoothAdapter.getRemoteDevice(this.deviceAddress);
-    }
 
-    /**
-     * 获取设备名称
-     *
-     * @return String
-     */
-    public String getDeviceName() {
-        return this.device.getName();
     }
 
     /**
      * 连接蓝牙设备
      */
-    public boolean connect() {
-        if (!this.isConnection) {
-            try {
-                bluetoothSocket = this.device
-                        .createRfcommSocketToServiceRecord(uuid);
-                bluetoothSocket.connect();
-                outputStream = bluetoothSocket.getOutputStream();
-                this.isConnection = true;
-                if (this.bluetoothAdapter.isDiscovering()) {
-                    System.out.println("关闭适配器！");
-                    this.bluetoothAdapter.isDiscovering();
-                }
-            } catch (Exception e) {
-                Toast.makeText(this.context, "连接失败！", Toast.LENGTH_LONG).show();
-                return false;
-            }
-            Toast.makeText(this.context, this.device.getName() + "连接成功！",
-                    Toast.LENGTH_SHORT).show();
-            return true;
-        } else {
-            return true;
+    public boolean connectAddress(String addres) {
+        if (printerHolders.contains(addres)) {
+            return false;
         }
+        BluetoothDevice bluetoothDevice = this.bluetoothAdapter.getRemoteDevice(addres);
+        try {
+            BluetoothSocket bluetoothSocket = bluetoothDevice
+                    .createRfcommSocketToServiceRecord(uuid);
+            bluetoothSocket.connect();
+            OutputStream outputStream = bluetoothSocket.getOutputStream();
+//            if (this.bluetoothAdapter.isDiscovering()) {
+//                System.out.println("关闭适配器！");
+//                this.bluetoothAdapter.isDiscovering();
+//            }
+            printerHolders.add(new PrinterHolder(addres, bluetoothDevice, bluetoothSocket, outputStream));
+            Toast.makeText(this.context, bluetoothDevice.getName() + "连接成功！",
+                    Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(this.context, "连接失败！", Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        return true;
     }
+
 
     /**
      * 断开蓝牙设备连接
@@ -93,23 +108,15 @@ public class PrintDataUtil {
     public static void disconnect() {
         System.out.println("断开蓝牙设备连接");
         try {
-            if (null != bluetoothSocket) {
-                bluetoothSocket.close();
-
-            }
-            if (null != outputStream) {
-                outputStream.close();
+            for (PrinterHolder printerHolder : printerHolders) {
+                printerHolder.bluetoothSocket.close();
+                printerHolder.outputStream.close();
             }
         } catch (IOException e) {
             // TODO Auto-generated catch block    
             e.printStackTrace();
         }
 
-    }
-
-
-    public static OutputStream getOutputStream() {
-        return outputStream;
     }
 
 
@@ -121,8 +128,12 @@ public class PrintDataUtil {
     public void printText(String text) {
         try {
             byte[] data = text.getBytes("gbk");
-            outputStream.write(data, 0, data.length);
-            outputStream.flush();
+            for (PrinterHolder printerHolder : printerHolders) {
+                if (printerHolder.isPrint) {
+                    printerHolder.outputStream.write(data, 0, data.length);
+                    printerHolder.outputStream.flush();
+                }
+            }
         } catch (IOException e) {
             //Toast.makeText(this.context, "发送失败！", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
@@ -136,8 +147,10 @@ public class PrintDataUtil {
      */
     public void selectCommand(byte[] command) {
         try {
-            outputStream.write(command);
-            outputStream.flush();
+            for (PrinterHolder printerHolder : printerHolders) {
+                printerHolder.outputStream.write(command);
+                printerHolder.outputStream.flush();
+            }
         } catch (IOException e) {
             //Toast.makeText(this.context, "发送失败！", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
@@ -198,31 +211,6 @@ public class PrintDataUtil {
      * 设置默认行间距
      */
     public static final byte[] LINE_SPACING_DEFAULT = {0x1b, 0x32};
-
-    /**
-     * 设置行间距
-     */
-//	public static final byte[] LINE_SPACING = {0x1b, 0x32};//{0x1b, 0x33, 0x14};  // 20的行间距（0，255）
-
-
-//	final byte[][] byteCommands = {
-//			{ 0x1b, 0x61, 0x00 }, // 左对齐
-//			{ 0x1b, 0x61, 0x01 }, // 中间对齐
-//			{ 0x1b, 0x61, 0x02 }, // 右对齐
-//			{ 0x1b, 0x40 },// 复位打印机
-//			{ 0x1b, 0x4d, 0x00 },// 标准ASCII字体
-//			{ 0x1b, 0x4d, 0x01 },// 压缩ASCII字体
-//			{ 0x1d, 0x21, 0x00 },// 字体不放大
-//			{ 0x1d, 0x21, 0x11 },// 宽高加倍
-//			{ 0x1b, 0x45, 0x00 },// 取消加粗模式
-//			{ 0x1b, 0x45, 0x01 },// 选择加粗模式
-//			{ 0x1b, 0x7b, 0x00 },// 取消倒置打印
-//			{ 0x1b, 0x7b, 0x01 },// 选择倒置打印
-//			{ 0x1d, 0x42, 0x00 },// 取消黑白反显
-//			{ 0x1d, 0x42, 0x01 },// 选择黑白反显
-//			{ 0x1b, 0x56, 0x00 },// 取消顺时针旋转90°
-//			{ 0x1b, 0x56, 0x01 },// 选择顺时针旋转90°
-//	};
 
     /**
      * 打印两列
@@ -316,4 +304,9 @@ public class PrintDataUtil {
     }
 
 
+    public void setPrintAddress(List<String> printAddress) {
+        for (PrinterHolder printerHolder : printerHolders) {
+            printerHolder.isPrint = printAddress.contains(printerHolder.deviceAddress);
+        }
+    }
 }

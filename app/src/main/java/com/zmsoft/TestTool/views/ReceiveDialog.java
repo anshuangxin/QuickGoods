@@ -18,14 +18,15 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.zbar.lib.CaptureActivity;
 import com.zmsoft.TestTool.R;
 import com.zmsoft.TestTool.application.MyApplication;
+import com.zmsoft.TestTool.dao.ActivityStarter;
 import com.zmsoft.TestTool.dao.ConnectDao;
 import com.zmsoft.TestTool.dao.SpeechDao;
 import com.zmsoft.TestTool.utils.Logger;
 import com.zmsoft.TestTool.utils.ToastUtil;
 import com.zmsoft.TestTool.utils.okhttp.listener.DisposeDataListener;
-import com.zbar.lib.CaptureActivity;
 
 import java.text.DecimalFormat;
 
@@ -203,11 +204,13 @@ public class ReceiveDialog extends Dialog {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            String result = intent.getStringExtra(KEY_DECODE_RESULT);
-            Logger.log("dialogrecive" + result);
-            ed_shouquanma.setText(result);
-            if (null != CaptureActivity.activity) {
-                CaptureActivity.activity.finish();
+            if (intent.getAction().equals(ACTION_DECODE_INTENT)) {
+                String result = intent.getStringExtra(KEY_DECODE_RESULT);
+                Logger.log("dialogrecive" + result);
+                ed_shouquanma.setText(result);
+                if (null != CaptureActivity.activity) {
+                    CaptureActivity.activity.finish();
+                }
             }
         }
     }
@@ -232,7 +235,7 @@ public class ReceiveDialog extends Dialog {
                         localBroadcastManager.unregisterReceiver(shouQuanReciver);
                     }
                 });
-                getContext().startActivity(new Intent(getContext(), CaptureActivity.class));
+                ActivityStarter.startCapActivity(getContext());
                 break;
         }
     }

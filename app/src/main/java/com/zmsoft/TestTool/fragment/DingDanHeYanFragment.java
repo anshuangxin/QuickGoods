@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
@@ -23,21 +21,22 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.zmsoft.TestTool.R;
 import com.zmsoft.TestTool.application.MyApplication;
 import com.zmsoft.TestTool.basees.BaseFragment;
 import com.zmsoft.TestTool.constants.HttpConstants;
+import com.zmsoft.TestTool.dao.ActivityStarter;
 import com.zmsoft.TestTool.dao.ConnectDao;
 import com.zmsoft.TestTool.dao.SpeechDao;
 import com.zmsoft.TestTool.modle.DingDanHeYanInfo;
 import com.zmsoft.TestTool.utils.Logger;
+import com.zmsoft.TestTool.utils.MyTextUtils;
 import com.zmsoft.TestTool.utils.baseListadapter.CommonAdapter;
 import com.zmsoft.TestTool.utils.baseListadapter.ViewHolder;
 import com.zmsoft.TestTool.utils.okhttp.listener.DisposeDataListener;
 import com.zmsoft.TestTool.views.DrawableLeftText;
 import com.zmsoft.TestTool.views.MessageDialog;
-import com.bumptech.glide.Glide;
-import com.zbar.lib.CaptureActivity;
 
 import java.util.ArrayList;
 
@@ -94,9 +93,6 @@ public class DingDanHeYanFragment extends BaseFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initListView();
-        edCode.setFocusable(true);
-        edCode.setFocusableInTouchMode(true);
-        edCode.requestFocus();
         edCode.setInputType(0);
         edCode.addTextChangedListener(new TextWatcher() {
             @Override
@@ -119,6 +115,12 @@ public class DingDanHeYanFragment extends BaseFragment {
         registReciver();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        MyTextUtils.reSetEdit(edCode);
+    }
+
     private void registReciver() {
         localBroadcastManager = LocalBroadcastManager.getInstance(mContext);
         shouQuanReciver = new ShouQuanReciver();
@@ -137,9 +139,11 @@ public class DingDanHeYanFragment extends BaseFragment {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            String result = intent.getStringExtra(KEY_DECODE_RESULT);
-            Logger.log("dingdanrecive" + result);
-            edCode.setText(result);
+            if (intent.getAction().equals(ACTION_DECODE_INTENT)) {
+                String result = intent.getStringExtra(KEY_DECODE_RESULT);
+                Logger.log("dingdanrecive" + result);
+                MyTextUtils.reSetEdit(edCode, result);
+            }
         }
     }
 
@@ -168,11 +172,10 @@ public class DingDanHeYanFragment extends BaseFragment {
 
     @OnClick(R.id.btn_decode)
     public void onViewClicked() {
-        getContext().startActivity(new Intent(getContext(), CaptureActivity.class));
+        ActivityStarter.startCapActivity(getContext());
     }
 
     private void search() {
-        edCode.getText().toString();
         datas.clear();
         frm_ischeck.setVisibility(View.GONE);
         isshowlayout1.setVisibility(View.GONE);
@@ -227,43 +230,18 @@ public class DingDanHeYanFragment extends BaseFragment {
                 isshowlayout1.setVisibility(View.VISIBLE);
                 isshowlayout2.setVisibility(View.VISIBLE);
                 isshowlayout3.setVisibility(View.VISIBLE);
-                if (null != edCode) {
-                    edCode.setText("");
-                    edCode.setFocusable(true);
-                    edCode.setFocusableInTouchMode(true);
-                    edCode.requestFocus();
-                    edCode.findFocus();
-                }
+                MyTextUtils.reSetEdit(edCode);
             }
 
             @Override
             public void onFailure(Object reasonObj) {
                 SpeechDao.check(false);
-                if (null == messageDialog) {
-                    messageDialog = new MessageDialog(mContext).isSuccess(false).title("").delayTime(3000).message("暂无此订单,请确认订单号正确");
-                    messageDialog.show();
-                }
-                if (null != edCode) {
-                    edCode.setText("");
-                    edCode.setFocusable(true);
-                    edCode.setFocusableInTouchMode(true);
-                    edCode.requestFocus();
-                }
+                messageDialog = new MessageDialog(mContext).isSuccess(false).title("").delayTime(3000).message("暂无此订单,请确认订单号正确");
+                messageDialog.show();
+                MyTextUtils.reSetEdit(edCode);
             }
         });
+        MyTextUtils.reSetEdit(edCode);
     }
-
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case 100:
-                    if (null != edCode) {
-                        edCode.setText("20171017152753204-B");
-                    }
-                    break;
-            }
-        }
-    };
 
 }

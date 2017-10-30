@@ -7,9 +7,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.zmsoft.TestTool.application.MyApplication;
-
 import com.zmsoft.TestTool.R;
+import com.zmsoft.TestTool.application.MyApplication;
 
 
 public class ToastUtil {
@@ -22,6 +21,7 @@ public class ToastUtil {
         }
     };
     private static final int DURATION = 2000;
+    private static Context mContext = MyApplication.getInstance();
 
     public static void close() {
         if (null != mToast) {
@@ -38,13 +38,14 @@ public class ToastUtil {
     }
 
     public static void showToast(Context mContext, String text, int duration) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.toast_item,null);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.toast_item, null);
         TextView textView = view
                 .findViewById(R.id.floating_ball_app_tv_toast);
         textView.setText(text);
-        showToast(mContext,view,duration);
+        showToast(view, duration);
     }
-    public static ToastUtil showToast(Context mContext,View view, int duration) {
+
+    public static void showToast(View view, int duration) {
         mHandler.removeCallbacks(r);
         if (mToast != null)
             mToast.setView(view);
@@ -62,11 +63,9 @@ public class ToastUtil {
         }
         mHandler.postDelayed(r, time);
         mToast.show();
-        return getInstance();
     }
 
     public static void showToast(String text) {
-        MyApplication mContext = MyApplication.getInstance();
         View view = LayoutInflater.from(mContext).inflate(R.layout.toast_item,
                 null);
         TextView textView = view
@@ -91,7 +90,7 @@ public class ToastUtil {
         mToast.show();
     }
 
-    public static ToastUtil showToast(Context mContext, int id, int duration) {
+    public static ToastUtil showToast(int id, int duration) {
 
         View view = LayoutInflater.from(mContext).inflate(R.layout.toast_item,
                 null);
@@ -115,10 +114,6 @@ public class ToastUtil {
         mHandler.postDelayed(r, time);
         mToast.show();
         return getInstance();
-    }
-
-    public static void show() {
-        mToast.show();
     }
 
 }

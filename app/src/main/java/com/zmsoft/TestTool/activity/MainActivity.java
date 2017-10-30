@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.taobao.sophix.SophixManager;
 import com.zmsoft.TestTool.R;
 import com.zmsoft.TestTool.basees.BaseActivity;
 import com.zmsoft.TestTool.fragment.DianDanFragment;
@@ -19,6 +20,8 @@ import com.zmsoft.TestTool.fragment.WeiXinFragment;
 import com.zmsoft.TestTool.fragment.XianjinFragment;
 import com.zmsoft.TestTool.utils.AnimFragmentUtil;
 import com.zmsoft.TestTool.utils.Logger;
+
+import org.lzh.framework.updatepluginlib.UpdateBuilder;
 
 import java.util.List;
 
@@ -38,7 +41,14 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
     RadioButton rb_diandanshouyin;
 
     //所要申请的权限
-    private String[] perms = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.STATUS_BAR, Manifest.permission.EXPAND_STATUS_BAR};
+    private String[] perms = {Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA,
+            Manifest.permission.STATUS_BAR,
+            Manifest.permission.EXPAND_STATUS_BAR,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.ACCESS_NETWORK_STATE,
+            Manifest.permission.ACCESS_WIFI_STATE,
+            Manifest.permission.READ_PHONE_STATE};
     private TiaoMaFragment tiaoMaFragment;
     private AnimFragmentUtil fragmentUtil;
     private DianDanFragment diandanFragment;
@@ -57,12 +67,20 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         initView();
 
         if (EasyPermissions.hasPermissions(this, perms)) {//检查是否获取该权限
+
         } else {
             //第二个参数是被拒绝后再次申请该权限的解释
             //第三个参数是请求码
             //第四个参数是要申请的权限
             EasyPermissions.requestPermissions(this, "请开启权限,否则程序将无法正常运行!", 0, perms);
         }
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SophixManager.getInstance().queryAndLoadNewPatch();
     }
 
     @Override
@@ -77,12 +95,14 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
     @Override
     public void onPermissionsGranted(int requestCode, List<String> perms) {
         Logger.log("获取成功的权限:" + perms);
+         UpdateBuilder.create().check();
     }
 
     @Override
     public void onPermissionsDenied(int requestCode, List<String> perms) {
         Logger.log("获取失败的权限:" + perms);
     }
+
 
     private void initView() {
         radiogroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -136,6 +156,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                             dingDanLiuFragment = new DingDanLiuFragment();
                         }
                         fragmentUtil.selectFragment(dingDanLiuFragment);
+//                        Integer.parseInt("as");
                         break;
 
                 }

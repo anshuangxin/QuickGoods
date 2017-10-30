@@ -11,7 +11,6 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/pullToRefreshlibrary" />
             <option value="$PROJECT_DIR$/qrcodescan" />
-            <option value="$PROJECT_DIR$/updatepluginlib" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

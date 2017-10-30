@@ -11,6 +11,8 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.jingchen.pulltorefresh.PullToRefreshLayout;
+import com.zmsoft.TestTool.R;
 import com.zmsoft.TestTool.application.MyApplication;
 import com.zmsoft.TestTool.basees.BaseFragment;
 import com.zmsoft.TestTool.constants.HttpConstants;
@@ -24,13 +26,11 @@ import com.zmsoft.TestTool.utils.baseListadapter.ViewHolder;
 import com.zmsoft.TestTool.utils.okhttp.listener.DisposeDataListener;
 import com.zmsoft.TestTool.views.DingDanView;
 import com.zmsoft.TestTool.views.TbSelector;
-import com.jingchen.pulltorefresh.PullToRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import com.zmsoft.TestTool.R;
 
 /**
  * Created by gly on 2017/9/13.

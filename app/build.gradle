@@ -15,7 +15,7 @@ android {
         szridge {
             keyAlias 'gly'
             keyPassword 'champion'
-            storeFile file('/Users/ChiEr/Documents/apks/kuaihuo.jks')
+            storeFile file('/Users/ChiEr/Documents/apks/kuaihuo.apk')
             storePassword 'champion'
         }
     }
@@ -24,11 +24,10 @@ android {
 
     defaultConfig {
         applicationId "com.zmsoft.TestTool"
-        minSdkVersion 14
+        minSdkVersion 16
         targetSdkVersion 26
-        versionCode getSelfDefinedVersion("code")
-        versionName getSelfDefinedVersion("name")
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        versionCode 14
+        versionName '1.1'
         ndk {
             //选择要添加的对应cpu类型的.so库。
             abiFilters 'armeabi', 'armeabi-v7a', 'armeabi-v8a'
@@ -55,17 +54,25 @@ android {
                     def outputFile = output.outputFile
                     if (outputFile != null && outputFile.name.endsWith('.apk')) {
                         // 输出apk名称为appname-1.0-beta1-xxxx-xx-xx.apk
-                        def fileName = "快货-${defaultConfig.versionName}-beta1.apk"
+                        def fileName = "kuaihuo-${defaultConfig.versionName}.${defaultConfig.versionCode}.apk"
                         output.outputFile = new File(outputFile.parent, fileName)
                     }
                 }
             }
+        }
+        debug {
+            minifyEnabled false
+            debuggable true
         }
     }
 }
 repositories {
     flatDir {
         dirs 'libs'
+        maven { url "https://jitpack.io" }
+    }
+    maven {
+        url "http://maven.aliyun.com/nexus/content/repositories/releases"
     }
 }
 
@@ -81,10 +88,10 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'org.jetbrains:annotations-java5:15.0'
     compile 'com.squareup.okhttp3:okhttp:3.9.0'
-    compile files('libs/fastjson.jar')
+
     compile 'com.kyleduo.switchbutton:library:1.4.6'
     compile(name: 'FlycoTabLayout_Lib', ext: 'aar')
-    compile project(path: ':pullToRefreshlibrary')
+
     compile 'cn.jiguang.sdk:jpush:3.0.8'
     compile 'cn.jiguang.sdk:jcore:1.1.6'
     compile 'com.github.bumptech.glide:glide:3.7.0'
@@ -92,9 +99,13 @@ dependencies {
     //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.1.9
     compile 'com.tencent.bugly:nativecrashreport:latest.release'
     //其中latest.release指代最新Bugly NDK版本号，也可以指定明确的版本号，例如3.0
-    compile project(path: ':qrcodescan')
+
     compile 'pub.devrel:easypermissions:0.1.5'
-    compile project(':updatepluginlib')
+    compile files('libs/fastjson.jar')
+    compile project(path: ':pullToRefreshlibrary')
+    compile project(path: ':qrcodescan')
+    compile 'com.aliyun.ams:alicloud-android-hotfix:3.1.5'
+    compile "com.github.yjfnypeu:UpdatePlugin:2.5.2"
 }
 
 def getSelfDefinedVersion(type) {

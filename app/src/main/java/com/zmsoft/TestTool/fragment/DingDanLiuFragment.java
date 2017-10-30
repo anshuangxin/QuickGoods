@@ -19,6 +19,7 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.kyleduo.switchbutton.SwitchButton;
 import com.zmsoft.TestTool.R;
 import com.zmsoft.TestTool.activity.LoginActivity;
 import com.zmsoft.TestTool.application.MyApplication;
@@ -39,7 +40,6 @@ import com.zmsoft.TestTool.utils.okhttp.listener.DisposeDataListener;
 import com.zmsoft.TestTool.views.CircularImageView;
 import com.zmsoft.TestTool.views.ReceiveDialog;
 import com.zmsoft.TestTool.views.SpacesItemDecoration;
-import com.kyleduo.switchbutton.SwitchButton;
 
 import java.util.ArrayList;
 
@@ -61,11 +61,12 @@ public class DingDanLiuFragment extends BaseFragment {
     @BindView(R.id.swb_auto_print)
     SwitchButton swb_auto_print;
     private CommonAdapter<OrderInfo.InterfacegoodsBean> adapter;
-    private BluetoothConnectUtil bluetoothService;
+
     private LocalBroadcastManager localBroadcastManager;
     private boolean isFirstIn = true;
     private ArrayList<OrderInfo.InterfacegoodsBean> interfacegoods;
     private OrderInfo.HeaderBean header;
+    private DingdanReciver dingdanReciver;
 
 
     @Override
@@ -78,8 +79,8 @@ public class DingDanLiuFragment extends BaseFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (null == localBroadcastManager) {
+            MyApplication.getInstance().bluetoothService = BluetoothConnectUtil.getInstance(mContext);
             localBroadcastManager = LocalBroadcastManager.getInstance(mContext);
-            bluetoothService = new BluetoothConnectUtil(mContext);
             initListView();
             initSwitchButton();
             registReciver();
@@ -87,8 +88,17 @@ public class DingDanLiuFragment extends BaseFragment {
         getData();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        MyApplication.getInstance().bluetoothService.unregistReceiver();
+        if (null != localBroadcastManager) {
+            localBroadcastManager.unregisterReceiver(dingdanReciver);
+        }
+    }
+
     private void registReciver() {
-        DingdanReciver dingdanReciver = new DingdanReciver();
+        dingdanReciver = new DingdanReciver();
         localBroadcastManager.registerReceiver(dingdanReciver, new IntentFilter(ACTION_DING_DAN_LIU));
     }
 
@@ -123,13 +133,13 @@ public class DingDanLiuFragment extends BaseFragment {
 
     }
 
-    class DingdanReciver extends BroadcastReceiver {
+    private class DingdanReciver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(ACTION_DING_DAN_LIU)) {
                 OrderFlowInfo serializableExtra = (OrderFlowInfo) intent.getSerializableExtra(ORDER_FLOW_INFO);
-                bluetoothService.print(serializableExtra);
+                MyApplication.getInstance().bluetoothService.print(serializableExtra);
             }
         }
     }
@@ -145,26 +155,15 @@ public class DingDanLiuFragment extends BaseFragment {
 
         boolean isOpenBlueTooth = SharedPreferencesUtil.getBoolean(mContext, "isOpenBlueTooth");
         swb_auto_print.setChecked(isOpenBlueTooth);
-        if (isOpenBlueTooth) {
-            if (!bluetoothService.isOpen()) {
-                // 蓝牙关闭的情况
-                System.out.println("蓝牙关闭的情况");
-                bluetoothService.openBluetooth(mContext);
-            } else {
-                bluetoothService.searchDevices();
-            }
-        }
         swb_auto_print.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 SharedPreferencesUtil.putBoolean(mContext, "isOpenBlueTooth", b);
                 if (b) {
-                    if (!bluetoothService.isOpen()) {
-                        // 蓝牙关闭的情况
-                        System.out.println("蓝牙关闭的情况");
-                        bluetoothService.openBluetooth(mContext);
+                    if (!MyApplication.getInstance().bluetoothService.isOpen()) {
+                        MyApplication.getInstance().bluetoothService.openBluetooth(mContext);
                     } else {
-                        bluetoothService.searchDevices();
+                        MyApplication.getInstance().bluetoothService.searchDevicesWithDialog(mContext);
                     }
                 } else {
                     PrintDataUtil.disconnect();

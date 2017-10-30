@@ -50,16 +50,6 @@
         android:theme="@style/AppTheme"
         tools:replace="android:icon, android:theme">
         <activity
-            android:name="com.zmsoft.TestTool.activity.TestSpeechActivity"
-            android:screenOrientation="landscape"
-            android:windowSoftInputMode="adjustResize">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN" />-->
-
-            <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        </activity>
-        <activity
             android:name="com.zmsoft.TestTool.activity.LoginActivity"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustResize">
@@ -80,59 +70,8 @@
             android:launchMode="singleTask"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="stateHidden" />
-        <!-- Required SDK 核心功能-->
-        <activity
-            android:name="cn.jpush.android.ui.PushActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:exported="false"
-            android:theme="@android:style/Theme.NoTitleBar">
-            <intent-filter>
-                <action android:name="cn.jpush.android.ui.PushActivity" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="com.catle.system" />
-            </intent-filter>
-        </activity>
-        <!-- 可配置android:process参数将PushService放在其他进程中 -->
-        <service
-            android:name="cn.jpush.android.service.PushService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="cn.jpush.android.intent.REGISTER" />
-                <action android:name="cn.jpush.android.intent.REPORT" />
-                <action android:name="cn.jpush.android.intent.PushService" />
-                <action android:name="cn.jpush.android.intent.PUSH_TIME" />
-            </intent-filter>
-        </service>
-        <!-- Required SDK核心功能-->
-        <receiver
-            android:name="cn.jpush.android.service.PushReceiver"
-            android:enabled="true"
-            android:exported="false">
-            <intent-filter android:priority="1000">
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />   <!--Required  显示通知栏 -->
-                <category android:name="com.zmsoft.TestTool" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.USER_PRESENT" />
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-            <!-- Optional -->
-            <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_ADDED" />
-                <action android:name="android.intent.action.PACKAGE_REMOVED" />
-
-                <data android:scheme="package" />
-            </intent-filter>
-        </receiver>
-
-        <!-- Required SDK核心功能-->
-        <receiver
-            android:name="cn.jpush.android.service.AlarmReceiver"
-            android:exported="false" />
-
-        <!-- Required SDK核心功能-->
-        <!-- User defined.  For test only  用户自定义的广播接收器-->
+        <!--  用户自定义的广播接收器-->
         <receiver
             android:name="com.zmsoft.TestTool.sdk.jpush.MyReceiver"
             android:enabled="true"
@@ -146,13 +85,15 @@
                 <category android:name="com.zmsoft.TestTool" />
             </intent-filter>
         </receiver>
-        <!-- Required  . Enable it you can get statistics data with channel -->
+        <!--阿里热更新-->
         <meta-data
-            android:name="JPUSH_CHANNEL"
-            android:value="developer-default" />
+            android:name="com.taobao.android.hotfix.IDSECRET"
+            android:value="24672395-1" />
         <meta-data
-            android:name="JPUSH_APPKEY"
-            android:value="e9f6966b38bfef423c39d454" /> <!--  </>值来自开发者平台取得的AppKey-->
+            android:name="com.taobao.android.hotfix.APPSECRET"
+            android:value="7ff930c5208d61545d884cb6df1d98de" />
+        <meta-data android:name="MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCVEW0k/9tMOgnQCsCXuPookq/ROLRRrGI5qHEhIzrxvq5lCC/2w19HEcrhYZpbVYegB7OxrXExCF+gkzPTcqu0H5EJoXmpLq85FlThS3c92zd0sKQis/gr9Dxzp1IHYob/mAruIV+0mDZ2ck7AwR35GYVP8XwE0yYo6F15moJ06JCWvgWrD6cDmkI+O9uYhnayoauJ5LZvl8uA8G1G4b0zaXHytxuup9NCCCWZWwB/s1owAqsPwN7OQK8ICQNNkldk8z81wmmUGT8QVcXFjTtG3b+u2yhxVDhAWF2c007vxTHjSpxG8Cw2IbJoWss5VvbrBtY/KlMGm5F03rCwOwflAgMBAAECggEADIDWr8jKIx2nHw0X1GIOkYKkPp9L+KHF52IqgwYKdqZwyEakh0Uh47spUjg2kzycUJ70wo1ythMmujg+m5i9sDEJoE4r/zXMOrSV0APdb5HImAAM9GA2C7HDtEuvhLEN87hUCl9AQMyXnN2/n0lTc0ZhuS/fICR5yeqblIySLq4GLWlZ8snraa4aRUipEdmEgiKbWiPA2+VrzJQx2Kgbing8cPU7R9EbEhwkxQh6GtWL7RME0cyQf+O+6Cogc8AHyogqkXzh5//SDqxVdQ1XWXRB1RG8qFEU1n1T2e3An59z8PKspMGVlx9jBg4c2SNTHpTSyFMudNpverjSjLNaTQKBgQDXXD6XJIUOQB+0JDEyEtGeIPk7g2shvhQg3zdruMiDUyXvQPZDYCFeRRW1fghYH17cG0C6cPpow1ANBxEKZY4BXs1/VGCqd6w+8QBfxE2xHcV+bUcz40jUv5fFXnAG+9FyiWukd+JqBNSbW1t5URvIwkOc+4/2aK2s48mfC6500wKBgQCxMrIhcbr5dpzhTkwf1cfsYLTlWV27RTlah6SubtoFLXEnc/gRHvVY8T9s1qp74vo/1WCQsVbRHTsb7jLy54dceJ7gK4xXK57gDwP8jOxwRtNFJyVQzymnDPgvNuiKiCMVcSCy0TthwgtfKx9Rkcmg6gjImi4MU782ngPTNqV9ZwKBgHboNqLLBjAVFawn44XLQDO37wR+DjPGOGTh+j6e+w8PZL2SN6aBuErNiCv6V28Yew66eWW3pXscg+F9ilocMmjtSDdKhkj45ICoHlXCFEd7saSZf5vVnUviMVFHUEF63m0IFQftLXTuD9lrerkkIFwbbquJdjZOG75+0r7e+0cDAoGAJB6wXs7fDSDXg7nBHLAoK4/e7+1ShOzsbv69W+0uteV4blFeXKcR3gp3IklzwQMYfdCR+YycpM2vkdbxPcBiQEA6KnnWBqLWpNeKuX1EaPKW+D6thZZk6C9lm8I2jp6HgERqJOkvkJLMXJ7eqHLuRcXO+o0rG8oqbQiywOgfvbsCgYEAlaBL5EeMv78Co/OgrUVqLD2CYXXecuhL8bYPomSoONmlx/qmJXQg9Rt2lo9iRVk/rBVokbP/9hZHWZuUuUz1r8xV/t3Iyg/C85r+G/SBZdL/wxiIDFLjYLA4X+Z+E6vChY3KJGfKNOg0DXkbDqicR+yt8tQqVHJQegSMypYnnnE=" />
+
     </application>
 
 </manifest>

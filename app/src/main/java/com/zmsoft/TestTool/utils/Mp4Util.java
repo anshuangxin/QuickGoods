@@ -91,14 +91,20 @@ public class Mp4Util {
         }
         AssetFileDescriptor fileDescriptor = null;
         try {
+            Logger.log("1");
             mediaPlayer.reset();
+            Logger.log("2");
             fileDescriptor = assets.openFd(speechInfos.get(currIndex).message);
+            Logger.log("3");
             mediaPlayer
                     .setDataSource(fileDescriptor.getFileDescriptor(),
                             fileDescriptor.getStartOffset(),
                             fileDescriptor.getLength());
+            Logger.log("4");
             mediaPlayer.prepare();
+            Logger.log("5");
             mediaPlayer.start();
+            Logger.log("6");
             Logger.log(speechInfos.get(currIndex).message);
         } catch (IOException e) {
             e.printStackTrace();
@@ -110,7 +116,7 @@ public class Mp4Util {
     private void next() {
         currIndex++;
         if (currIndex < speechInfos.size()) {
-            handler.sendEmptyMessageDelayed(PLAY, speechInfos.get(currIndex).delayTime);
+            handler.sendEmptyMessage(PLAY);
         }
     }
 }

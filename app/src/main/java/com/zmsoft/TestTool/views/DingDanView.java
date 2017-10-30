@@ -13,6 +13,7 @@ import com.zmsoft.TestTool.application.MyApplication;
 import com.zmsoft.TestTool.basees.BaseLayoutView;
 import com.zmsoft.TestTool.constants.HttpConstants;
 import com.zmsoft.TestTool.dao.ConnectDao;
+import com.zmsoft.TestTool.dao.SpeechDao;
 import com.zmsoft.TestTool.modle.CommitOrderInfo;
 import com.zmsoft.TestTool.modle.GoodSInfo;
 import com.zmsoft.TestTool.utils.Logger;
@@ -161,13 +162,13 @@ public class DingDanView extends BaseLayoutView {
                                 }
                             }).show();
                         } else {
-                            ToastUtil.showToast(mContext, "挂单失败!", 2000);
+                            ToastUtil.showToast(mContext, "提交失败!", 2000);
                         }
                     }
 
                     @Override
                     public void onFailure(Object reasonObj) {
-                        ToastUtil.showToast(mContext, "挂单失败!", 2000);
+                        ToastUtil.showToast(mContext, "提交失败!", 2000);
                     }
                 });
 
@@ -190,15 +191,16 @@ public class DingDanView extends BaseLayoutView {
                     public void onSuccess(CommitOrderInfo responseObj) {
                         if (responseObj.state == 1) {
                             new MessageDialog(mContext).title("").message("挂单成功，请到订单流完成支付").isSuccess(true).show();
+                            SpeechDao.guadan();
                             clearGoods();
                         } else {
-                            ToastUtil.showToast(mContext, "提交失败!", 2000);
+                            ToastUtil.showToast(mContext, "挂单失败!", 2000);
                         }
                     }
 
                     @Override
                     public void onFailure(Object reasonObj) {
-                        ToastUtil.showToast(mContext, "提交失败!", 2000);
+                        ToastUtil.showToast(mContext, "挂单失败!", 2000);
                     }
                 });
 

@@ -16,7 +16,7 @@ final class CameraConfigurationManager {
 	private static final String TAG = CameraConfigurationManager.class
 			.getSimpleName();
 
-	private static final int TEN_DESIRED_ZOOM = 27;
+	private static final int TEN_DESIRED_ZOOM = 80;
 	private static final Pattern COMMA_PATTERN = Pattern.compile(",");
 
 	private final Context context;
@@ -194,6 +194,7 @@ final class CameraConfigurationManager {
 		int tenDesiredZoom = TEN_DESIRED_ZOOM;
 
 		String maxZoomString = parameters.get("max-zoom");
+		Log.d(TAG, "Bad max-zoom: " + maxZoomString);
 		if (maxZoomString != null) {
 			try {
 				int tenMaxZoom = (int) (10.0 * Double

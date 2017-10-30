@@ -5,16 +5,19 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.support.v7.app.AlertDialog;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.AdapterView;
 
 import com.zmsoft.TestTool.R;
 import com.zmsoft.TestTool.modle.GoodSInfo;
 import com.zmsoft.TestTool.modle.OrderFlowInfo;
+import com.zmsoft.TestTool.utils.Logger;
+import com.zmsoft.TestTool.utils.ToastUtil;
 import com.zmsoft.TestTool.utils.baseListadapter.CommonAdapter;
 import com.zmsoft.TestTool.utils.baseListadapter.ViewHolder;
 
@@ -22,36 +25,49 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 public class BluetoothConnectUtil {
+    private static final String TAG = "BluetoothConnectUtil";
+    private static Context mContext;
     private Context context = null;
     private BluetoothAdapter bluetoothAdapter = BluetoothAdapter
             .getDefaultAdapter();
     private ArrayList<BluetoothDevice> devices = null;
     private PrintDataUtil printDataService;
 
+    private BluetoothConnectUtil(Context context) {
+        Logger.log(TAG + "BluetoothConnectUtil");
+        this.context = context;
+        this.devices = new ArrayList<>();
+        printDataService = new PrintDataUtil(context);
+        this.initIntentFilter();
+    }
+
+    public static class BluetoothConnectUtilHolder {
+        private static final BluetoothConnectUtil instance = new BluetoothConnectUtil(mContext);
+    }
+
+    public static BluetoothConnectUtil getInstance(Context context) {
+        mContext = context;
+        return BluetoothConnectUtilHolder.instance;
+    }
 
     /**
      * 绑定蓝牙设备
      */
     private void bondDevice(int position) {
+        Logger.log(TAG + "bondDevice");
         try {
             Method createBondMethod = BluetoothDevice.class
                     .getMethod("createBond");
             createBondMethod
                     .invoke(devices.get(position));
+            ToastUtil.showToast("配对成功！");
         } catch (Exception e) {
-            Toast.makeText(context, "配对失败！", Toast.LENGTH_SHORT)
-                    ;
+            ToastUtil.showToast("配对失败！");
         }
     }
 
-    public BluetoothConnectUtil(Context context) {
-        this.context = context;
-        this.devices = new ArrayList<>();
-        this.initIntentFilter();
-
-    }
-
     private void initIntentFilter() {
+
         // 设置广播信息过滤    
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(BluetoothDevice.ACTION_FOUND);
@@ -63,20 +79,37 @@ public class BluetoothConnectUtil {
 
     }
 
+    public void unregistReceiver() {
+        Logger.log(TAG + "unregistReceiver");
+        if (null != receiver) {
+            context.unregisterReceiver(receiver);
+            receiver = null;
+        }
+    }
+
     /**
      * 打开蓝牙
      */
     public void openBluetooth(Activity activity) {
+        Logger.log(TAG + "openBluetooth");
         Intent enableBtIntent = new Intent(
                 BluetoothAdapter.ACTION_REQUEST_ENABLE);
         activity.startActivityForResult(enableBtIntent, 1);
+    }
 
+    public void openBluetooth(Context activity) {
+        Logger.log(TAG + "openBluetooth");
+        Intent enableBtIntent = new Intent(
+                BluetoothAdapter.ACTION_REQUEST_ENABLE);
+        enableBtIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        activity.startActivity(enableBtIntent);
     }
 
     /**
      * 关闭蓝牙
      */
     public void closeBluetooth() {
+        Logger.log(TAG + "closeBluetooth");
         if (null != this.bluetoothAdapter) {
             this.bluetoothAdapter.disable();
         }
@@ -96,10 +129,54 @@ public class BluetoothConnectUtil {
      * 搜索蓝牙设备
      */
     public void searchDevices() {
-        this.devices.clear();
-        // 寻找蓝牙设备，android会将查找到的设备以广播形式发出去
         this.bluetoothAdapter.startDiscovery();
     }
+
+    public void searchDevicesWithDialog(Context context) {
+        dialog = new BlueToothDialog(context).title("蓝牙设备");
+        if (null == commonAdapter) {
+            commonAdapter = new CommonAdapter<BluetoothDevice>(context, devices, R.layout.device_item) {
+                @Override
+                public void convert(ViewHolder helper, BluetoothDevice item) {
+                    helper.setText(R.id.device_name, item.getName());
+                    helper.setText(R.id.device_state, item.getBondState() == BluetoothDevice.BOND_BONDED ? "已绑定" : "未绑定");
+                }
+            };
+            onItemClickListener = new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Logger.log(TAG + "click！" + position);
+                    BluetoothDevice bluetoothDevice = devices.get(position);
+                    if (bluetoothDevice.getBondState() != BluetoothDevice.BOND_BONDED) {
+                        bondDevice(position);
+                    } else {
+                        connect(bluetoothDevice);
+                    }
+                }
+            };
+        }
+        dialog.adapter(commonAdapter, onItemClickListener);
+        dialog.Show();
+        // 寻找蓝牙设备，android会将查找到的设备以广播形式发出去
+        for (BluetoothDevice device : bluetoothAdapter.getBondedDevices()) {
+            if (device.getName().toLowerCase().contains("printer")) {
+                addDevices(device);
+            }
+        }
+        handler.sendEmptyMessageDelayed(100, 300);
+        this.bluetoothAdapter.startDiscovery();
+    }
+
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 100:
+                    commonAdapter.notifyDataSetChanged();
+                    break;
+            }
+        }
+    };
 
     /**
      * 添加蓝牙设备到list集合
@@ -107,91 +184,86 @@ public class BluetoothConnectUtil {
      * @param device
      */
     public void addDevices(BluetoothDevice device) {
-        System.out.println("未绑定设备名称：" + device.getName());
-        if (!this.devices.contains(device)) {
-            this.devices.add(device);
+        Logger.log(TAG + "设备名称：" + device.getName() + "设备地址：" + device.getAddress());
+        for (int i = 0; i < devices.size(); i++) {
+            BluetoothDevice devicea = devices.get(i);
+            if (devicea.getAddress().equals(device.getAddress())) {
+                devices.remove(devicea);
+                i--;
+            }
         }
+        this.devices.add(device);
     }
 
 
     /**
      * 蓝牙广播接收器
      */
-
+    private BlueToothDialog dialog;
+    private CommonAdapter<BluetoothDevice> commonAdapter;
+    private AdapterView.OnItemClickListener onItemClickListener;
     private BroadcastReceiver receiver = new BroadcastReceiver() {
-        AlertDialog dialog;
-        AlertDialog.Builder builder;
 
         @Override
         public void onReceive(final Context context, Intent intent) {
             String action = intent.getAction();
-            System.out.println("onReceive" + action);
+            Logger.log(TAG + "onReceive" + action);
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 BluetoothDevice device = intent
                         .getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 String name = device.getName();
-                if (!TextUtils.isEmpty(name)&&device.getName().toLowerCase().contains("printer")) {
+                if (!TextUtils.isEmpty(name) && device.getName().toLowerCase().contains("printer")) {
                     addDevices(device);
-                    bluetoothAdapter.cancelDiscovery();
+                    connect(device);
+                    if (null != dialog) {
+                        dialog.title("搜索蓝牙设备中...");
+                    }
                 }
             } else if (BluetoothAdapter.ACTION_DISCOVERY_STARTED.equals(action)) {
-                builder = new AlertDialog.Builder(context).setTitle("搜索蓝牙设备中...");
-                dialog = builder.show();
+                if (null != dialog) {
+                    dialog.title("搜索蓝牙设备中...");
+                }
+
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED
                     .equals(action)) {
-                System.out.println("设备搜索完毕");
-                dialog.dismiss();
-                if (devices.size() == 0) {
-                    builder.setTitle("没有找到打印机").setNegativeButton("确定", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialog.dismiss();
-                        }
-                    });
-                } else {
-                    CommonAdapter<BluetoothDevice> commonAdapter = new CommonAdapter<BluetoothDevice>(context, devices, R.layout.device_item) {
-                        @Override
-                        public void convert(ViewHolder helper, BluetoothDevice item) {
-                            helper.setText(R.id.device_name, item.getName());
-                            helper.setText(R.id.device_state, item.getBondState() == BluetoothDevice.BOND_BONDED ? "已绑定" : "未绑定");
-                        }
-                    };
-                    builder.setTitle("搜索完成").setAdapter(commonAdapter, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            System.out.println("click！" + i);
-                            BluetoothDevice bluetoothDevice = devices.get(i);
-                            if (bluetoothDevice.getBondState() != BluetoothDevice.BOND_BONDED) {
-                                bondDevice(i);
-                            } else {
-                                printDataService = new PrintDataUtil(context, devices.get(i).getAddress());
-                                boolean connect = printDataService.connect();
-                                if (connect == false) {
-                                    // 连接失败
-                                    System.out.println("连接失败！");
-                                } else {
-                                    // 连接成功
-                                    System.out.println("连接成功！");
-                                    print(new OrderFlowInfo());
-
-                                }
-                            }
-                        }
-                    });
+                if (null != dialog) {
+                    dialog.title("设备搜索完毕");
+                    if (devices.size() == 0) {
+                        dialog.title("没有找到打印机");
+                    } else {
+                        dialog.title("搜索完成");
+                    }
                 }
-                dialog = builder.show();
-                // bluetoothAdapter.cancelDiscovery();
+                bluetoothAdapter.cancelDiscovery();
             }
             if (BluetoothAdapter.ACTION_STATE_CHANGED.equals(action)) {
                 if (bluetoothAdapter.getState() == BluetoothAdapter.STATE_ON) {
-                    System.out.println("--------打开蓝牙-----------");
+                    Logger.log(TAG + "--------打开蓝牙-----------");
                     searchDevices();
                 } else if (bluetoothAdapter.getState() == BluetoothAdapter.STATE_OFF) {
-                    System.out.println("--------关闭蓝牙-----------");
+                    Logger.log(TAG + "--------关闭蓝牙-----------");
                 }
             }
         }
     };
+
+    private void connect(BluetoothDevice device) {
+        boolean connect = printDataService.connectAddress(device.getAddress());
+        if (connect == false) {
+            // 连接失败
+            ToastUtil.showToast(mContext, "连接失败！", 2000);
+            Logger.log(TAG + "连接失败！");
+        } else {
+            // 连接成功
+            ToastUtil.showToast(mContext, "连接成功！", 2000);
+            Logger.log(TAG + "连接成功！" + device.getAddress());
+            print(new OrderFlowInfo());
+
+        }
+        if (null != commonAdapter) {
+            commonAdapter.notifyDataSetChanged();
+        }
+    }
 
     public static String callBack(String input) {
         int[] array = {0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 1, 1, 4, 5, 2, 3, 4, 1, 0, 1,
@@ -221,6 +293,7 @@ public class BluetoothConnectUtil {
         if (null == printDataService) {
             return;
         }
+        printDataService.setPrintAddress(serializableExtra.getPrinterAddress());
         printDataService.selectCommand(PrintDataUtil.RESET);
         printDataService.selectCommand(PrintDataUtil.LINE_SPACING_DEFAULT);
         printDataService.selectCommand(PrintDataUtil.ALIGN_CENTER);

@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:background="@drawable/codebg"
-        android:scaleType="centerCrop"
+        android:scaleType="centerInside"
         android:src="@drawable/code"
         app:layout_heightPercent="40%h"
         app:layout_marginTopPercent="25%h"

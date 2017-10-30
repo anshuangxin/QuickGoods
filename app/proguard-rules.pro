@@ -19,7 +19,7 @@
 #-----------------不需要混淆第三方类库------------------------------------------------------------------
 -dontwarn android.support.v4.**                                             #去掉警告
 -keep class android.support.v4.** { *; }                                    #过滤android.support.v4
--keep interface android.support.v4.app.** { *; }
+-keep interface android.support.v4.** { *; }
 -keep public class * extends android.support.v4.**
 -keep public class * extends android.app.Fragment
 
@@ -30,8 +30,8 @@
 -dontwarn cn.jpush.**
 -keep class cn.jpush.** { *; }
 #okhttp混淆配置
--keep class com.squareup.okhttp.** { *;}
--dontwarn com.squareup.okhttp.**
+-dontwarn com.squareup.okhttp3.**
+-keep class com.squareup.okhttp3.** { *;}
 -dontwarn okio.**
 
 #percentlayout混淆配置
@@ -48,6 +48,17 @@
 -dontwarn com.tencent.bugly.**
 -keep public class com.tencent.bugly.**{*;}
 -keep class android.support.**{*;}
+
+#基线包使用，生成mapping.txt
+-printmapping mapping.txt
+#生成的mapping.txt在app/buidl/outputs/mapping/release路径下，移动到/app路径下
+#修复后的项目使用，保证混淆结果一致
+#-applymapping mapping.txt
+#hotfix
+-keep class com.taobao.sophix.**{*;}
+-keep class com.ta.utdid2.device.**{*;}
+#防止inline
+-dontoptimize
 
 
 

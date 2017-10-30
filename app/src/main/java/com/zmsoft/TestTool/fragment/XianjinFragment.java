@@ -15,6 +15,7 @@ import com.zmsoft.TestTool.basees.BaseFragment;
 import com.zmsoft.TestTool.dao.ConnectDao;
 import com.zmsoft.TestTool.dao.EdViewSubtractionDao;
 import com.zmsoft.TestTool.dao.SpeechDao;
+import com.zmsoft.TestTool.modle.CheckInfo;
 import com.zmsoft.TestTool.utils.okhttp.listener.DisposeDataListener;
 import com.zmsoft.TestTool.views.MessageDialog;
 import com.zmsoft.TestTool.views.PassKeyBoard;
@@ -54,7 +55,7 @@ public class XianjinFragment extends BaseFragment {
     }
 
     private void initView() {
-        new EdViewSubtractionDao().subtraction(edKefu, edYingshou, edZhaoling,btnSure);
+        new EdViewSubtractionDao().subtraction(edKefu, edYingshou, edZhaoling, btnSure);
         edKefu.setInputType(0);
         edYingshou.requestFocus();
         edPhonenum.setInputType(0);
@@ -63,20 +64,31 @@ public class XianjinFragment extends BaseFragment {
 
     @OnClick(R.id.btn_sure)
     public void onViewClicked() {
-        ConnectDao.Ajaxcash(edYingshou.getText().toString(), edPhonenum.getText().toString(), MyApplication.userId, new DisposeDataListener<String>() {
+        ConnectDao.Ajaxcash(edYingshou.getText().toString(), edPhonenum.getText().toString(), MyApplication.userId, new DisposeDataListener<CheckInfo>() {
             @Override
-            public void onSuccess(String responseObj) {
-                if (responseObj.equals("1")) {
-                    SpeechDao.receive(edYingshou.getText().toString());
+            public void onSuccess(CheckInfo responseObj) {
+                SpeechDao.speechByPosition(responseObj.type);
+                if (responseObj.err == 1) {
                     new MessageDialog(getContext()).isSuccess(true).message("付款成功").show();
                 } else {
                     new MessageDialog(getContext()).isSuccess(false).message("付款失败").show();
                 }
+                edKefu.setText("");
+                edYingshou.setText("");
+                edPhonenum.setText("");
+                edYingshou.setFocusable(true);
+                edYingshou.setFocusableInTouchMode(true);
+                edYingshou.requestFocus();
             }
 
             @Override
             public void onFailure(Object reasonObj) {
-
+                edKefu.setText("");
+                edYingshou.setText("");
+                edPhonenum.setText("");
+                edYingshou.setFocusable(true);
+                edYingshou.setFocusableInTouchMode(true);
+                edYingshou.requestFocus();
             }
         });
     }
