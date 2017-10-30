@@ -139,6 +139,8 @@ public class BluetoothConnectUtil {
                 @Override
                 public void convert(ViewHolder helper, BluetoothDevice item) {
                     helper.setText(R.id.device_name, item.getName());
+
+                    helper.setText(R.id.tv_connect_state, PrintDataUtil.printerHolders.contains(item.getAddress()) ? "已连接" : "未连接");
                     helper.setText(R.id.device_state, item.getBondState() == BluetoothDevice.BOND_BONDED ? "已绑定" : "未绑定");
                 }
             };

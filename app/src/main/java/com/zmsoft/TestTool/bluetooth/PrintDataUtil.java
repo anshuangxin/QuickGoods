@@ -17,7 +17,7 @@ import java.util.UUID;
 
 public class PrintDataUtil {
     private Context context = null;
-    private static List<PrinterHolder> printerHolders = new ArrayList<>();
+    public static List<PrinterHolder> printerHolders = new ArrayList<>();
     private BluetoothAdapter bluetoothAdapter = BluetoothAdapter
             .getDefaultAdapter();
     private static final UUID uuid = UUID

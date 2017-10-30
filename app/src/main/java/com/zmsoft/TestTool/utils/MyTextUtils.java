@@ -33,24 +33,24 @@ public class MyTextUtils {
         if (ed == null) {
             return;
         }
-        ed.setText("");
         ed.invalidate();
         ed.setFocusable(true);
         ed.setFocusableInTouchMode(true);
         ed.requestFocus();
         ed.findFocus();
+        ed.setText("");
     }
 
     public static void reSetEdit(EditText ed, String text) {
         if (ed == null) {
             return;
         }
-        ed.setText(text);
         ed.invalidate();
         ed.setFocusable(true);
         ed.setFocusableInTouchMode(true);
         ed.requestFocus();
         ed.findFocus();
+        ed.setText(text);
     }
 
     public static boolean isNum(String str) {
